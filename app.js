@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v10';
+const STORAGE_KEY = 'crm_sparkling_distributors_v11';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -337,7 +337,7 @@ function renderFilters() {
 function setMainTab(tab) {
   state.activeTab = tab;
   
-  // 1. Estil de pestanyes principals
+  // 1. Estil de pestanyes principals (Desktop & Header)
   document.querySelectorAll('.category-tab').forEach(b => {
     b.className = 'category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-stone-50 text-stone-600 hover:bg-stone-100 border border-stone-200';
   });
@@ -345,6 +345,18 @@ function setMainTab(tab) {
   if (activeBtn) {
     activeBtn.className = 'category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-amber-900 text-white shadow-2xs border-transparent';
   }
+
+  // 1b. Sincronitzar la barra de navegació inferior d'iPhone (iOS Tab Bar)
+  ['all', 'corpinnat', 'spain', 'intl'].forEach(t => {
+    const mobBtn = document.getElementById('mobnav-' + t);
+    if (mobBtn) {
+      if (t === tab || (t === 'intl' && tab === 'usa')) {
+        mobBtn.className = 'flex flex-col items-center justify-center gap-1 h-full text-amber-400 transition-colors active:opacity-70';
+      } else {
+        mobBtn.className = 'flex flex-col items-center justify-center gap-1 h-full text-stone-400 hover:text-stone-200 transition-colors active:opacity-70';
+      }
+    }
+  });
 
   // 2. Mostrar només el sub-panell contextual actiu
   ['all', 'spain', 'corpinnat', 'usa', 'intl'].forEach(t => {
@@ -764,48 +776,48 @@ function renderGridView(distributors, container) {
           </div>
         </div>
 
-        <!-- Botons d'acció directa: WhatsApp, Telèfon, Email, Instagram, Web -->
+        <!-- Botons d'acció directa (Touch-optimized per a iPhone) -->
         <div class="pt-2 flex items-center justify-between gap-1 text-xs" onclick="event.stopPropagation()">
-          <div class="flex items-center gap-1.5">
+          <div class="flex items-center gap-1.5 sm:gap-2">
             ${phoneNum ? `
               <a href="https://wa.me/${phoneNum.replace(/[^0-9]/g, '')}" target="_blank" 
                  title="Obrir xat de WhatsApp" 
-                 class="w-8 h-8 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded-xl flex items-center justify-center transition-colors shadow-2xs">
-                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                 class="w-9.5 h-9.5 sm:w-8 sm:h-8 bg-emerald-100 hover:bg-emerald-200 active:bg-emerald-300 text-emerald-800 rounded-xl flex items-center justify-center transition-colors shadow-2xs active:scale-95">
+                <i data-lucide="message-circle" class="w-4.5 h-4.5 sm:w-4 sm:h-4"></i>
               </a>
               <a href="tel:${phoneNum}" 
                  title="Trucar per telèfon" 
-                 class="w-8 h-8 bg-sky-100 hover:bg-sky-200 text-sky-800 rounded-xl flex items-center justify-center transition-colors shadow-2xs">
-                <i data-lucide="phone" class="w-4 h-4"></i>
+                 class="w-9.5 h-9.5 sm:w-8 sm:h-8 bg-sky-100 hover:bg-sky-200 active:bg-sky-300 text-sky-800 rounded-xl flex items-center justify-center transition-colors shadow-2xs active:scale-95">
+                <i data-lucide="phone" class="w-4.5 h-4.5 sm:w-4 sm:h-4"></i>
               </a>
             ` : ''}
 
             ${emailAddr ? `
               <a href="mailto:${emailAddr}" 
                  title="Enviar correu" 
-                 class="w-8 h-8 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-xl flex items-center justify-center transition-colors shadow-2xs">
-                <i data-lucide="mail" class="w-4 h-4"></i>
+                 class="w-9.5 h-9.5 sm:w-8 sm:h-8 bg-stone-100 hover:bg-stone-200 active:bg-stone-300 text-stone-800 rounded-xl flex items-center justify-center transition-colors shadow-2xs active:scale-95">
+                <i data-lucide="mail" class="w-4.5 h-4.5 sm:w-4 sm:h-4"></i>
               </a>
             ` : ''}
 
             ${d.instagram ? `
               <a href="${d.instagram}" target="_blank" 
                  title="Veure perfil d'Instagram" 
-                 class="w-8 h-8 bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 hover:opacity-90 text-white rounded-xl flex items-center justify-center transition-all shadow-2xs">
-                <i data-lucide="instagram" class="w-4 h-4"></i>
+                 class="w-9.5 h-9.5 sm:w-8 sm:h-8 bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 hover:opacity-90 active:opacity-75 text-white rounded-xl flex items-center justify-center transition-all shadow-2xs active:scale-95">
+                <i data-lucide="instagram" class="w-4.5 h-4.5 sm:w-4 sm:h-4"></i>
               </a>
             ` : ''}
 
             ${d.website ? `
               <a href="${d.website}" target="_blank" 
                  title="Visitar pàgina web" 
-                 class="w-8 h-8 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-xl flex items-center justify-center transition-colors shadow-2xs">
-                <i data-lucide="globe" class="w-4 h-4"></i>
+                 class="w-9.5 h-9.5 sm:w-8 sm:h-8 bg-stone-100 hover:bg-stone-200 active:bg-stone-300 text-stone-700 rounded-xl flex items-center justify-center transition-colors shadow-2xs active:scale-95">
+                <i data-lucide="globe" class="w-4.5 h-4.5 sm:w-4 sm:h-4"></i>
               </a>
             ` : ''}
           </div>
 
-          <button onclick="openDetailModal('${d.id}')" class="px-3 py-1.5 bg-stone-100 hover:bg-amber-900 hover:text-white rounded-xl text-stone-700 font-bold transition-all flex items-center gap-1 text-[11px]">
+          <button onclick="openDetailModal('${d.id}')" class="px-3.5 py-2 sm:px-3 sm:py-1.5 bg-stone-100 hover:bg-amber-900 hover:text-white active:bg-amber-900 active:text-white rounded-xl text-stone-700 font-bold transition-all flex items-center gap-1 text-xs sm:text-[11px] active:scale-95">
             <span>Fitxa</span>
             <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
           </button>
@@ -1701,3 +1713,38 @@ function setupEventListeners() {
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
+
+
+// ==========================================
+// NATIVE iOS & MOBILE ENHANCEMENTS
+// ==========================================
+function mobileNavSelect(tab) {
+  setMainTab(tab);
+  
+  // Desplaçament suau cap al selector de filtres o distribuïdors
+  const target = document.getElementById('sub-filters-container') || document.getElementById('distributors-container');
+  if (target) {
+    const rect = target.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const targetY = rect.top + scrollTop - 75; // compensació de la capçalera fixa
+    window.scrollTo({
+      top: Math.max(0, targetY),
+      behavior: 'smooth'
+    });
+  }
+}
+
+function forceRefreshApp() {
+  showToast('🔄 Refrescant dades de Dr. Comercial...', 'info');
+  try {
+    if (window.caches) {
+      caches.keys().then(keys => {
+        keys.forEach(key => caches.delete(key));
+      });
+    }
+  } catch(e) {}
+  
+  setTimeout(() => {
+    window.location.reload(true);
+  }, 350);
+}

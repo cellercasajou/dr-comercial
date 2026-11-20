@@ -2,14 +2,18 @@
 <html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Dr. Comercial • CRM Distribuïdors de Vins & Escumosos</title>
   
-  <!-- PWA & Mobile Web App Meta -->
-  <meta name="theme-color" content="#4A0E17">
+  <!-- PWA & Mobile Web App Meta (iOS Optimized) -->
+  <meta name="theme-color" content="#1C1917">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Dr. Comercial">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon.png">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.json">
 
   <!-- Tailwind CSS -->
@@ -44,8 +48,39 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+    /* iOS Safe Area & Viewport Variables */
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+      --sal: env(safe-area-inset-left, 0px);
+      --sar: env(safe-area-inset-right, 0px);
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, a, input, select, textarea {
+      touch-action: manipulation;
+    }
+
+    /* Fix iOS Safari Auto-Zoom on form inputs */
+    @media screen and (max-width: 768px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+
+    .safe-top {
+      padding-top: max(env(safe-area-inset-top), 0px);
+    }
+
+    .safe-bottom {
+      padding-bottom: max(env(safe-area-inset-bottom), 0px);
+    }
+
     /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: #F5F5F4; }
     ::-webkit-scrollbar-thumb { background: #D6D3D1; border-radius: 9999px; }
     ::-webkit-scrollbar-thumb:hover { background: #A8A29E; }
@@ -53,45 +88,58 @@
     /* Clean horizontal scroll without visible grey scrollbars */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* iOS Sheet Animation */
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .animate-slide-up {
+      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
   </style>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
-<body class="bg-stone-100 text-stone-900 min-h-screen flex flex-col font-sans antialiased selection:bg-rose-100 selection:text-rose-900 pb-16 md:pb-8">
+<body class="bg-stone-100 text-stone-900 min-h-screen flex flex-col font-sans antialiased selection:bg-rose-100 selection:text-rose-900 pb-24 md:pb-8">
 
-  <!-- Top Navigation Bar -->
-  <header class="bg-stone-900 text-white sticky top-0 z-30 shadow-md border-b border-stone-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+  <!-- Top Navigation Bar (with iPhone Notch / Dynamic Island Safe Area) -->
+  <header class="bg-stone-900 text-white sticky top-0 z-30 shadow-md border-b border-stone-800 safe-top">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
       
       <!-- Brand & Title -->
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-stone-900 via-wine-950 to-stone-950 flex items-center justify-center text-amber-200 border border-amber-600/30 shadow-md shrink-0 relative overflow-hidden group">
-          <svg class="w-7 h-7" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Cercle exterior daurat fi -->
+      <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-br from-stone-900 via-wine-950 to-stone-950 flex items-center justify-center text-amber-200 border border-amber-600/30 shadow-md shrink-0 relative overflow-hidden">
+          <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50" cy="50" r="44" stroke="#D4AF37" stroke-width="2" stroke-opacity="0.5"/>
             <circle cx="50" cy="50" r="39" stroke="#D4AF37" stroke-width="1" stroke-dasharray="3 3" stroke-opacity="0.4"/>
-            <!-- Monograma Dr. en tipografia clàssica de segell -->
             <text x="50" y="58" font-family="Georgia, Cambria, 'Times New Roman', serif" font-size="32" font-weight="bold" fill="#EAD598" text-anchor="middle" letter-spacing="-0.5">Dr.</text>
-            <!-- Petit detall d'ampolla/estrella superior -->
             <circle cx="50" cy="22" r="2" fill="#D4AF37"/>
           </svg>
         </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-base md:text-lg font-black tracking-tight leading-none text-white">Dr. Comercial</h1>
-            <span class="text-[10px] font-bold bg-amber-900/60 text-amber-300 border border-amber-700/50 px-2 py-0.5 rounded-full">Corpinnat & Escumosos</span>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <h1 class="text-base sm:text-lg font-black tracking-tight leading-none text-white truncate">Dr. Comercial</h1>
+            <span class="text-[9px] sm:text-[10px] font-bold bg-amber-900/60 text-amber-300 border border-amber-700/50 px-1.5 sm:px-2 py-0.5 rounded-full shrink-0">Corpinnat</span>
           </div>
-          <p class="text-[11px] text-stone-400 font-medium">Gestió d'Importadors & Distribuïdors Internacionals</p>
+          <p class="hidden sm:block text-[11px] text-stone-400 font-medium truncate">Gestió d'Importadors & Distribuïdors Internacionals</p>
         </div>
       </div>
 
       <!-- Cloud Sync & Main Actions -->
-      <div class="flex items-center gap-2 md:gap-3">
+      <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
         <!-- Status indicator badge -->
-        <div id="sync-status-badge" onclick="openCloudModal()" title="Configurar Supabase">
-          <span class="w-2 h-2 rounded-full bg-stone-400"></span> Mode Local
+        <div id="sync-status-badge" onclick="openCloudModal()" title="Configurar Supabase" class="cursor-pointer text-[11px] font-bold px-2 sm:px-2.5 py-1 rounded-full bg-stone-800 text-stone-300 border border-stone-700 flex items-center gap-1.5 hover:bg-stone-700 transition-colors">
+          <span class="w-2 h-2 rounded-full bg-stone-400"></span>
+          <span class="hidden xs:inline">Mode Local</span>
         </div>
 
-        <!-- Excel buttons -->
+        <!-- In-App Refresh Button (Essential for iPhone) -->
+        <button onclick="forceRefreshApp()" title="Refrescar i actualitzar dades" class="h-9 px-2.5 sm:px-3 bg-stone-800 hover:bg-stone-700 active:bg-stone-600 text-stone-200 rounded-xl border border-stone-700 flex items-center justify-center gap-1.5 text-xs font-semibold transition-colors active:scale-95">
+          <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span class="hidden sm:inline">Refrescar</span>
+        </button>
+
+        <!-- Excel buttons (hidden on mobile) -->
         <button onclick="triggerExcelImport()" title="Importar fitxer Excel" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold rounded-xl border border-stone-700 transition-colors">
           <i data-lucide="file-up" class="w-3.5 h-3.5 text-emerald-400"></i> Importar Excel
         </button>
@@ -100,15 +148,15 @@
         </button>
 
         <!-- Sync Button -->
-        <button onclick="syncWithSupabase()" title="Sincronitzar amb el núvol" class="w-9 h-9 sm:w-auto sm:px-3 sm:py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-xl border border-stone-700 flex items-center justify-center gap-1.5 text-xs font-semibold transition-colors">
-          <i data-lucide="refresh-cw" class="w-4 h-4 text-amber-400"></i>
+        <button onclick="syncWithSupabase()" title="Sincronitzar amb el núvol" class="hidden xs:flex h-9 sm:w-auto sm:px-3 sm:py-1.5 bg-stone-800 hover:bg-stone-700 active:bg-stone-600 text-stone-200 rounded-xl border border-stone-700 items-center justify-center gap-1.5 text-xs font-semibold transition-colors">
+          <i data-lucide="cloud" class="w-4 h-4 text-emerald-400"></i>
           <span class="hidden sm:inline">Sincronitza</span>
         </button>
 
-        <!-- Add Distributor Button -->
-        <button onclick="openAddDistributorModal()" class="px-3.5 py-1.5 bg-gradient-to-r from-amber-700 to-wine-800 hover:from-amber-600 hover:to-wine-700 text-white rounded-xl shadow-xs text-xs font-bold flex items-center gap-1.5 transition-all transform active:scale-95">
+        <!-- Add Distributor Button (Desktop/Tablet) -->
+        <button onclick="openAddDistributorModal()" class="hidden md:flex px-3.5 py-1.5 bg-gradient-to-r from-amber-700 to-wine-800 hover:from-amber-600 hover:to-wine-700 text-white rounded-xl shadow-xs text-xs font-bold items-center gap-1.5 transition-all transform active:scale-95">
           <i data-lucide="plus" class="w-4 h-4"></i>
-          <span class="hidden xs:inline">Nou Distribuïdor</span>
+          <span>Nou Distribuïdor</span>
         </button>
       </div>
 
@@ -121,46 +169,46 @@
   <!-- Main Content Container -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 w-full flex-1">
     
-    <!-- Stats Bar -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
+    <!-- Stats Bar (Mobile-Optimized) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 mb-4 sm:mb-6">
       
-      <div class="bg-white p-4 rounded-3xl border border-stone-200/90 shadow-2xs flex items-center justify-between">
+      <div class="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-stone-200/90 shadow-2xs flex items-center justify-between">
         <div>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-stone-400">Base de Dades</span>
-          <div class="text-2xl md:text-3xl font-black text-stone-900" id="stat-total">0</div>
+          <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-400">Base de Dades</span>
+          <div class="text-xl sm:text-3xl font-black text-stone-900" id="stat-total">0</div>
         </div>
-        <div class="w-11 h-11 rounded-2xl bg-stone-100 text-stone-700 flex items-center justify-center">
-          <i data-lucide="users" class="w-5 h-5"></i>
+        <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-stone-100 text-stone-700 flex items-center justify-center shrink-0">
+          <i data-lucide="users" class="w-4 h-4 sm:w-5 sm:h-5"></i>
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-3xl border border-stone-200/90 shadow-2xs flex items-center justify-between">
+      <div class="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-stone-200/90 shadow-2xs flex items-center justify-between">
         <div>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-stone-400">Distribuïdors Actius</span>
-          <div class="text-2xl md:text-3xl font-black text-emerald-700" id="stat-active">0</div>
+          <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-400">Actius</span>
+          <div class="text-xl sm:text-3xl font-black text-emerald-700" id="stat-active">0</div>
         </div>
-        <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
-          <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+        <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
+          <i data-lucide="check-circle-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-3xl border border-stone-200/90 shadow-2xs flex items-center justify-between">
+      <div class="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-stone-200/90 shadow-2xs flex items-center justify-between">
         <div>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-stone-400">Països & Mercats</span>
-          <div class="text-2xl md:text-3xl font-black text-amber-900" id="stat-countries">0</div>
+          <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-400">Països</span>
+          <div class="text-xl sm:text-3xl font-black text-amber-900" id="stat-countries">0</div>
         </div>
-        <div class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-800 flex items-center justify-center">
-          <i data-lucide="globe-2" class="w-5 h-5"></i>
+        <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-amber-50 text-amber-800 flex items-center justify-center shrink-0">
+          <i data-lucide="globe-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
         </div>
       </div>
 
-      <div class="bg-white p-4 rounded-3xl border border-stone-200/90 shadow-2xs flex items-center justify-between">
+      <div class="bg-white p-3 sm:p-4 rounded-2xl sm:rounded-3xl border border-stone-200/90 shadow-2xs flex items-center justify-between">
         <div>
-          <span class="text-[11px] font-bold uppercase tracking-wider text-stone-400">Instagram Directe</span>
-          <div class="text-2xl md:text-3xl font-black text-rose-800" id="stat-followups">0</div>
+          <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-stone-400">Instagram</span>
+          <div class="text-xl sm:text-3xl font-black text-rose-800" id="stat-followups">0</div>
         </div>
-        <div class="w-11 h-11 rounded-2xl bg-rose-50 text-rose-800 flex items-center justify-center">
-          <i data-lucide="instagram" class="w-5 h-5"></i>
+        <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-rose-50 text-rose-800 flex items-center justify-center shrink-0">
+          <i data-lucide="instagram" class="w-4 h-4 sm:w-5 sm:h-5"></i>
         </div>
       </div>
 
@@ -175,8 +223,9 @@
         <div class="relative flex-1">
           <i data-lucide="search" class="w-5 h-5 text-stone-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
           <input type="text" id="search-input" 
-                 placeholder="Cerca per celler (Recaredo, Gramona...), distribuïdor, ciutat o país..." 
-                 class="w-full pl-12 pr-10 py-3 bg-stone-50 hover:bg-stone-100/70 focus:bg-white border border-stone-200 focus:border-amber-800 rounded-2xl text-sm font-medium text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-4 focus:ring-amber-800/10 transition-all">
+                 placeholder="Cerca per celler (Recaredo, AT Roca...), distribuïdor, ciutat..." 
+                 autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+                 class="w-full pl-11 sm:pl-12 pr-10 py-2.5 sm:py-3 bg-stone-50 hover:bg-stone-100/70 focus:bg-white border border-stone-200 focus:border-amber-800 rounded-2xl text-base sm:text-sm font-medium text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-4 focus:ring-amber-800/10 transition-all">
           <button id="search-clear-btn" onclick="clearSearch()" class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-stone-200 hover:bg-stone-300 text-stone-600 flex items-center justify-center text-xs font-bold transition-all" title="Netejar cerca">
             ✕
           </button>
@@ -451,8 +500,10 @@
   <!-- ========================================== -->
   <!-- MODAL: DETALL DEL DISTRIBUÏDOR             -->
   <!-- ========================================== -->
-  <div id="detail-modal" class="hidden fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto">
-    <div class="bg-white rounded-3xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl border border-stone-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200 my-auto">
+  <div id="detail-modal" class="hidden fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 overflow-hidden">
+    <div class="bg-white rounded-t-[32px] sm:rounded-3xl w-full max-w-4xl max-h-[92vh] sm:max-h-[85vh] flex flex-col shadow-2xl border border-stone-200 overflow-hidden animate-slide-up sm:animate-in sm:zoom-in-95 duration-200 pb-[env(safe-area-inset-bottom)] sm:pb-0">
+      <!-- iOS Drag Indicator Bar (Mobile Only) -->
+      <div class="w-12 h-1.5 bg-stone-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0 cursor-pointer" onclick="closeDetailModal()"></div>
       
       <!-- Capçalera del Modal -->
       <div class="p-5 sm:p-6 bg-stone-900 text-white flex items-start justify-between gap-4 border-b border-stone-800">
@@ -496,8 +547,10 @@
   <!-- ========================================== -->
   <!-- MODAL: NOU DISTRIBUÏDOR                    -->
   <!-- ========================================== -->
-  <div id="new-dist-modal" class="hidden fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto">
-    <div class="bg-white rounded-3xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl border border-stone-200 overflow-hidden my-auto">
+  <div id="new-dist-modal" class="hidden fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 overflow-hidden">
+    <div class="bg-white rounded-t-[32px] sm:rounded-3xl w-full max-w-3xl max-h-[92vh] sm:max-h-[85vh] flex flex-col shadow-2xl border border-stone-200 overflow-hidden animate-slide-up sm:animate-in sm:zoom-in-95 duration-200 pb-[env(safe-area-inset-bottom)] sm:pb-0">
+      <!-- iOS Drag Indicator Bar (Mobile Only) -->
+      <div class="w-12 h-1.5 bg-stone-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0 cursor-pointer" onclick="closeAddDistributorModal()"></div>
       
       <div class="p-5 bg-gradient-to-r from-stone-900 via-amber-950 to-wine-950 text-white flex items-center justify-between border-b border-stone-800">
         <div class="flex items-center gap-2">
@@ -652,8 +705,10 @@
   <!-- ========================================== -->
   <!-- MODAL: CONFIGURACIÓ NÚVOL (SUPABASE)       -->
   <!-- ========================================== -->
-  <div id="cloud-modal" class="hidden fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-    <div class="bg-white rounded-3xl w-full max-w-xl shadow-2xl border border-stone-200 overflow-hidden my-auto">
+  <div id="cloud-modal" class="hidden fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 overflow-hidden">
+    <div class="bg-white rounded-t-[32px] sm:rounded-3xl w-full max-w-xl max-h-[92vh] sm:max-h-[85vh] flex flex-col shadow-2xl border border-stone-200 overflow-hidden animate-slide-up sm:animate-in sm:zoom-in-95 duration-200 pb-[env(safe-area-inset-bottom)] sm:pb-0">
+      <!-- iOS Drag Indicator Bar (Mobile Only) -->
+      <div class="w-12 h-1.5 bg-stone-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0 cursor-pointer" onclick="closeCloudModal()"></div>
       
       <div class="p-5 bg-stone-900 text-white flex items-center justify-between border-b border-stone-800">
         <div class="flex items-center gap-2">
@@ -705,15 +760,38 @@
   <!-- Toast Notification element -->
   <div id="toast" class="fixed bottom-5 right-5 z-50 px-4 py-3 rounded-2xl shadow-xl text-white font-bold text-xs md:text-sm transform translate-y-12 opacity-0 pointer-events-none transition-all duration-300"></div>
 
-  <!-- Mobile Bottom Floating Action Bar -->
-  <div class="fixed bottom-3 right-3 sm:hidden z-30">
-    <button onclick="openAddDistributorModal()" class="w-13 h-13 bg-amber-800 hover:bg-amber-900 text-white rounded-full shadow-xl flex items-center justify-center p-3 border-2 border-white">
-      <i data-lucide="plus" class="w-6 h-6"></i>
-    </button>
-  </div>
+  <!-- ========================================== -->
+  <!-- NATIVE iOS MOBILE BOTTOM TAB BAR           -->
+  <!-- ========================================== -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 bg-stone-900/95 backdrop-blur-md border-t border-stone-800/90 z-40 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_20px_rgba(0,0,0,0.2)]">
+    <div class="grid grid-cols-5 h-14 items-center text-[10px] font-bold">
+      <button id="mobnav-all" onclick="mobileNavSelect('all')" class="flex flex-col items-center justify-center gap-1 h-full text-amber-400 transition-colors active:opacity-70">
+        <i data-lucide="globe-2" class="w-5 h-5"></i>
+        <span>Tots</span>
+      </button>
+      <button id="mobnav-corpinnat" onclick="mobileNavSelect('corpinnat')" class="flex flex-col items-center justify-center gap-1 h-full text-stone-400 hover:text-stone-200 transition-colors active:opacity-70">
+        <i data-lucide="wine" class="w-5 h-5"></i>
+        <span>Corpinnat</span>
+      </button>
+      <button id="mobnav-spain" onclick="mobileNavSelect('spain')" class="flex flex-col items-center justify-center gap-1 h-full text-stone-400 hover:text-stone-200 transition-colors active:opacity-70">
+        <span class="text-base leading-none">🇪🇸</span>
+        <span>Espanya</span>
+      </button>
+      <button id="mobnav-intl" onclick="mobileNavSelect('intl')" class="flex flex-col items-center justify-center gap-1 h-full text-stone-400 hover:text-stone-200 transition-colors active:opacity-70">
+        <i data-lucide="plane-takeoff" class="w-5 h-5"></i>
+        <span>Export</span>
+      </button>
+      <button onclick="openAddDistributorModal()" class="flex flex-col items-center justify-center gap-1 h-full text-amber-300 active:scale-95 transition-transform">
+        <div class="w-7 h-7 rounded-full bg-gradient-to-r from-amber-600 to-wine-800 flex items-center justify-center text-white shadow-xs">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+        </div>
+        <span>Afegir</span>
+      </button>
+    </div>
+  </nav>
 
   <!-- Scripts -->
-  <script src="data.js?v=10"></script>
-  <script src="app.js?v=10"></script>
+  <script src="data.js?v=11"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>
