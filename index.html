@@ -255,7 +255,10 @@
       <!-- 2. Pestanyes Principals (Segmented Navigation) -->
       <div class="px-4 pb-3 flex items-center gap-1.5 overflow-x-auto no-scrollbar border-b border-stone-100">
         <button id="tab-all" onclick="setMainTab('all')" class="category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-amber-900 text-white shadow-2xs">
-          🌐 Tots (468)
+          🌐 Tots (482)
+        </button>
+        <button id="tab-casajou" onclick="setMainTab('casajou')" class="category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-amber-50 text-amber-950 border border-amber-300 hover:bg-amber-100 shadow-2xs">
+          🍇 Xarxa Casajou (17)
         </button>
         <button id="tab-spain" onclick="setMainTab('spain')" class="category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-stone-50 text-stone-600 hover:bg-stone-100 border border-stone-200">
           🇪🇸 Espanya (199)
@@ -274,6 +277,29 @@
       <!-- 3. Sub-panells Contextuals Dinàmics (Només 1 visible a la vegada, net i sense barres lletges) -->
       <div id="sub-filters-container" class="px-4 py-2.5 bg-stone-50/70 border-b border-stone-100">
         
+        <!-- Sub-panell: Xarxa Casajou (Instagram @celler.casajou) -->
+        <div id="subpanel-casajou" class="hidden flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            <button id="subpill-casajou-all" onclick="setCasajouSubFilter('Tots')" class="casajou-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-900 text-white border border-amber-900 transition-all shrink-0">
+              Tots els contactes (17)
+            </button>
+            <button id="subpill-casajou-dist" onclick="setCasajouSubFilter('distribuidor')" class="casajou-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
+              📦 Distribuïdors Oficials
+            </button>
+            <button id="subpill-casajou-imp" onclick="setCasajouSubFilter('importador')" class="casajou-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
+              ✈️ Importadors EUA & Europa
+            </button>
+            <button id="subpill-casajou-somm" onclick="setCasajouSubFilter('prescriptor')" class="casajou-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
+              ⭐ Prescriptors & Sommeliers
+            </button>
+          </div>
+          <div class="shrink-0 flex items-center gap-1.5 text-xs text-stone-600 bg-white px-2.5 py-1 rounded-xl border border-stone-200 shadow-2xs">
+            <i data-lucide="instagram" class="w-3.5 h-3.5 text-rose-600"></i>
+            <span class="font-medium text-stone-500">Perfil:</span>
+            <a href="https://www.instagram.com/celler.casajou/" target="_blank" class="text-amber-900 font-extrabold hover:underline">@celler.casajou</a>
+          </div>
+        </div>
+
         <!-- Sub-panell: Tots -->
         <div id="subpanel-all" class="flex flex-wrap items-center justify-between gap-2 text-xs">
           <div class="flex items-center gap-1.5 flex-wrap">
@@ -769,6 +795,10 @@
         <i data-lucide="globe-2" class="w-5 h-5"></i>
         <span>Tots</span>
       </button>
+      <button id="mobnav-casajou" onclick="mobileNavSelect('casajou')" class="flex flex-col items-center justify-center gap-1 h-full text-stone-400 hover:text-stone-200 transition-colors active:opacity-70">
+        <span class="text-base leading-none">🍇</span>
+        <span>Casajou</span>
+      </button>
       <button id="mobnav-corpinnat" onclick="mobileNavSelect('corpinnat')" class="flex flex-col items-center justify-center gap-1 h-full text-stone-400 hover:text-stone-200 transition-colors active:opacity-70">
         <i data-lucide="wine" class="w-5 h-5"></i>
         <span>Corpinnat</span>
@@ -791,7 +821,7 @@
   </nav>
 
   <!-- Scripts -->
-  <script src="data.js?v=11"></script>
-  <script src="app.js?v=11"></script>
+  <script src="data.js?v=12"></script>
+  <script src="app.js?v=12"></script>
 </body>
 </html>

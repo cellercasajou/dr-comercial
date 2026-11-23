@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v11';
+const STORAGE_KEY = 'crm_sparkling_distributors_v12';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -55,6 +55,7 @@ const state = {
   filterRegion: 'Totes',
   filterSpecialty: 'Totes',
   filterWinery: 'Tots',
+  filterCasajouCategory: 'Tots',
   quickOnlyActive: false,
   quickOnlyInstagram: false,
   quickOnlyPriority: false,
@@ -190,6 +191,22 @@ function getFilteredDistributors() {
       const reg = (d.region || '').toLowerCase();
       const target = state.filterRegion.toLowerCase();
       if (!reg.includes(target)) return false;
+    }
+
+    // Filtre Xarxa Casajou (comptes seguits i xarxa d'Instagram)
+    if (state.activeTab === 'casajou') {
+      const isCasajou = d.is_casajou || (d.specialty_tags && d.specialty_tags.some(t => t.toLowerCase().includes('casajou')));
+      if (!isCasajou) return false;
+
+      if (state.filterCasajouCategory && state.filterCasajouCategory !== 'Tots') {
+        const cat = state.filterCasajouCategory.toLowerCase();
+        const type = (d.distribution_type || '').toLowerCase();
+        const role = (d.casajou_role || '').toLowerCase();
+        const tags = (d.specialty_tags || []).join(' ').toLowerCase();
+        if (cat === 'distribuidor' && !type.includes('distribuïdor') && !role.includes('distribuïdor') && !tags.includes('distribuïdor')) return false;
+        if (cat === 'importador' && !type.includes('importador') && !role.includes('importador') && !tags.includes('importador')) return false;
+        if (cat === 'prescriptor' && !type.includes('prescriptor') && !type.includes('sommelier') && !role.includes('sommelier') && !role.includes('prescriptor')) return false;
+      }
     }
 
     // Filtre d'especialitat
@@ -347,7 +364,7 @@ function setMainTab(tab) {
   }
 
   // 1b. Sincronitzar la barra de navegació inferior d'iPhone (iOS Tab Bar)
-  ['all', 'corpinnat', 'spain', 'intl'].forEach(t => {
+  ['all', 'casajou', 'corpinnat', 'spain', 'intl'].forEach(t => {
     const mobBtn = document.getElementById('mobnav-' + t);
     if (mobBtn) {
       if (t === tab || (t === 'intl' && tab === 'usa')) {
@@ -359,7 +376,7 @@ function setMainTab(tab) {
   });
 
   // 2. Mostrar només el sub-panell contextual actiu
-  ['all', 'spain', 'corpinnat', 'usa', 'intl'].forEach(t => {
+  ['all', 'casajou', 'spain', 'corpinnat', 'usa', 'intl'].forEach(t => {
     const p = document.getElementById('subpanel-' + t);
     if (p) {
       if (t === tab) {
@@ -377,6 +394,16 @@ function setMainTab(tab) {
     state.filterZone = 'Totes';
     state.filterWinery = 'Tots';
     state.filterSpecialty = 'Totes';
+    state.filterCasajouCategory = 'Tots';
+  } else if (tab === 'casajou') {
+    state.filterCountry = 'Tots';
+    state.filterRegion = 'Totes';
+    state.filterZone = 'Totes';
+    state.filterWinery = 'Tots';
+    state.filterSpecialty = 'Totes';
+    state.filterCasajouCategory = 'Tots';
+    setCasajouSubFilter('Tots');
+    return;
   } else if (tab === 'spain') {
     state.filterCountry = 'Espanya';
     state.filterRegion = 'Totes';
@@ -700,9 +727,11 @@ function renderGridView(distributors, container) {
     if (d.status === 'Potencial') statusClass = 'bg-amber-50 text-amber-900 border-amber-200';
     if (d.status === 'Inactiu') statusClass = 'bg-rose-50 text-rose-800 border-rose-200';
 
-    // Priority badge
+    // Priority badge & Casajou badge
     let priorityBadge = '';
-    if (d.priority === 'Molt alta') {
+    if (d.is_casajou) {
+      priorityBadge = '<span class="text-[10px] bg-gradient-to-r from-amber-100 to-rose-100 text-amber-950 font-black px-2 py-0.5 rounded-full border border-amber-300 flex items-center gap-1 shadow-2xs">🍇 Xarxa Casajou</span>';
+    } else if (d.priority === 'Molt alta') {
       priorityBadge = '<span class="text-[10px] bg-rose-100 text-rose-800 font-extrabold px-2 py-0.5 rounded-full border border-rose-200">⭐ Prioritat Màxima</span>';
     } else if (d.priority === 'Alta') {
       priorityBadge = '<span class="text-[10px] bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-full border border-amber-200">Prioritat Alta</span>';
@@ -733,6 +762,14 @@ function renderGridView(distributors, container) {
               ${priorityBadge}
             </div>
           </div>
+
+          <!-- Banner Xarxa Casajou si escau -->
+          ${d.casajou_role ? `
+            <div class="mb-2 bg-gradient-to-r from-amber-50 to-rose-50 border border-amber-200/90 rounded-xl p-2 text-xs text-amber-950 flex items-center justify-between">
+              <span class="font-black text-amber-900 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-700"></i> ${d.casajou_role}</span>
+              ${d.instagram ? `<a href="${d.instagram}" target="_blank" onclick="event.stopPropagation()" class="text-rose-700 font-extrabold hover:underline flex items-center gap-1 text-[11px]"><i data-lucide="instagram" class="w-3 h-3"></i> Instagram</a>` : ''}
+            </div>
+          ` : ''}
 
           <!-- Cellers relacionats o Especialitat -->
           ${d.related_wineries ? `
@@ -1747,4 +1784,24 @@ function forceRefreshApp() {
   setTimeout(() => {
     window.location.reload(true);
   }, 350);
+}
+
+function setCasajouSubFilter(cat) {
+  state.filterCasajouCategory = cat;
+  document.querySelectorAll('.casajou-subpill').forEach(b => {
+    b.className = 'casajou-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0';
+  });
+  
+  let targetId = 'subpill-casajou-all';
+  if (cat === 'distribuidor') targetId = 'subpill-casajou-dist';
+  if (cat === 'importador') targetId = 'subpill-casajou-imp';
+  if (cat === 'prescriptor') targetId = 'subpill-casajou-somm';
+  
+  const activeBtn = document.getElementById(targetId);
+  if (activeBtn) {
+    activeBtn.className = 'casajou-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-900 text-white border border-amber-900 transition-all shrink-0';
+  }
+  
+  render();
+  updateActiveChips();
 }
