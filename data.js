@@ -17859,5 +17859,60 @@ window.INITIAL_DISTRIBUTORS = [
     "region": "Madrid",
     "is_casajou": true,
     "casajou_role": "Consultora d'Exportació Internacional"
+  },
+  {
+    "id": "dist-stelle-wine-co",
+    "name": "Stelle Wine Co.",
+    "legal_name": "Stelle Wine Company LLC",
+    "country": "Estats Units",
+    "city": "Nova York (NY, NJ, CT, FL)",
+    "address": "10 Downing St, New York, NY 10014",
+    "website": "https://linktr.ee/stellewineco",
+    "instagram": "https://www.instagram.com/stellewineco/",
+    "tax_id": "US-EIN",
+    "status": "Potencial",
+    "distribution_type": "Importador & Distribuïdor Multi-estatal",
+    "channels": "HORECA Gastronomia, Restaurants Michelin (Jeju Noodle Bar, Liar Liar Gowanus), Wine Bars, Vinoteques",
+    "incoterm": "FOB / EXW",
+    "payment_terms": "Avançat / 30 dies",
+    "currency": "USD",
+    "moq": "1 Palet o consolidat East Coast",
+    "margin_commission": "35% - 40%",
+    "sparkling_focus": "Champagne de petits productors, escumosos de vigneron, bombolles de terrer i mínima intervenció",
+    "annual_volume": "Mitjà (Distribució selecta de vignerons)",
+    "related_wineries": "Domaine Adrien Emond (Séguret Rhône), Domaine Viollet-Guillemard (Borgonya), Louis Boillard, Maison A&S, Sassicaia, C&R Buillot, Abbot-Claimer, La Tour Saint-Hilaire, Pierre-Olivier Garcia",
+    "priority": "Alta",
+    "specialty_tags": [
+      "Vignerons Independents",
+      "Importador EUA (East Coast)",
+      "Instagram Verified",
+      "Gastronomia Michelin",
+      "Borgonya & Rhône"
+    ],
+    "notes": "Importador i distribuïdor independent de vins d'autor a Nova York, Nova Jersey, Connecticut i Florida (@stellewineco). Gran presència en locals de culte gastronòmic com Jeju Noodle Bar i Liar Liar. Connexió directa amb xarxa Between 2 Worlds.",
+    "contacts": [
+      {
+        "id": "c-stelle-1",
+        "name": "Equip Comercial Stelle Wine Co.",
+        "role": "Import & Portfolio Buyer",
+        "email": "info@stellewine.com",
+        "mobile": "+1 212-000-0000",
+        "phone": "+1 212-000-0000",
+        "is_primary": true
+      }
+    ],
+    "interactions": [
+      {
+        "id": "int-stelle-1",
+        "date": "2026-11-24",
+        "type": "Cerca / Prospecció",
+        "notes": "Captura de perfil d'Instagram processada amb IA. Importador estratègic per a escumosos artesans i vignerons a la Costa Est dels EUA.",
+        "created_at": "2026-11-24T17:42:00Z"
+      }
+    ],
+    "documents": [],
+    "province": "Nova York",
+    "region": "Costa Est (NY/NJ/CT/FL)",
+    "is_casajou": false
   }
 ];

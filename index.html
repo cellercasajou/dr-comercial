@@ -153,10 +153,11 @@
           <span class="hidden sm:inline">Sincronitza</span>
         </button>
 
-        <!-- Add Distributor Button (Desktop/Tablet) -->
-        <button onclick="openAddDistributorModal()" class="hidden md:flex px-3.5 py-1.5 bg-gradient-to-r from-amber-700 to-wine-800 hover:from-amber-600 hover:to-wine-700 text-white rounded-xl shadow-xs text-xs font-bold items-center gap-1.5 transition-all transform active:scale-95">
-          <i data-lucide="plus" class="w-4 h-4"></i>
-          <span>Nou Distribuïdor</span>
+        <!-- Add Distributor Button -->
+        <button onclick="openAddDistributorModal()" class="flex px-2.5 sm:px-3.5 py-1.5 bg-gradient-to-r from-amber-600 via-amber-700 to-amber-900 hover:from-amber-500 hover:to-amber-800 text-white rounded-xl shadow-xs text-xs font-bold items-center gap-1.5 transition-all transform active:scale-95 border border-amber-500/40">
+          <span class="text-sm">✨</span>
+          <span class="hidden sm:inline">Afegir amb IA</span>
+          <span class="sm:hidden font-black text-[11px]">+ IA</span>
         </button>
       </div>
 
@@ -579,9 +580,12 @@
       <div class="w-12 h-1.5 bg-stone-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0 cursor-pointer" onclick="closeAddDistributorModal()"></div>
       
       <div class="p-5 bg-gradient-to-r from-stone-900 via-amber-950 to-wine-950 text-white flex items-center justify-between border-b border-stone-800">
-        <div class="flex items-center gap-2">
-          <i data-lucide="wine" class="w-5 h-5 text-amber-400"></i>
-          <h3 class="text-lg font-black text-white">Afegir Nou Distribuïdor / Importador</h3>
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">✨</span>
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-white leading-tight">Afegir Nou Distribuïdor / Importador</h3>
+            <p class="text-[11px] text-amber-300/80 font-medium">Amb escàner IA d'Instagram i comprovació de duplicats</p>
+          </div>
         </div>
         <button onclick="closeAddDistributorModal()" class="w-8 h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center">
           <i data-lucide="x" class="w-4 h-4"></i>
@@ -590,6 +594,89 @@
 
       <form onsubmit="saveNewDistributorForm(event)" class="p-5 sm:p-6 overflow-y-auto flex-1 space-y-5 text-xs sm:text-sm">
         
+        <!-- ============================================== -->
+        <!-- BLOC ESCÀNER IA & CAPTURES D'INSTAGRAM         -->
+        <!-- ============================================== -->
+        <div id="ai-scanner-dropzone" class="p-4 sm:p-5 bg-gradient-to-br from-amber-950/20 via-stone-900/10 to-amber-900/15 border-2 border-dashed border-amber-600/40 hover:border-amber-500 rounded-2xl transition-all">
+          <div class="flex flex-col sm:flex-row items-center gap-4">
+            <!-- Icona i text explicatiu -->
+            <div class="flex-1 text-center sm:text-left">
+              <div class="flex items-center justify-center sm:justify-start gap-2 mb-1">
+                <span class="text-2xl">📸</span>
+                <h4 class="font-black text-amber-950 sm:text-base text-sm">Llegir amb IA (Captura d'Instagram o Targeta)</h4>
+                <span class="text-[10px] font-bold bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full border border-amber-300">Auto-omplir</span>
+              </div>
+              <p class="text-xs text-stone-600 leading-relaxed">
+                Tira o arrossega aquí una captura d'un perfil d'Instagram (com <em>@stellewineco</em>), fes una foto o enganxa des del portapapers (<kbd class="px-1.5 py-0.5 bg-stone-200 text-stone-800 rounded font-mono text-[10px]">⌘+V</kbd> / <kbd class="px-1.5 py-0.5 bg-stone-200 text-stone-800 rounded font-mono text-[10px]">Ctrl+V</kbd>).
+              </p>
+            </div>
+
+            <!-- Botons d'acció del fitxer -->
+            <div class="flex items-center gap-2 shrink-0">
+              <input type="file" id="ai-image-file-input" accept="image/*" class="hidden" onchange="handleAiImageFile(event)">
+              <button type="button" onclick="document.getElementById('ai-image-file-input').click()" class="px-4 py-2 bg-gradient-to-r from-amber-700 to-amber-900 hover:from-amber-600 hover:to-amber-800 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs transition-transform active:scale-95">
+                <i data-lucide="upload" class="w-4 h-4"></i>
+                <span>Tria Imatge / Foto</span>
+              </button>
+              <button type="button" onclick="toggleApiKeyConfig()" title="Configurar clau de Gemini API" class="p-2 bg-white hover:bg-stone-100 text-stone-700 rounded-xl border border-stone-300 text-xs flex items-center justify-center shadow-2xs">
+                <i data-lucide="key" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Previsualització i estat d'anàlisi de la imatge -->
+          <div id="ai-preview-container" class="hidden mt-3 pt-3 border-t border-amber-800/20 flex flex-col sm:flex-row items-center gap-3">
+            <img id="ai-preview-img" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border border-stone-300 shadow-xs" src="" alt="Previsualització">
+            <div class="flex-1 text-xs space-y-1 w-full text-center sm:text-left">
+              <div id="ai-status-indicator" class="flex items-center justify-center sm:justify-start gap-2 font-bold text-amber-950">
+                <div class="animate-spin w-4 h-4 border-2 border-amber-800 border-t-transparent rounded-full"></div>
+                <span id="ai-status-text">La IA està analitzant la imatge...</span>
+              </div>
+              <div id="ai-status-detail" class="text-stone-500 text-[11px]">Extraient nom, Instagram, país, cellers representats i condicions...</div>
+            </div>
+            <button type="button" onclick="resetAiImage()" class="px-3 py-1 text-xs text-stone-500 hover:text-stone-800 underline">Cancel·lar</button>
+          </div>
+
+          <!-- Caixa de configuració de Clau Gemini (col·lapsable) -->
+          <div id="gemini-key-box" class="hidden mt-3 p-3.5 bg-white rounded-xl border border-amber-300 shadow-xs text-xs space-y-2">
+            <div class="flex items-center justify-between font-bold text-stone-900">
+              <span class="flex items-center gap-1.5">🔑 Clau API de Google Gemini (Gratuïta)</span>
+              <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="text-amber-800 hover:text-amber-950 font-bold underline text-[11px]">Generar clau de franc a Google ↗</a>
+            </div>
+            <div class="flex gap-2">
+              <input type="password" id="gemini-api-key-input" placeholder="Enganxa la teva clau (AIzaSy...)" class="flex-1 p-2 bg-stone-50 border border-stone-300 rounded-lg text-xs font-mono">
+              <button type="button" onclick="saveGeminiApiKey()" class="px-4 py-2 bg-amber-900 hover:bg-amber-950 text-white font-bold rounded-lg text-xs">Guardar</button>
+            </div>
+            <p class="text-[10px] text-stone-500">Es guarda de forma 100% privada a la memòria local del teu dispositiu (iPhone / Mac) i serveix per analitzar imatges d'Instagram sense cap cost.</p>
+          </div>
+
+          <!-- Caixa d'Avís de Duplicats (Molt destacat!) -->
+          <div id="duplicate-warning-box" class="hidden mt-3 p-4 bg-amber-50 border-2 border-amber-500 rounded-xl text-stone-900 flex items-start gap-3 animate-shake">
+            <span class="text-2xl shrink-0">⚠️</span>
+            <div class="flex-1 text-xs">
+              <div class="font-black text-amber-950 text-sm mb-0.5">Aquest importador ja està creat a la base de dades!</div>
+              <p id="duplicate-warning-msg" class="text-stone-700 font-medium">S'ha trobat una coincidència exacta amb un distribuïdor existent.</p>
+              <div class="mt-2.5 flex items-center gap-2">
+                <button type="button" id="duplicate-view-btn" onclick="goToExistingDistributor()" class="px-3.5 py-1.5 bg-amber-800 hover:bg-amber-900 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 shadow-xs">
+                  <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                  <span>Veure fitxa existent</span>
+                </button>
+                <button type="button" onclick="dismissDuplicateWarning()" class="px-3 py-1.5 bg-white border border-stone-300 hover:bg-stone-50 text-stone-700 font-semibold rounded-lg text-xs">
+                  Continuar igualment
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Caixa d'Èxit de Nou Importador -->
+          <div id="ai-success-box" class="hidden mt-3 p-3 bg-emerald-50 border border-emerald-400 rounded-xl text-emerald-950 flex items-center gap-2 text-xs">
+            <span class="text-lg">✅</span>
+            <div class="flex-1 font-semibold">
+              <span id="ai-success-msg">Importador nou detectat! Camps omplerts amb IA. Revisa'ls i prem "Guardar Distribuïdor".</span>
+            </div>
+          </div>
+        </div>
+
         <!-- Bloc Dades Bàsiques -->
         <div>
           <h4 class="font-bold text-amber-900 uppercase text-xs tracking-wider mb-2.5 flex items-center gap-1.5">
@@ -631,11 +718,29 @@
             <div>
               <label class="block font-semibold text-stone-700 mb-1">Estat Comercial</label>
               <select id="new-status" class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl font-bold">
-                <option value="Actiu">Actiu</option>
-                <option value="En negociació">En negociació</option>
                 <option value="Potencial">Potencial (Lead)</option>
+                <option value="En negociació">En negociació</option>
+                <option value="Actiu">Actiu</option>
                 <option value="Inactiu">Inactiu</option>
               </select>
+            </div>
+            <div>
+              <label class="block font-semibold text-stone-700 mb-1">Tipus de Distribució</label>
+              <select id="new-type" class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl font-bold">
+                <option value="Importador & Distribuïdor Multi-estatal">Importador & Distribuïdor Multi-estatal</option>
+                <option value="Importador Nacional">Importador Nacional</option>
+                <option value="Distribuïdor Regional">Distribuïdor Regional</option>
+                <option value="Cave à vins / Botiga Especialitzada">Cave à vins / Botiga Especialitzada</option>
+                <option value="Agent Comercial / Broker">Agent Comercial / Broker</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-semibold text-stone-700 mb-1">Canals de Venda</label>
+              <input id="new-channels" placeholder="Ex: HORECA Gastronomia, Vinoteques, Michelin" class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl">
+            </div>
+            <div>
+              <label class="block font-semibold text-stone-700 mb-1">Volum Anual / Capacitat</label>
+              <input id="new-volume" placeholder="Ex: Mitjà (Distribució selecta de vignerons)" class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl">
             </div>
             <div class="sm:col-span-2">
               <label class="block font-semibold text-stone-700 mb-1">Cellers que ja representa / Cartera</label>
@@ -811,17 +916,17 @@
         <i data-lucide="plane-takeoff" class="w-5 h-5"></i>
         <span>Export</span>
       </button>
-      <button onclick="openAddDistributorModal()" class="flex flex-col items-center justify-center gap-1 h-full text-amber-300 active:scale-95 transition-transform">
-        <div class="w-7 h-7 rounded-full bg-gradient-to-r from-amber-600 to-wine-800 flex items-center justify-center text-white shadow-xs">
-          <i data-lucide="plus" class="w-4 h-4"></i>
+      <button onclick="openAddDistributorModal()" class="flex flex-col items-center justify-center gap-0.5 h-full text-amber-300 active:scale-95 transition-transform">
+        <div class="w-7 h-7 rounded-full bg-gradient-to-r from-amber-500 to-amber-800 flex items-center justify-center text-white shadow-xs text-xs font-bold">
+          ✨
         </div>
-        <span>Afegir</span>
+        <span class="text-[10px] font-bold text-amber-300">Afegir IA</span>
       </button>
     </div>
   </nav>
 
   <!-- Scripts -->
-  <script src="data.js?v=14"></script>
-  <script src="app.js?v=14"></script>
+  <script src="data.js?v=15"></script>
+  <script src="app.js?v=15"></script>
 </body>
 </html>

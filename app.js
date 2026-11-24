@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v14';
+const STORAGE_KEY = 'crm_sparkling_distributors_v15';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -1546,64 +1546,460 @@ function deleteDistributor(id) {
   showToast('Distribuïdor eliminat', 'info');
 }
 
-function openAddDistributorModal() {
-  document.getElementById('new-dist-modal').classList.remove('hidden');
+// ========================================================
+// MÒDUL D'ALTA AMB IA & DETECTOR DE DUPLICATS
+// ========================================================
+
+const GEMINI_API_KEY_STORAGE = 'crm_gemini_api_key';
+let currentDuplicateDistributor = null;
+let allowDuplicateSaveOnce = false;
+
+// Helpers de normalització
+function normalizeText(str) {
+  if (!str) return '';
+  return str.toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s]/gi, ' ')
+    .replace(/\b(co|company|sl|sarl|llc|inc|corp|ltd|gmbh|distribution|distribucio|distribucion|imports|import|vins|vinos|wines|selections)\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function extractInstagramHandle(input) {
+  if (!input) return '';
+  let str = input.toString().trim();
+  str = str.replace(/^(?:https?:\/\/)?(?:www\.)?instagram\.com\//i, '');
+  str = str.replace(/^\/?@?/, '');
+  str = str.split('?')[0].split('/')[0].trim().toLowerCase();
+  return str;
+}
+
+function extractDomain(url) {
+  if (!url) return '';
+  let str = url.toString().trim().toLowerCase();
+  str = str.replace(/^(?:https?:\/\/)?(?:www\.)?/, '');
+  if (str.startsWith('linktr.ee/')) {
+    return str.split('?')[0].replace(/\/+$/, '');
+  }
+  return str.split('/')[0].split('?')[0].trim();
+}
+
+function findDuplicateDistributor({ name, instagram, website }) {
+  if (!state || !state.distributors || !state.distributors.length) return null;
+  
+  const targetHandle = extractInstagramHandle(instagram);
+  const targetDomain = extractDomain(website);
+  const targetNameNorm = normalizeText(name);
+
+  for (const d of state.distributors) {
+    // 1. Coincidència per Instagram handle (la més fiable)
+    if (targetHandle) {
+      const distHandle = extractInstagramHandle(d.instagram);
+      if (distHandle && distHandle === targetHandle) {
+        return { matchType: 'Instagram (@' + distHandle + ')', distributor: d };
+      }
+    }
+
+    // 2. Coincidència per domini web
+    if (targetDomain && !['instagram.com', 'facebook.com', 'google.com', 'linkedin.com'].includes(targetDomain)) {
+      const distDomain = extractDomain(d.website);
+      if (distDomain && distDomain === targetDomain) {
+        return { matchType: 'Lloc Web (' + distDomain + ')', distributor: d };
+      }
+    }
+
+    // 3. Coincidència per nom normalitzat
+    if (targetNameNorm && targetNameNorm.length >= 4) {
+      const distNameNorm = normalizeText(d.name);
+      const distLegalNorm = normalizeText(d.legal_name);
+      
+      if (distNameNorm === targetNameNorm || distLegalNorm === targetNameNorm) {
+        return { matchType: 'Nom (' + d.name + ')', distributor: d };
+      }
+      
+      if (targetNameNorm.length >= 6 && distNameNorm.length >= 6) {
+        if (distNameNorm.includes(targetNameNorm) || targetNameNorm.includes(distNameNorm)) {
+          return { matchType: 'Nom similar (' + d.name + ')', distributor: d };
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+function checkDuplicateInForm() {
+  const nameEl = document.getElementById('new-name');
+  const igEl = document.getElementById('new-instagram');
+  const webEl = document.getElementById('new-website');
+
+  const name = nameEl ? nameEl.value : '';
+  const instagram = igEl ? igEl.value : '';
+  const website = webEl ? webEl.value : '';
+
+  const warnBox = document.getElementById('duplicate-warning-box');
+  const warnMsg = document.getElementById('duplicate-warning-msg');
+  const successBox = document.getElementById('ai-success-box');
+
+  if (!name.trim() && !instagram.trim() && !website.trim()) {
+    if (warnBox) warnBox.classList.add('hidden');
+    currentDuplicateDistributor = null;
+    return;
+  }
+
+  const result = findDuplicateDistributor({ name, instagram, website });
+
+  if (result) {
+    currentDuplicateDistributor = result.distributor;
+    if (warnBox && warnMsg) {
+      warnMsg.innerHTML = 'Ja tens registrat <strong>"' + result.distributor.name + '"</strong> (' + (result.distributor.country || 'Sense país') + ') per coincidència de <strong>' + result.matchType + '</strong>.';
+      warnBox.classList.remove('hidden');
+    }
+    if (successBox) successBox.classList.add('hidden');
+  } else {
+    currentDuplicateDistributor = null;
+    if (warnBox) warnBox.classList.add('hidden');
+  }
+}
+
+function dismissDuplicateWarning() {
+  allowDuplicateSaveOnce = true;
+  const warnBox = document.getElementById('duplicate-warning-box');
+  if (warnBox) warnBox.classList.add('hidden');
+  showToast("Avís de duplicat omès. Pots guardar el registre.", "info");
+}
+
+function goToExistingDistributor() {
+  if (!currentDuplicateDistributor) return;
+  const dist = currentDuplicateDistributor;
+  closeAddDistributorModal();
+  openDetailModal(dist.id);
+  showToast("S'ha obert la fitxa de: " + dist.name, "info");
+}
+
+function toggleApiKeyConfig() {
+  const box = document.getElementById('gemini-key-box');
+  if (box) {
+    box.classList.toggle('hidden');
+    const input = document.getElementById('gemini-api-key-input');
+    if (input && !box.classList.contains('hidden')) {
+      input.value = localStorage.getItem(GEMINI_API_KEY_STORAGE) || '';
+      input.focus();
+    }
+  }
+}
+
+function saveGeminiApiKey() {
+  const input = document.getElementById('gemini-api-key-input');
+  if (!input) return;
+  const key = input.value.trim();
+  if (!key) {
+    localStorage.removeItem(GEMINI_API_KEY_STORAGE);
+    showToast('Clau de Gemini esborrada', 'info');
+  } else {
+    localStorage.setItem(GEMINI_API_KEY_STORAGE, key);
+    showToast('Clau de Gemini guardada correctament!', 'success');
+  }
+  const box = document.getElementById('gemini-key-box');
+  if (box) box.classList.add('hidden');
+}
+
+function resetAiImage() {
+  const preview = document.getElementById('ai-preview-container');
+  if (preview) preview.classList.add('hidden');
+  const img = document.getElementById('ai-preview-img');
+  if (img) img.src = '';
+  const fileInput = document.getElementById('ai-image-file-input');
+  if (fileInput) fileInput.value = '';
+}
+
+function openAddDistributorModal(focusAi = false) {
+  const modal = document.getElementById('new-dist-modal');
+  if (!modal) return;
+  modal.classList.remove('hidden');
   document.body.classList.add('overflow-hidden');
+  allowDuplicateSaveOnce = false;
+  currentDuplicateDistributor = null;
+
+  const keyInput = document.getElementById('gemini-api-key-input');
+  if (keyInput) {
+    keyInput.value = localStorage.getItem(GEMINI_API_KEY_STORAGE) || '';
+  }
+
+  const warnBox = document.getElementById('duplicate-warning-box');
+  if (warnBox) warnBox.classList.add('hidden');
+  const successBox = document.getElementById('ai-success-box');
+  if (successBox) successBox.classList.add('hidden');
+  resetAiImage();
+
+  if (focusAi) {
+    const fileInput = document.getElementById('ai-image-file-input');
+    if (fileInput) setTimeout(() => fileInput.click(), 150);
+  }
+
   if (window.lucide) lucide.createIcons();
 }
 
 function closeAddDistributorModal() {
-  document.getElementById('new-dist-modal').classList.add('hidden');
+  const modal = document.getElementById('new-dist-modal');
+  if (modal) modal.classList.add('hidden');
   document.body.classList.remove('overflow-hidden');
+}
+
+function handleAiImageFile(event) {
+  const file = event.target.files && event.target.files[0];
+  if (file) {
+    processAiImageBlob(file);
+  }
+}
+
+function processAiImageBlob(file) {
+  if (!file || !file.type.startsWith('image/')) {
+    showToast("Només es permeten fitxers d'imatge (PNG, JPG, WEBP, etc.)", 'error');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    const previewContainer = document.getElementById('ai-preview-container');
+    const previewImg = document.getElementById('ai-preview-img');
+    const statusText = document.getElementById('ai-status-text');
+    const statusDetail = document.getElementById('ai-status-detail');
+
+    if (previewContainer) previewContainer.classList.remove('hidden');
+    if (previewImg) previewImg.src = dataUrl;
+    if (statusText) statusText.innerText = "La IA està analitzant la imatge d'Instagram...";
+    if (statusDetail) statusDetail.innerText = "Llegint text, @handle, bio, ubicació i cellers representats...";
+
+    const mimeType = file.type || 'image/jpeg';
+    const base64Data = dataUrl.split(',')[1];
+
+    analyzeImageWithGemini(base64Data, mimeType);
+  };
+  reader.readAsDataURL(file);
+}
+
+async function analyzeImageWithGemini(base64Data, mimeType) {
+  const apiKey = localStorage.getItem(GEMINI_API_KEY_STORAGE);
+  const statusText = document.getElementById('ai-status-text');
+  const statusDetail = document.getElementById('ai-status-detail');
+
+  if (!apiKey) {
+    toggleApiKeyConfig();
+    if (statusText) statusText.innerText = "Configura la clau gratuïta de Google Gemini";
+    if (statusDetail) statusDetail.innerText = "Introdueix la teva clau per activar la lectura automàtica d'Instagram.";
+    showToast("Introdueix la clau gratuïta de Gemini per analitzar imatges", "warning");
+    return;
+  }
+
+  try {
+    const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + encodeURIComponent(apiKey);
+
+    const promptText = `Ets un expert sommelier i director d'exportació de vins i escumosos d'autor (Corpinnat, Champagne de vignerons, vins naturals).
+Analitza amb precisió aquesta imatge (captura de pantalla d'un compte d'Instagram, perfil comercial, targeta de visita o catàleg d'un distribuïdor / importador de vi).
+Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni blocs de markdown amb aquests camps exactes:
+{
+  "name": "Nom comercial de l'empresa o distribuïdor",
+  "legal_name": "Raó social o el mateix nom",
+  "country": "País principal en català (ex: Estats Units, Dinamarca, França, Espanya, etc.)",
+  "city": "Ciutat, regió o estats coberts (ex: Nova York, NY/NJ/CT/FL)",
+  "address": "Adreça si apareix, o buit",
+  "website": "Lloc web o linktr.ee",
+  "instagram": "Enllaç complet a Instagram (ex: https://www.instagram.com/handle/) o @handle",
+  "distribution_type": "Tipus de distribució (ex: Importador & Distribuïdor Multi-estatal, Importador Nacional, Distribuïdor Regional)",
+  "channels": "Canals de venda (ex: HORECA Gastronomia, Restaurants Michelin, Wine Bars, Vinoteques)",
+  "related_wineries": "Llista dels cellers o productors que es veuen a les ampolles, cartells o posts (separats per comes)",
+  "sparkling_focus": "Descripció del seu focus en vins escumosos i de vignerons (ex: Champagne artesanal, escumosos de vigneron, mínima intervenció)",
+  "notes": "Comentaris sobre la bio, seguidors i perfil comercial"
+}`;
+
+    const payload = {
+      contents: [
+        {
+          parts: [
+            { text: promptText },
+            {
+              inlineData: {
+                mimeType: mimeType,
+                data: base64Data
+              }
+            }
+          ]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.1,
+        responseMimeType: "application/json"
+      }
+    };
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      const errJson = await response.json().catch(() => ({}));
+      throw new Error(errJson.error ? errJson.error.message : 'Error HTTP ' + response.status);
+    }
+
+    const resJson = await response.json();
+    const candidate = resJson.candidates && resJson.candidates[0];
+    const rawText = candidate && candidate.content && candidate.content.parts && candidate.content.parts[0] && candidate.content.parts[0].text;
+
+    if (!rawText) {
+      throw new Error("No s'ha pogut obtenir resposta de text de la IA");
+    }
+
+    let parsedData = null;
+    try {
+      const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+      parsedData = JSON.parse(cleanJson);
+    } catch (e) {
+      console.error("Error parsejant JSON de Gemini:", rawText);
+      throw new Error("La resposta de la IA no té format JSON vàlid");
+    }
+
+    fillFormWithAiData(parsedData);
+    if (statusText) statusText.innerText = "✨ Imatge processada amb èxit!";
+    if (statusDetail) statusDetail.innerText = "Les dades s'han bolcat automàticament al formulari.";
+
+  } catch (err) {
+    console.error("Error analitzant imatge amb Gemini:", err);
+    if (statusText) statusText.innerText = "⚠️ Error processant imatge";
+    if (statusDetail) statusDetail.innerText = err.message || "Comprova la clau d'API o la connexió a internet.";
+    showToast("Error IA: " + (err.message || "Error analitzant imatge"), "error");
+  }
+}
+
+function fillFormWithAiData(data) {
+  if (!data) return;
+
+  const setVal = (id, val) => {
+    const el = document.getElementById(id);
+    if (el && val !== undefined && val !== null) {
+      el.value = val;
+    }
+  };
+
+  if (data.name) setVal('new-name', data.name);
+  if (data.legal_name) setVal('new-legal-name', data.legal_name);
+  if (data.country) setVal('new-country', data.country);
+  if (data.city) setVal('new-city', data.city);
+  if (data.address) setVal('new-address', data.address);
+  if (data.website) setVal('new-website', data.website);
+
+  if (data.instagram) {
+    let ig = data.instagram.trim();
+    if (ig.startsWith('@')) ig = 'https://www.instagram.com/' + ig.replace('@', '') + '/';
+    else if (!ig.startsWith('http')) ig = 'https://www.instagram.com/' + ig + '/';
+    setVal('new-instagram', ig);
+  }
+
+  if (data.distribution_type) setVal('new-type', data.distribution_type);
+  if (data.channels) setVal('new-channels', data.channels);
+  if (data.related_wineries) setVal('new-wineries', data.related_wineries);
+  if (data.sparkling_focus) setVal('new-focus', data.sparkling_focus);
+  if (data.notes) setVal('new-notes', data.notes);
+
+  checkDuplicateInForm();
+
+  const warnBox = document.getElementById('duplicate-warning-box');
+  const successBox = document.getElementById('ai-success-box');
+  const successMsg = document.getElementById('ai-success-msg');
+
+  if (!warnBox || warnBox.classList.contains('hidden')) {
+    if (successBox) {
+      if (successMsg) successMsg.innerHTML = "<strong>" + (data.name || "Importador nou") + "</strong> detectat! Dades omplertes amb IA. Revisa-les i fes clic a Guardar.";
+      successBox.classList.remove('hidden');
+    }
+    showToast("Dades de " + (data.name || "l'importador") + " omplertes amb IA!", 'success');
+  } else {
+    showToast('Atenció: Aquest importador ja està creat a la base de dades!', 'warning');
+  }
 }
 
 function saveNewDistributorForm(e) {
   e.preventDefault();
-  const name = document.getElementById('new-name').value.trim();
-  const country = document.getElementById('new-country').value.trim();
+  const getVal = (id) => {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  };
+
+  const name = getVal('new-name');
+  const country = getVal('new-country');
+  const instagram = getVal('new-instagram');
+  const website = getVal('new-website');
   
   if (!name || !country) {
-    showToast('El Nom i el País són obligatoris', 'error');
+    showToast('El Nom Comercial i el País són obligatoris', 'error');
+    return;
+  }
+
+  const duplicateResult = findDuplicateDistributor({ name, instagram, website });
+  if (duplicateResult && !allowDuplicateSaveOnce) {
+    currentDuplicateDistributor = duplicateResult.distributor;
+    const warnBox = document.getElementById('duplicate-warning-box');
+    const warnMsg = document.getElementById('duplicate-warning-msg');
+    if (warnBox && warnMsg) {
+      warnMsg.innerHTML = 'Ja tens registrat <strong>"' + duplicateResult.distributor.name + '"</strong> (' + (duplicateResult.distributor.country || 'Sense país') + '). Fes clic a <em>"Veure fitxa existent"</em> per consultar-lo o a <em>"Continuar igualment"</em> per forçar la creació.';
+      warnBox.classList.remove('hidden');
+      warnBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    showToast('Ja existeix un importador amb ' + duplicateResult.matchType, 'warning');
     return;
   }
 
   const newDist = {
     id: 'dist-' + Date.now(),
-    name,
-    legal_name: document.getElementById('new-legal-name').value.trim() || name,
-    country,
-    city: document.getElementById('new-city').value.trim(),
-    address: document.getElementById('new-address').value.trim(),
-    website: document.getElementById('new-website').value.trim(),
-    instagram: document.getElementById('new-instagram').value.trim(),
-    tax_id: document.getElementById('new-tax-id').value.trim(),
-    status: document.getElementById('new-status').value,
-    distribution_type: document.getElementById('new-type').value,
-    channels: document.getElementById('new-channels').value.trim(),
-    incoterm: document.getElementById('new-incoterm').value,
-    payment_terms: document.getElementById('new-payment').value,
+    name: name,
+    legal_name: getVal('new-legal-name') || name,
+    country: country,
+    city: getVal('new-city'),
+    address: getVal('new-address'),
+    website: website,
+    instagram: instagram,
+    tax_id: getVal('new-tax-id'),
+    status: getVal('new-status') || 'Potencial',
+    distribution_type: getVal('new-type') || 'Importador & Distribuïdor',
+    channels: getVal('new-channels') || 'HORECA, Vinoteques',
+    incoterm: getVal('new-incoterm') || 'EXW',
+    payment_terms: getVal('new-payment') || '30 dies',
     currency: 'EUR',
-    moq: document.getElementById('new-moq').value.trim(),
-    margin_commission: document.getElementById('new-margin').value.trim(),
-    sparkling_focus: document.getElementById('new-focus').value.trim(),
-    annual_volume: document.getElementById('new-volume').value.trim(),
-    related_wineries: document.getElementById('new-wineries').value.trim(),
-    notes: document.getElementById('new-notes').value.trim(),
-    specialty_tags: ['Afegit Manualment'],
+    moq: getVal('new-moq') || '1 Palet',
+    margin_commission: getVal('new-margin') || '30%',
+    sparkling_focus: getVal('new-focus') || 'Vins escumosos i de vignerons',
+    annual_volume: getVal('new-volume') || 'Mitjà',
+    related_wineries: getVal('new-wineries'),
+    notes: getVal('new-notes'),
+    specialty_tags: ['Afegit amb IA'],
     contacts: [],
-    interactions: [],
-    documents: []
+    interactions: [
+      {
+        id: 'int-' + Date.now(),
+        date: new Date().toISOString().split('T')[0],
+        type: 'Alta de Contacte',
+        notes: "Creat al sistema amb assistència de lectura d'imatge IA."
+      }
+    ],
+    documents: [],
+    province: getVal('new-city'),
+    region: country
   };
 
-  const contactName = document.getElementById('new-contact-person').value.trim();
+  const contactName = getVal('new-contact-person');
   if (contactName) {
     newDist.contacts.push({
       id: 'c-' + Date.now(),
       name: contactName,
-      role: document.getElementById('new-contact-role').value.trim(),
-      email: document.getElementById('new-contact-email').value.trim(),
-      mobile: document.getElementById('new-contact-mobile').value.trim(),
-      phone: document.getElementById('new-contact-mobile').value.trim(),
+      role: getVal('new-contact-role') || 'Contacte Comercial',
+      email: getVal('new-contact-email'),
+      mobile: getVal('new-contact-mobile'),
+      phone: getVal('new-contact-mobile'),
       is_primary: true
     });
   }
@@ -1612,8 +2008,68 @@ function saveNewDistributorForm(e) {
   saveDistributorsLocally();
   closeAddDistributorModal();
   render();
-  showToast('Nou distribuïdor ' + name + ' afegit!', 'success');
+  openDetailModal(newDist.id);
+  showToast('Nou distribuïdor "' + name + '" afegit amb èxit!', 'success');
 }
+
+function initAiScannerAndDuplicateListeners() {
+  const dropzone = document.getElementById('ai-scanner-dropzone');
+  if (dropzone) {
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.add('border-amber-500', 'bg-amber-900/20');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropzone.classList.remove('border-amber-500', 'bg-amber-900/20');
+      }, false);
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files && files.length) {
+        processAiImageBlob(files[0]);
+      }
+    }, false);
+  }
+
+  window.addEventListener('paste', (e) => {
+    const modal = document.getElementById('new-dist-modal');
+    if (!modal || modal.classList.contains('hidden')) return;
+
+    const items = (e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData)) ? (e.clipboardData || e.originalEvent.clipboardData).items : null;
+    if (items) {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.type && item.type.indexOf('image') !== -1) {
+          const blob = item.getAsFile();
+          if (blob) {
+            processAiImageBlob(blob);
+            e.preventDefault();
+            break;
+          }
+        }
+      }
+    }
+  });
+
+  ['new-name', 'new-instagram', 'new-website'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', () => {
+        checkDuplicateInForm();
+      });
+    }
+  });
+}
+
 
 function exportToExcel() {
   if (typeof XLSX === 'undefined') {
@@ -1892,6 +2348,8 @@ function setupEventListeners() {
     document.getElementById('view-grid-btn').className = 'p-1.5 rounded-xl bg-stone-100 text-stone-600 hover:bg-stone-200';
     renderDistributorsList();
   });
+
+  initAiScannerAndDuplicateListeners();
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
