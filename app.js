@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v20';
+const STORAGE_KEY = 'crm_sparkling_distributors_v21';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -713,7 +713,7 @@ function renderDistributorsList() {
 }
 
 function renderGridView(distributors, container) {
-  container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5';
+  container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5';
   container.innerHTML = distributors.map(d => {
     const primaryContact = (d.contacts || []).find(c => c.is_primary) || (d.contacts || [])[0] || null;
     const phoneNum = (primaryContact && (primaryContact.mobile || primaryContact.phone)) || d.phone || '';
@@ -2290,11 +2290,11 @@ function updateSyncIndicator() {
   if (!badge) return;
 
   if (state.supabaseConfig.connected) {
-    badge.className = 'flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full text-xs font-bold cursor-pointer';
-    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Núvol Actiu (Supabase)';
+    badge.className = 'cursor-pointer text-[11px] font-bold px-2 sm:px-2.5 py-1 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-700/80 flex items-center gap-1.5 hover:bg-emerald-900 transition-colors shrink-0';
+    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span class="hidden md:inline">Núvol Actiu</span><span class="md:hidden text-[10px]">Núvol</span>';
   } else {
-    badge.className = 'flex items-center gap-1.5 px-3 py-1 bg-stone-100 text-stone-600 border border-stone-200 rounded-full text-xs font-bold cursor-pointer hover:bg-stone-200 transition-colors';
-    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-stone-400"></span> Mode Local (Navegador)';
+    badge.className = 'cursor-pointer text-[11px] font-semibold px-2 sm:px-2.5 py-1 rounded-full bg-stone-800/90 text-stone-300 border border-stone-700 flex items-center gap-1.5 hover:bg-stone-700 transition-colors shrink-0';
+    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400"></span> <span class="hidden md:inline">Mode Local</span><span class="md:hidden text-[10px]">Local</span>';
   }
 }
 
