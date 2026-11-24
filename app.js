@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v15';
+const STORAGE_KEY = 'crm_sparkling_distributors_v16';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -1796,8 +1796,6 @@ async function analyzeImageWithGemini(base64Data, mimeType) {
   }
 
   try {
-    const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + encodeURIComponent(apiKey);
-
     const promptText = `Ets un expert sommelier i director d'exportació de vins i escumosos d'autor (Corpinnat, Champagne de vignerons, vins naturals).
 Analitza amb precisió aquesta imatge (captura de pantalla d'un compte d'Instagram, perfil comercial, targeta de visita o catàleg d'un distribuïdor / importador de vi).
 Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni blocs de markdown amb aquests camps exactes:
@@ -1836,18 +1834,35 @@ Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni 
       }
     };
 
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    // Suport per a models recomanats per Google AI Studio amb fallback automàtic
+    const candidateModels = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash'];
+    let resJson = null;
+    let lastError = null;
 
-    if (!response.ok) {
-      const errJson = await response.json().catch(() => ({}));
-      throw new Error(errJson.error ? errJson.error.message : 'Error HTTP ' + response.status);
+    for (const model of candidateModels) {
+      try {
+        const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(apiKey);
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          resJson = await response.json();
+          break;
+        } else {
+          const errJson = await response.json().catch(() => ({}));
+          lastError = new Error(errJson.error ? errJson.error.message : 'Error HTTP ' + response.status + ' (' + model + ')');
+        }
+      } catch (e) {
+        lastError = e;
+      }
     }
 
-    const resJson = await response.json();
+    if (!resJson) {
+      throw lastError || new Error("No s'ha pogut obtenir resposta de cap model de Gemini");
+    }
     const candidate = resJson.candidates && resJson.candidates[0];
     const rawText = candidate && candidate.content && candidate.content.parts && candidate.content.parts[0] && candidate.content.parts[0].text;
 
