@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v23';
+const STORAGE_KEY = 'crm_sparkling_distributors_v24';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -58,6 +58,7 @@ const state = {
   filterSpecialty: 'Totes',
   filterWinery: 'Tots',
   filterCasajouCategory: 'Tots',
+  quickOnlyCasajou: false,
   quickOnlyActive: false,
   quickOnlyInstagram: false,
   quickOnlyPriority: false,
@@ -174,6 +175,10 @@ function getFilteredDistributors() {
   const q = state.searchQuery.toLowerCase().trim();
 
   return state.distributors.filter(d => {
+    if (state.quickOnlyCasajou) {
+      const isCasajou = d.is_casajou || (d.specialty_tags && d.specialty_tags.some(t => t.toLowerCase().includes('casajou')));
+      if (!isCasajou) return false;
+    }
     if (state.quickOnlyActive && d.status !== 'Actiu') return false;
     if (state.quickOnlyInstagram && !d.instagram) return false;
     if (state.quickOnlyPriority && d.priority !== 'Alta' && d.priority !== 'Molt alta') return false;
@@ -394,7 +399,7 @@ function setMainTab(tab) {
   }
 
   // 1b. Sincronitzar la barra de navegació inferior d'iPhone (iOS Tab Bar)
-  ['all', 'casajou', 'corpinnat', 'spain', 'intl'].forEach(t => {
+  ['all', 'spain', 'corpinnat', 'usa', 'intl'].forEach(t => {
     const mobBtn = document.getElementById('mobnav-' + t);
     if (mobBtn) {
       if (t === tab || (t === 'intl' && tab === 'usa')) {
@@ -406,7 +411,7 @@ function setMainTab(tab) {
   });
 
   // 2. Mostrar només el sub-panell contextual actiu
-  ['all', 'casajou', 'spain', 'corpinnat', 'usa', 'intl'].forEach(t => {
+  ['all', 'spain', 'corpinnat', 'usa', 'intl'].forEach(t => {
     const p = document.getElementById('subpanel-' + t);
     if (p) {
       if (t === tab) {
@@ -596,7 +601,10 @@ function toggleQuickStatus(status) {
   state.quickOnlyActive = !state.quickOnlyActive;
   const btn = document.getElementById('btn-quick-active');
   if (btn) {
-    if (state.quickOnlyActive) {
+    if (state.quickOnlyCasajou) {
+    chips.push({ label: '🍇 Xarxa Casajou', action: 'toggleQuickCasajou()' });
+  }
+  if (state.quickOnlyActive) {
       btn.className = 'px-2.5 py-1 rounded-lg bg-emerald-700 text-white border border-emerald-700 font-bold transition-all text-xs';
     } else {
       btn.className = 'px-2.5 py-1 rounded-lg bg-white border border-stone-200 hover:border-emerald-500 hover:text-emerald-800 font-semibold text-stone-700 transition-all text-xs';
@@ -2454,6 +2462,11 @@ function resetFilters() {
   state.filterRegion = 'Totes';
   state.filterSpecialty = 'Totes';
   state.filterWinery = 'Tots';
+  state.quickOnlyCasajou = false;
+  const casajouBtn = document.getElementById('btn-quick-casajou');
+  if (casajouBtn) {
+    casajouBtn.className = 'px-2.5 py-1 rounded-xl bg-amber-50 text-amber-950 border border-amber-300 hover:bg-amber-100 font-bold transition-all text-xs flex items-center gap-1 shadow-2xs';
+  }
   state.quickOnlyActive = false;
   state.quickOnlyInstagram = false;
   state.quickOnlyPriority = false;
@@ -3031,6 +3044,20 @@ function handleStatusFilterChange(status) {
 
 function handleSpecialtyFilterChange(spec) {
   state.filterSpecialty = spec;
+  render();
+  updateActiveChips();
+}
+
+function toggleQuickCasajou() {
+  state.quickOnlyCasajou = !state.quickOnlyCasajou;
+  const btn = document.getElementById('btn-quick-casajou');
+  if (btn) {
+    if (state.quickOnlyCasajou) {
+      btn.className = 'px-2.5 py-1 rounded-xl bg-amber-900 text-white border border-amber-900 font-bold transition-all text-xs flex items-center gap-1 shadow-2xs';
+    } else {
+      btn.className = 'px-2.5 py-1 rounded-xl bg-amber-50 text-amber-950 border border-amber-300 hover:bg-amber-100 font-bold transition-all text-xs flex items-center gap-1 shadow-2xs';
+    }
+  }
   render();
   updateActiveChips();
 }
