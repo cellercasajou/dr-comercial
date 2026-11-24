@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v19';
+const STORAGE_KEY = 'crm_sparkling_distributors_v20';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -1795,162 +1795,127 @@ async function analyzeImageWithGemini(base64Data, mimeType) {
     return;
   }
 
-  if (statusText) statusText.innerText = "Analitzant amb Gemini 3.8 Flash...";
-  if (statusDetail) statusDetail.innerText = "Llegint text, @handle, perfil i ampolles de vi...";
+  if (statusText) statusText.innerText = "Llegint imatge amb IA...";
+  if (statusDetail) statusDetail.innerText = "Connectant amb els servidors de Google AI...";
 
   const promptText = `Ets un expert sommelier i director d'exportació de vins i escumosos d'autor (Corpinnat, Champagne de vignerons, vins naturals).
-Analitza amb precisió aquesta imatge (captura de pantalla d'un compte d'Instagram, perfil comercial, targeta de visita o catàleg d'un distribuïdor / importador de vi).
+Analitza amb precisió aquesta imatge (captura de pantalla d'un compte d'Instagram, perfil comercial, targeta de visita, full de tast o catàleg d'un distribuïdor / importador de vi).
 Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni blocs de markdown amb aquests camps exactes:
 {
   "name": "Nom comercial de l'empresa o distribuïdor",
   "legal_name": "Raó social o el mateix nom",
   "country": "País principal en català (ex: Estats Units, Dinamarca, França, Espanya, etc.)",
-  "city": "Ciutat, regió o estats coberts (ex: Nova York, NY/NJ/CT/FL)",
+  "city": "Ciutat, regió o estats coberts (ex: Nova York, NY/NJ/CT/FL, Barcelona, Madrid)",
   "address": "Adreça si apareix, o buit",
-  "website": "Lloc web o linktr.ee",
+  "website": "Lloc web o linktr.ee si apareix",
   "instagram": "Enllaç complet a Instagram (ex: https://www.instagram.com/handle/) o @handle",
-  "distribution_type": "Tipus de distribució (ex: Importador & Distribuïdor Multi-estatal, Importador Nacional, Distribuïdor Regional)",
+  "distribution_type": "Tipus de distribució (ex: Importador & Distribuïdor, Prescriptor / Tastador, Cave à vins)",
   "channels": "Canals de venda (ex: HORECA Gastronomia, Restaurants Michelin, Wine Bars, Vinoteques)",
-  "related_wineries": "Llista dels cellers o productors que es veuen a les ampolles, cartells o posts (separats per comes)",
-  "sparkling_focus": "Descripció del seu focus en vins escumosos i de vignerons (ex: Champagne artesanal, escumosos de vigneron, mínima intervenció)",
-  "notes": "Comentaris sobre la bio, seguidors i perfil comercial"
+  "related_wineries": "Llista dels cellers o productors que es veuen a les ampolles, llista de tast o posts (separats per comes)",
+  "sparkling_focus": "Descripció del focus en vins escumosos i de vignerons (ex: Vins de terrer, escumosos de vigneron, mínima intervenció)",
+  "notes": "Comentaris sobre el tast, la bio o perfil comercial"
 }`;
+
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+  // Llista de models candidats prioritzant models estables amb visió
+  let candidateModels = ['gemini-2.5-flash', 'gemini-3.8-flash', 'gemini-3-flash', 'gemini-2.5-pro'];
+
+  // Intentar descobrir dinàmicament els models suportats per la clau de l'usuari
+  try {
+    const listRes = await fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + encodeURIComponent(apiKey));
+    if (listRes.ok) {
+      const listData = await listRes.json();
+      if (listData.models && Array.isArray(listData.models)) {
+        const supported = listData.models
+          .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
+          .map(m => m.name.replace(/^models\//, ''));
+
+        const flashModels = supported.filter(m => m.includes('2.5-flash') || m.includes('3.8-flash') || m.includes('flash'));
+        const proModels = supported.filter(m => m.includes('pro'));
+        if (flashModels.length) {
+          candidateModels = Array.from(new Set([...flashModels, ...proModels, ...candidateModels]));
+        }
+      }
+    }
+  } catch (e) {
+    console.warn("No s'ha pogut llistar models dinàmicament:", e);
+  }
 
   let rawText = null;
   let lastError = null;
 
-  // 1. INTENT 1: Endpoint oficial de Gemini 3.8 Flash (:generateContent)
-  try {
-    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=' + encodeURIComponent(apiKey);
-    const payload = {
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            { text: promptText },
+  for (const model of candidateModels) {
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        if (statusDetail) {
+          statusDetail.innerText = `Connectant amb model ${model}${attempt > 1 ? ' (reintent ' + attempt + ')' : ''}...`;
+        }
+
+        const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(apiKey);
+        const payload = {
+          contents: [
             {
-              inlineData: {
-                mimeType: mimeType || 'image/jpeg',
-                data: base64Data
-              }
-            }
-          ]
-        }
-      ],
-      generationConfig: {
-        responseMimeType: 'application/json'
-      }
-    };
-
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      const cand = data.candidates && data.candidates[0];
-      if (cand && cand.content && cand.content.parts) {
-        rawText = cand.content.parts.map(p => p.text || '').join('').trim();
-      }
-    } else {
-      const errJson = await res.json().catch(() => ({}));
-      lastError = new Error(errJson.error ? errJson.error.message : 'Error HTTP ' + res.status + ' (gemini-3.8-flash)');
-    }
-  } catch (err) {
-    lastError = err;
-  }
-
-  // 2. INTENT 2: Interactions API (gemini-3.8-flash sense headers custom per evitar problemes CORS)
-  if (!rawText) {
-    try {
-      const interactionsUrl = 'https://generativelanguage.googleapis.com/v1beta/interactions?key=' + encodeURIComponent(apiKey);
-      const interactionsPayload = {
-        model: 'gemini-3.8-flash',
-        input: [
-          { type: 'text', text: promptText },
-          { type: 'image', mime_type: mimeType || 'image/jpeg', data: base64Data }
-        ]
-      };
-
-      const res = await fetch(interactionsUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(interactionsPayload)
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        if (data.steps && Array.isArray(data.steps)) {
-          for (const step of data.steps) {
-            if (step.content && Array.isArray(step.content)) {
-              for (const item of step.content) {
-                if (item.text) rawText = (rawText || '') + item.text;
-              }
-            }
-          }
-        }
-        if (!rawText && data.output_text) rawText = data.output_text;
-      } else {
-        const errJson = await res.json().catch(() => ({}));
-        if (!lastError) {
-          lastError = new Error(errJson.error ? errJson.error.message : 'Error Interactions API HTTP ' + res.status);
-        }
-      }
-    } catch (err) {
-      if (!lastError) lastError = err;
-    }
-  }
-
-  // 3. INTENT 3: Model de fallback gemini-2.5-flash
-  if (!rawText) {
-    try {
-      const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + encodeURIComponent(apiKey);
-      const payload = {
-        contents: [
-          {
-            parts: [
-              { text: promptText },
-              {
-                inlineData: {
-                  mimeType: mimeType || 'image/jpeg',
-                  data: base64Data
+              role: 'user',
+              parts: [
+                { text: promptText },
+                {
+                  inlineData: {
+                    mimeType: mimeType || 'image/jpeg',
+                    data: base64Data
+                  }
                 }
-              }
-            ]
+              ]
+            }
+          ],
+          generationConfig: {
+            responseMimeType: 'application/json'
           }
-        ],
-        generationConfig: {
-          responseMimeType: 'application/json'
-        }
-      };
+        };
 
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
 
-      if (res.ok) {
-        const data = await res.json();
-        const cand = data.candidates && data.candidates[0];
-        if (cand && cand.content && cand.content.parts) {
-          rawText = cand.content.parts.map(p => p.text || '').join('').trim();
+        if (res.ok) {
+          const data = await res.json();
+          const cand = data.candidates && data.candidates[0];
+          if (cand && cand.content && cand.content.parts) {
+            rawText = cand.content.parts.map(p => p.text || '').join('').trim();
+          }
+          if (rawText) break;
+        } else {
+          const errJson = await res.json().catch(() => ({}));
+          const errMsg = errJson.error ? errJson.error.message : ('Error HTTP ' + res.status);
+          lastError = new Error(errMsg);
+
+          // Si és error 503 (alta demanda) o 429, esperar 1.2s abans de reintentar o passar al model següent
+          if (res.status === 503 || res.status === 429 || (errMsg && errMsg.includes('high demand'))) {
+            if (statusDetail) {
+              statusDetail.innerText = `Google té molta demanda al model ${model}. Provant alternativa en 1s...`;
+            }
+            await delay(1200);
+            continue;
+          } else {
+            // Error de model no trobat o no suportat: saltar al següent model immediatament
+            break;
+          }
         }
+      } catch (err) {
+        lastError = err;
+        await delay(1000);
       }
-    } catch (err) {}
+    }
+    if (rawText) break;
   }
 
   if (!rawText) {
-    const errorMsg = lastError ? (lastError.message || String(lastError)) : "No s'ha pogut obtenir resposta de la IA";
-    if (statusText) statusText.innerText = "⚠️ Error processant imatge";
+    const errorMsg = lastError ? (lastError.message || String(lastError)) : "Google té els servidors saturats en aquest moment. Espera uns segons i torna-ho a provar.";
+    if (statusText) statusText.innerText = "⚠️ Alta demanda a Google";
     if (statusDetail) statusDetail.innerText = errorMsg;
-    showToast("Error IA: " + errorMsg, "error");
+    showToast("Avís: " + errorMsg, "error");
     return;
   }
 
