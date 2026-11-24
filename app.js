@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v12';
+const STORAGE_KEY = 'crm_sparkling_distributors_v13';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -994,113 +994,258 @@ function renderDetailModal() {
   const content = document.getElementById('modal-tab-content');
 
   if (state.activeDetailTab === 'fitxa') {
+    const primaryContact = (d.contacts || []).find(c => c.is_primary) || (d.contacts || [])[0] || null;
+    const phoneNum = (primaryContact && (primaryContact.mobile || primaryContact.phone)) || d.phone || '';
+    const emailAddr = (primaryContact && primaryContact.email) || d.email || '';
+    
+    // Parse wineries into badges
+    const rawWineries = (d.related_wineries || '').split(/[,;]+/).map(w => w.trim()).filter(Boolean);
+    const CORPINNAT_CELLERS = ['Gramona', 'Recaredo', 'Llopart', 'Nadal', 'Torelló', 'Sabaté i Coca', 'Huguet de Can Feixes', 'Can Feixes', 'Júlia Bernet', 'Mas Candí', 'Can Descregut', 'Pardas', 'Bufadors', 'Cisteller', 'Viader', 'Mas de la Basserola', 'Celler Kripta', 'Demost', 'Mas Bertran', 'AT Roca', 'Celler Mir', 'Torné & Bel', 'Juvé & Camps', 'Mas Vilella', 'Fèlix Massana Ràfols', 'Celler Casajou', 'Casajou'];
+    
+    // Clean domain & handle names for preview
+    let webHost = '';
+    try {
+      if (d.website) {
+        webHost = new URL(d.website).hostname.replace('www.', '');
+      }
+    } catch(e) { webHost = d.website; }
+    
+    let igHandle = '';
+    if (d.instagram) {
+      igHandle = d.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, '').replace(/\/.*$/, '');
+      if (igHandle && !igHandle.startsWith('@')) igHandle = '@' + igHandle;
+    }
+
     content.innerHTML = `
-      <div class="space-y-6">
+      <div class="space-y-5">
         
-        <!-- Enllaços ràpids directes -->
-        <div class="flex flex-wrap items-center gap-3 bg-stone-50 p-3.5 rounded-2xl border border-stone-200">
-          <span class="text-xs font-bold uppercase text-stone-400">Canals directes:</span>
-          ${d.instagram ? `
-            <a href="${d.instagram}" target="_blank" class="px-3 py-1.5 bg-gradient-to-r from-amber-600 via-rose-600 to-purple-600 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-2xs hover:opacity-95">
-              <i data-lucide="instagram" class="w-4 h-4"></i> Instagram Oficial
-            </a>
-          ` : ''}
-          ${d.website ? `
-            <a href="${d.website}" target="_blank" class="px-3 py-1.5 bg-white border border-stone-300 text-stone-800 font-bold text-xs rounded-xl flex items-center gap-1.5 hover:bg-stone-100">
-              <i data-lucide="globe" class="w-4 h-4 text-stone-500"></i> Lloc Web
-            </a>
-          ` : ''}
-          ${d.priority ? `
-            <span class="text-xs font-semibold px-2.5 py-1 bg-amber-100 text-amber-900 rounded-lg border border-amber-200">
-              Nivell: ${d.priority}
+        <!-- Enllaços ràpids i canals directes (Web, Instagram, Contacte directe) -->
+        <div class="bg-gradient-to-br from-stone-50 to-stone-100/90 p-4 rounded-3xl border border-stone-200/90 shadow-2xs">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <span class="text-xs font-black uppercase text-stone-500 tracking-wider flex items-center gap-1.5">
+              <i data-lucide="link-2" class="w-4 h-4 text-amber-800"></i> Canals Directes & Xarxes
             </span>
-          ` : ''}
+            ${d.is_casajou ? `
+              <span class="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-100 to-rose-100 text-amber-950 border border-amber-300 shadow-2xs flex items-center gap-1">
+                🍇 Xarxa Casajou
+              </span>
+            ` : (d.priority ? `
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
+                Nivell: ${d.priority}
+              </span>
+            ` : '')}
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Botó Lloc Web -->
+            ${d.website ? `
+              <a href="${d.website}" target="_blank" 
+                 class="px-3.5 py-2 bg-white hover:bg-stone-50 text-stone-900 font-bold text-xs rounded-xl border border-stone-300 flex items-center gap-2 shadow-2xs transition-all active:scale-95 group">
+                <i data-lucide="globe" class="w-4 h-4 text-stone-500 group-hover:text-amber-800 transition-colors"></i>
+                <span class="truncate max-w-[200px]">${webHost || 'Lloc Web'}</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-stone-400"></i>
+              </a>
+            ` : `
+              <a href="https://www.google.com/search?q=${encodeURIComponent(d.name + ' ' + d.country + ' vino distribuidor')}" target="_blank" 
+                 class="px-3 py-2 bg-white hover:bg-stone-50 text-stone-500 font-semibold text-xs rounded-xl border border-dashed border-stone-300 flex items-center gap-1.5 transition-all">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-stone-400"></i> Cercar web a Google
+              </a>
+            `}
+
+            <!-- Botó Instagram -->
+            ${d.instagram ? `
+              <a href="${d.instagram}" target="_blank" 
+                 class="px-3.5 py-2 bg-gradient-to-r from-amber-600 via-rose-600 to-purple-600 hover:opacity-95 text-white font-bold text-xs rounded-xl flex items-center gap-2 shadow-2xs transition-all active:scale-95">
+                <i data-lucide="instagram" class="w-4 h-4"></i>
+                <span>${igHandle || 'Instagram'}</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-white/80"></i>
+              </a>
+            ` : `
+              <a href="https://www.instagram.com/explore/tags/${encodeURIComponent(d.name.toLowerCase().replace(/[^a-z0-9]/g, ''))}/" target="_blank" 
+                 class="px-3 py-2 bg-white hover:bg-rose-50 text-stone-500 hover:text-rose-700 font-semibold text-xs rounded-xl border border-dashed border-stone-300 flex items-center gap-1.5 transition-all">
+                <i data-lucide="instagram" class="w-3.5 h-3.5 text-stone-400"></i> Cercar a Instagram
+              </a>
+            `}
+
+            <!-- Botó WhatsApp ràpid si hi ha telèfon -->
+            ${phoneNum ? `
+              <a href="https://wa.me/${phoneNum.replace(/[^0-9]/g, '')}" target="_blank" 
+                 class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-2xs transition-all active:scale-95">
+                <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp
+              </a>
+              <a href="tel:${phoneNum}" 
+                 class="px-3 py-2 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-2xs transition-all active:scale-95">
+                <i data-lucide="phone" class="w-3.5 h-3.5"></i> Trucar
+              </a>
+            ` : ''}
+
+            <!-- Botó Email -->
+            ${emailAddr ? `
+              <a href="mailto:${emailAddr}" 
+                 class="px-3 py-2 bg-stone-900 hover:bg-black text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shadow-2xs transition-all active:scale-95">
+                <i data-lucide="mail" class="w-3.5 h-3.5 text-amber-300"></i> Email
+              </a>
+            ` : ''}
+          </div>
         </div>
 
-        <!-- Cellers relacionats / Portfoli -->
-        ${d.related_wineries ? `
-          <div class="bg-rose-50/70 border border-rose-200 rounded-2xl p-4">
-            <h4 class="text-xs font-bold uppercase text-rose-900 tracking-wider mb-2 flex items-center gap-1.5">
-              <i data-lucide="wine" class="w-4 h-4 text-rose-800"></i> Cellers de Referència a la Cartera
+        <!-- BLOC 1: CELLERS QUE PORTEN (CARTERA REPRESENTADA) -->
+        <div class="bg-rose-50/60 border border-rose-200/90 rounded-3xl p-5 shadow-2xs">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <h4 class="text-xs font-black uppercase text-rose-950 tracking-wider flex items-center gap-2">
+              <i data-lucide="wine" class="w-4 h-4 text-rose-800"></i> 
+              <span>Cellers que Porten / Cartera Representada (${rawWineries.length})</span>
             </h4>
-            <p class="text-sm font-bold text-stone-900">${d.related_wineries}</p>
+            <span class="text-[11px] font-bold text-rose-800 bg-rose-100/80 px-2 py-0.5 rounded-full">Portfoli</span>
           </div>
-        ` : ''}
 
-        <!-- Dades Empresa -->
-        <div class="bg-stone-50 rounded-2xl p-4 border border-stone-200">
-          <h4 class="text-xs font-bold uppercase text-stone-400 tracking-wider mb-3 flex items-center gap-1.5">
-            <i data-lucide="building-2" class="w-4 h-4 text-amber-800"></i> Dades Generals i Fiscals
-          </h4>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs md:text-sm">
-            <div>
-              <span class="text-stone-500 block text-xs">Raó Social:</span>
-              <span class="font-semibold text-stone-800">${d.legal_name || d.name}</span>
+          ${rawWineries.length > 0 ? `
+            <div class="flex flex-wrap gap-2 pt-1">
+              ${rawWineries.map(w => {
+                const isCasajou = w.toLowerCase().includes('casajou');
+                const isCorp = CORPINNAT_CELLERS.some(c => w.toLowerCase().includes(c.toLowerCase()));
+                if (isCasajou) {
+                  return `
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-amber-100 via-rose-100 to-amber-100 text-amber-950 border border-amber-300 shadow-2xs">
+                      <span class="text-sm">🍇</span> ${w}
+                      <span class="text-[9px] bg-amber-900 text-amber-200 px-1.5 py-0.2 rounded-md font-extrabold uppercase">Casajou</span>
+                    </span>
+                  `;
+                }
+                if (isCorp) {
+                  return `
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-stone-900 border border-amber-300 shadow-2xs">
+                      <span class="text-sm">🍾</span> ${w}
+                      <span class="text-[9px] bg-amber-800 text-amber-100 px-1.5 py-0.2 rounded-md font-extrabold">Corpinnat</span>
+                    </span>
+                  `;
+                }
+                return `
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-stone-800 border border-stone-200 shadow-2xs">
+                    <span class="text-sm">🍷</span> ${w}
+                  </span>
+                `;
+              }).join('')}
             </div>
-            <div>
-              <span class="text-stone-500 block text-xs">Tipus d'Actor:</span>
-              <span class="font-semibold text-stone-800">${d.distribution_type || 'Distribuïdor'}</span>
-            </div>
-            <div>
-              <span class="text-stone-500 block text-xs">NIF / CAE / Tax ID:</span>
-              <span class="font-mono font-semibold text-stone-800">${d.tax_id || 'No informat'}</span>
-            </div>
-            <div class="md:col-span-2">
-              <span class="text-stone-500 block text-xs">Adreça o seu:</span>
-              <span class="font-semibold text-stone-800">${d.address || d.city || 'Sense adreça'}</span>
-            </div>
-            <div>
-              <span class="text-stone-500 block text-xs">Canals comercials:</span>
-              <span class="font-semibold text-stone-800">${d.channels || 'HORECA, Vinoteques'}</span>
-            </div>
-          </div>
+          ` : `
+            <p class="text-xs text-stone-500 font-medium">Aquest distribuïdor gestiona cellers de terrer a la seva zona comercial.</p>
+          `}
         </div>
 
-        <!-- Condicions de Vins Escumosos -->
-        <div class="bg-amber-50/50 rounded-2xl p-4 border border-amber-200/80">
-          <h4 class="text-xs font-bold uppercase text-amber-900 tracking-wider mb-3 flex items-center gap-1.5">
-            <i data-lucide="sparkles" class="w-4 h-4 text-amber-800"></i> Condicions Comercials & Escumosos
-          </h4>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs md:text-sm">
-            <div class="bg-white p-3 rounded-xl border border-amber-100 shadow-2xs">
-              <span class="text-stone-500 block text-[11px]">Incoterm:</span>
-              <span class="text-base font-bold text-amber-900">${d.incoterm || 'EXW'}</span>
+        <!-- BLOC 2: QUIN TIPUS DE CELLERS PORTEN (FILOSOFIA I PERFIL DE CATÀLEG) -->
+        <div class="bg-amber-50/60 border border-amber-200/90 rounded-3xl p-5 shadow-2xs">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <h4 class="text-xs font-black uppercase text-amber-950 tracking-wider flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-amber-800"></i>
+              <span>Quin Tipus de Cellers Porten (Filosofia & Perfil)</span>
+            </h4>
+            <span class="text-[11px] font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded-full">Tipologia</span>
+          </div>
+
+          <!-- Descripció detallada del focus -->
+          <div class="bg-white p-4 rounded-2xl border border-amber-200/70 mb-3.5 shadow-2xs">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-amber-800 block mb-1">Perfil de Selecció de Cellers:</span>
+            <p class="text-sm font-bold text-stone-900 leading-relaxed">
+              ${d.sparkling_focus || "Cellers familiars amb vinya pròpia, viticultura ecològica i vins de terrer singulars."}
+            </p>
+          </div>
+
+          <!-- Tipus de distribuïdor, Canals i Especialitats -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="bg-white/80 p-3 rounded-2xl border border-amber-100">
+              <span class="text-[10px] font-bold uppercase text-stone-400 block mb-0.5">Tipus de Distribuïdor:</span>
+              <span class="font-extrabold text-stone-900">${d.distribution_type || 'Distribuïdor de Vins'}</span>
             </div>
-            <div class="bg-white p-3 rounded-xl border border-amber-100 shadow-2xs">
-              <span class="text-stone-500 block text-[11px]">Terminis Pagament:</span>
-              <span class="text-base font-bold text-stone-800">${d.payment_terms || '30 dies'}</span>
-            </div>
-            <div class="bg-white p-3 rounded-xl border border-amber-100 shadow-2xs">
-              <span class="text-stone-500 block text-[11px]">Comanda Mín. (MOQ):</span>
-              <span class="text-base font-bold text-stone-800">${d.moq || '1 Palet'}</span>
-            </div>
-            <div class="bg-white p-3 rounded-xl border border-amber-100 shadow-2xs">
-              <span class="text-stone-500 block text-[11px]">Marges / Comissió:</span>
-              <span class="text-base font-bold text-stone-800">${d.margin_commission || 'Estàndard'}</span>
+            <div class="bg-white/80 p-3 rounded-2xl border border-amber-100">
+              <span class="text-[10px] font-bold uppercase text-stone-400 block mb-0.5">Canals Comercials:</span>
+              <span class="font-extrabold text-stone-900">${d.channels || 'HORECA, Vinoteques'}</span>
             </div>
           </div>
-          
-          ${d.sparkling_focus ? `
-            <div class="mt-3 bg-white p-3 rounded-xl border border-amber-100 text-xs md:text-sm">
-              <span class="text-stone-500 block text-xs font-semibold mb-1">Focus en vins / escumosos:</span>
-              <p class="text-stone-900 font-bold">${d.sparkling_focus}</p>
+
+          <!-- Tags d'especialitat -->
+          ${(d.specialty_tags && d.specialty_tags.length > 0) ? `
+            <div class="mt-3 flex items-center gap-1.5 flex-wrap">
+              <span class="text-[11px] font-bold text-stone-400 mr-1">Especialitats:</span>
+              ${d.specialty_tags.map(t => `
+                <span class="px-2.5 py-1 rounded-lg bg-white border border-amber-200 text-stone-700 text-xs font-bold shadow-2xs">
+                  ${t}
+                </span>
+              `).join('')}
             </div>
           ` : ''}
         </div>
 
-        <!-- Notes i Verificacions -->
-        <div class="bg-stone-50 rounded-2xl p-4 border border-stone-200">
-          <h4 class="text-xs font-bold uppercase text-stone-400 tracking-wider mb-2 flex items-center gap-1.5">
-            <i data-lucide="file-text" class="w-4 h-4 text-stone-600"></i> Notes del Dossier & Verificació
+        <!-- BLOC 3: CONDICIONS COMERCIALS & VINS ESCUMOSOS -->
+        <div class="bg-stone-50 rounded-3xl p-5 border border-stone-200">
+          <h4 class="text-xs font-black uppercase text-stone-500 tracking-wider mb-3 flex items-center gap-2">
+            <i data-lucide="receipt" class="w-4 h-4 text-stone-700"></i> Condicions Comercials & Venda
           </h4>
-          <p class="text-stone-700 text-xs md:text-sm leading-relaxed whitespace-pre-wrap">
-            ${d.notes || 'No hi ha notes afegides.'}
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+            <div class="bg-white p-3 rounded-2xl border border-stone-200 shadow-2xs">
+              <span class="text-stone-400 block text-[10px] font-bold uppercase">Incoterm</span>
+              <span class="text-sm font-black text-amber-900">${d.incoterm || 'EXW'}</span>
+            </div>
+            <div class="bg-white p-3 rounded-2xl border border-stone-200 shadow-2xs">
+              <span class="text-stone-400 block text-[10px] font-bold uppercase">Termini Pagament</span>
+              <span class="text-sm font-black text-stone-800">${d.payment_terms || '30 dies'}</span>
+            </div>
+            <div class="bg-white p-3 rounded-2xl border border-stone-200 shadow-2xs">
+              <span class="text-stone-400 block text-[10px] font-bold uppercase">Comanda Mín. (MOQ)</span>
+              <span class="text-sm font-black text-stone-800">${d.moq || '1 Palet'}</span>
+            </div>
+            <div class="bg-white p-3 rounded-2xl border border-stone-200 shadow-2xs">
+              <span class="text-stone-400 block text-[10px] font-bold uppercase">Marge / Comissió</span>
+              <span class="text-sm font-black text-stone-800">${d.margin_commission || 'Estàndard'}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOC 4: DADES DE L'EMPRESA & SEU -->
+        <div class="bg-stone-50 rounded-3xl p-5 border border-stone-200">
+          <h4 class="text-xs font-black uppercase text-stone-500 tracking-wider mb-3 flex items-center gap-2">
+            <i data-lucide="building-2" class="w-4 h-4 text-stone-700"></i> Dades Generals & Magatzem
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+            <div>
+              <span class="text-stone-400 block text-[10px] font-bold uppercase">Raó Social</span>
+              <span class="font-bold text-stone-800">${d.legal_name || d.name}</span>
+            </div>
+            <div>
+              <span class="text-stone-400 block text-[10px] font-bold uppercase">NIF / CAE / Tax ID</span>
+              <span class="font-mono font-bold text-stone-800">${d.tax_id || 'No informat'}</span>
+            </div>
+            <div class="sm:col-span-2">
+              <span class="text-stone-400 block text-[10px] font-bold uppercase">Adreça o Magatzem</span>
+              <div class="flex items-center justify-between gap-2 mt-0.5">
+                <span class="font-bold text-stone-800">${d.address || d.city || d.country || 'Sense adreça especificada'}</span>
+                ${(d.address || d.city) ? `
+                  <a href="https://maps.google.com/?q=${encodeURIComponent((d.address ? d.address + ', ' : '') + (d.city || '') + ' ' + d.country)}" 
+                     target="_blank" class="px-2.5 py-1 bg-white hover:bg-stone-100 text-stone-700 rounded-lg border border-stone-300 text-xs font-bold flex items-center gap-1 shadow-2xs">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-600"></i> Maps
+                  </a>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLOC 5: NOTES DE SEGUIMENT I VERIFICACIÓ -->
+        <div class="bg-stone-50 rounded-3xl p-5 border border-stone-200">
+          <h4 class="text-xs font-black uppercase text-stone-500 tracking-wider mb-2 flex items-center gap-2">
+            <i data-lucide="file-text" class="w-4 h-4 text-stone-700"></i> Notes del Dossier Comercial
+          </h4>
+          <p class="text-stone-700 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap">
+            ${d.notes || 'Sense observacions adicionals.'}
           </p>
         </div>
 
-        <div class="flex justify-end gap-3 pt-2">
+        <!-- Botons inferiors -->
+        <div class="flex items-center justify-between pt-2">
           <button onclick="deleteDistributor('${d.id}')" class="px-4 py-2 text-rose-700 hover:bg-rose-50 text-xs font-bold rounded-xl border border-rose-200 transition-colors flex items-center gap-1.5">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Eliminar Distribuïdor
+          </button>
+          <button onclick="closeDetailModal()" class="px-5 py-2 bg-stone-900 hover:bg-black text-white text-xs font-bold rounded-xl shadow-xs transition-colors">
+            Tancar Fitxa
           </button>
         </div>
       </div>
