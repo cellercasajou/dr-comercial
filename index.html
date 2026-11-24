@@ -221,27 +221,27 @@
 
     </div>
 
-    <!-- Filter & Search Controls (Clean & Elegant) -->
-    <div class="bg-white rounded-3xl border border-stone-200 shadow-2xs mb-6 overflow-hidden">
+    <!-- Filter & Search Controls (Disseny Modern: Segmented Control + Geografia Dinàmica Completa) -->
+    <div class="bg-white rounded-3xl border border-stone-200/90 shadow-2xs mb-6 overflow-hidden">
       
       <!-- 1. Barra de Cerca Principal & Controls de Vista -->
-      <div class="p-3.5 md:p-4 flex flex-col md:flex-row items-stretch md:items-center gap-3">
+      <div class="p-3.5 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-b border-stone-100">
         <!-- Input de cerca principal -->
         <div class="relative flex-1">
-          <i data-lucide="search" class="w-5 h-5 text-stone-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <i data-lucide="search" class="w-4 h-4 sm:w-5 sm:h-5 text-stone-400 absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
           <input type="text" id="search-input" 
-                 placeholder="Cerca per celler (Recaredo, AT Roca...), distribuïdor, ciutat..." 
+                 placeholder="Cerca per celler (Recaredo, Gramona...), distribuïdor, ciutat, persona..." 
                  autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
-                 class="w-full pl-11 sm:pl-12 pr-10 py-2.5 sm:py-3 bg-stone-50 hover:bg-stone-100/70 focus:bg-white border border-stone-200 focus:border-amber-800 rounded-2xl text-base sm:text-sm font-medium text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-4 focus:ring-amber-800/10 transition-all">
+                 class="w-full pl-10 sm:pl-12 pr-10 py-2.5 sm:py-3 bg-stone-50 hover:bg-stone-100/70 focus:bg-white border border-stone-200 focus:border-amber-800 rounded-2xl text-sm font-medium text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-4 focus:ring-amber-800/10 transition-all">
           <button id="search-clear-btn" onclick="clearSearch()" class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-stone-200 hover:bg-stone-300 text-stone-600 flex items-center justify-center text-xs font-bold transition-all" title="Netejar cerca">
             ✕
           </button>
         </div>
 
         <!-- Controls de la dreta: Filtres Avançats & Canvi de Vista -->
-        <div class="flex items-center gap-2 shrink-0 justify-between md:justify-end">
+        <div class="flex items-center gap-2 shrink-0 justify-between sm:justify-end">
           <!-- Botó Filtres Avançats -->
-          <button id="toggle-advanced-filters-btn" onclick="toggleAdvancedFilters()" class="flex items-center gap-2 px-4 py-3 rounded-2xl bg-stone-50 hover:bg-stone-100 border border-stone-200 text-stone-700 text-xs font-bold transition-all">
+          <button id="toggle-advanced-filters-btn" onclick="toggleAdvancedFilters()" class="flex items-center gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl bg-stone-50 hover:bg-stone-100 border border-stone-200 text-stone-700 text-xs font-bold transition-all">
             <i data-lucide="sliders-horizontal" class="w-4 h-4 text-stone-500"></i>
             <span>Més Filtres</span>
             <span id="active-filters-count" class="hidden px-1.5 py-0.5 rounded-full bg-amber-900 text-white text-[10px]">0</span>
@@ -259,44 +259,139 @@
         </div>
       </div>
 
-      <!-- 2. Pestanyes Principals (Segmented Navigation) -->
-      <div class="px-4 pb-3 flex items-center gap-1.5 overflow-x-auto no-scrollbar border-b border-stone-100">
-        <button id="tab-all" onclick="setMainTab('all')" class="category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-amber-900 text-white shadow-2xs">
-          🌐 Tots (482)
+      <!-- 2. Pestanyes Principals (Segmented Navigation Unificada) -->
+      <div class="px-3.5 sm:px-4 py-2.5 bg-stone-50/60 flex items-center gap-1.5 overflow-x-auto no-scrollbar border-b border-stone-100">
+        <button id="tab-all" onclick="setMainTab('all')" class="category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 bg-amber-900 text-white shadow-2xs">
+          🌐 Tots (483)
         </button>
-        <button id="tab-casajou" onclick="setMainTab('casajou')" class="category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-amber-50 text-amber-950 border border-amber-300 hover:bg-amber-100 shadow-2xs">
+        <button id="tab-casajou" onclick="setMainTab('casajou')" class="category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shadow-2xs">
           🍇 Xarxa Casajou (17)
         </button>
-        <button id="tab-spain" onclick="setMainTab('spain')" class="category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-stone-50 text-stone-600 hover:bg-stone-100 border border-stone-200">
-          🇪🇸 Espanya (199)
+        <button id="tab-spain" onclick="setMainTab('spain')" class="category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 bg-white text-stone-700 hover:bg-stone-100 border border-stone-200">
+          🇪🇸 Espanya (207)
         </button>
-        <button id="tab-corpinnat" onclick="setMainTab('corpinnat')" class="category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100">
+        <button id="tab-corpinnat" onclick="setMainTab('corpinnat')" class="category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 bg-white text-stone-700 border border-stone-200 hover:bg-stone-100">
           🍾 Corpinnat (24)
         </button>
-        <button id="tab-usa" onclick="setMainTab('usa')" class="category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-stone-50 text-stone-600 hover:bg-stone-100 border border-stone-200">
-          🇺🇸 Estats Units (99)
+        <button id="tab-usa" onclick="setMainTab('usa')" class="category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 bg-white text-stone-700 hover:bg-stone-100 border border-stone-200">
+          🇺🇸 Estats Units (104)
         </button>
-        <button id="tab-intl" onclick="setMainTab('intl')" class="category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-stone-50 text-stone-600 hover:bg-stone-100 border border-stone-200">
-          🌍 Internacional (164)
+        <button id="tab-intl" onclick="setMainTab('intl')" class="category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 bg-white text-stone-700 hover:bg-stone-100 border border-stone-200">
+          🌍 Internacional (172)
         </button>
       </div>
 
-      <!-- 3. Sub-panells Contextuals Dinàmics (Només 1 visible a la vegada, net i sense barres lletges) -->
-      <div id="sub-filters-container" class="px-4 py-2.5 bg-stone-50/70 border-b border-stone-100">
+      <!-- 3. Sub-panells Contextuals Dinàmics (Elegants i sense repeticions) -->
+      <div id="sub-filters-container" class="px-3.5 sm:px-4 py-2.5 bg-stone-50/40 border-b border-stone-100">
         
-        <!-- Sub-panell: Xarxa Casajou (Instagram @celler.casajou) -->
+        <!-- Sub-panell: ESPANYA (Totes les 52 Províncies + Totes les Ciutats) -->
+        <div id="subpanel-spain" class="hidden flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-2.5">
+          <!-- Píndoles ràpides d'accés directe -->
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            <span class="text-[11px] font-bold text-stone-400 uppercase tracking-wider mr-1 shrink-0">Zones:</span>
+            <button id="subpill-spain-all" onclick="setSpainQuickFilter('Tots')" class="spain-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0">Tota Espanya (207)</button>
+            <button id="subpill-spain-catalunya" onclick="setSpainQuickFilter('Catalunya')" class="spain-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🍷 Catalunya (56)</button>
+            <button id="subpill-spain-barcelona" onclick="setSpainQuickFilter('Barcelona')" class="spain-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">📍 Barcelona (33)</button>
+            <button id="subpill-spain-penedes" onclick="setSpainQuickFilter('Penedès')" class="spain-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🍇 Penedès (12)</button>
+            <button id="subpill-spain-madrid" onclick="setSpainQuickFilter('Madrid')" class="spain-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🏛️ Madrid (11)</button>
+            <button id="subpill-spain-balears" onclick="setSpainQuickFilter('Balears')" class="spain-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🏖️ Balears (13)</button>
+            <button id="subpill-spain-paisbasc" onclick="setSpainQuickFilter('País Basc')" class="spain-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">⛰️ País Basc (14)</button>
+            <button id="subpill-spain-andalusia" onclick="setSpainQuickFilter('Andalusia')" class="spain-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">☀️ Andalusia (12)</button>
+          </div>
+
+          <!-- Selectors Netejats: Província + Ciutat -->
+          <div class="flex items-center gap-2 shrink-0 flex-wrap sm:flex-nowrap">
+            <div class="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-stone-200 shadow-2xs flex-1 sm:flex-initial">
+              <span class="text-[11px] font-bold text-stone-400 shrink-0">📍 Província:</span>
+              <select id="spain-province-select" onchange="handleSpainProvinceChange(this.value)" class="text-xs font-bold text-stone-800 bg-transparent focus:outline-none cursor-pointer w-full sm:w-auto sm:max-w-[170px] truncate">
+                <option value="Totes">📍 Totes les Províncies (52)</option>
+              </select>
+            </div>
+
+            <div class="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-stone-200 shadow-2xs flex-1 sm:flex-initial">
+              <span class="text-[11px] font-bold text-stone-400 shrink-0">🏙️ Ciutat:</span>
+              <select id="spain-city-select" onchange="handleSpainCityChange(this.value)" class="text-xs font-bold text-stone-800 bg-transparent focus:outline-none cursor-pointer w-full sm:w-auto sm:max-w-[160px] truncate">
+                <option value="Totes">🏙️ Totes les Ciutats (116)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-panell: ESTATS UNITS (Tots els Estats dels EUA + Totes les Ciutats) -->
+        <div id="subpanel-usa" class="hidden flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-2.5">
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            <span class="text-[11px] font-bold text-stone-400 uppercase tracking-wider mr-1 shrink-0">Estats Clau:</span>
+            <button id="subpill-usa-all" onclick="setUsaQuickFilter('Tots')" class="usa-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0">Tots els EUA (104)</button>
+            <button id="subpill-usa-ny" onclick="setUsaQuickFilter('Nova York')" class="usa-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🗽 Nova York / NY (38)</button>
+            <button id="subpill-usa-ca" onclick="setUsaQuickFilter('Califòrnia')" class="usa-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🌴 Califòrnia / CA (22)</button>
+            <button id="subpill-usa-fl" onclick="setUsaQuickFilter('Florida')" class="usa-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">☀️ Florida / FL (12)</button>
+            <button id="subpill-usa-il" onclick="setUsaQuickFilter('Illinois')" class="usa-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🏙️ Chicago / IL (8)</button>
+            <button id="subpill-usa-tx" onclick="setUsaQuickFilter('Texas')" class="usa-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🤠 Texas / TX (7)</button>
+            <button id="subpill-usa-wa" onclick="setUsaQuickFilter('Washington')" class="usa-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🌲 Seattle / WA (5)</button>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0 flex-wrap sm:flex-nowrap">
+            <div class="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-stone-200 shadow-2xs flex-1 sm:flex-initial">
+              <span class="text-[11px] font-bold text-stone-400 shrink-0">🗺️ Estat:</span>
+              <select id="usa-state-select" onchange="handleUsaStateChange(this.value)" class="text-xs font-bold text-stone-800 bg-transparent focus:outline-none cursor-pointer w-full sm:w-auto sm:max-w-[170px] truncate">
+                <option value="Tots">🗺️ Tots els Estats (50)</option>
+              </select>
+            </div>
+
+            <div class="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-stone-200 shadow-2xs flex-1 sm:flex-initial">
+              <span class="text-[11px] font-bold text-stone-400 shrink-0">🏙️ Ciutat:</span>
+              <select id="usa-city-select" onchange="handleUsaCityChange(this.value)" class="text-xs font-bold text-stone-800 bg-transparent focus:outline-none cursor-pointer w-full sm:w-auto sm:max-w-[160px] truncate">
+                <option value="Totes">🏙️ Totes les Ciutats (83)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-panell: INTERNACIONAL (Tots els 24 Països + Totes les Ciutats) -->
+        <div id="subpanel-intl" class="hidden flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-2.5">
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            <span class="text-[11px] font-bold text-stone-400 uppercase tracking-wider mr-1 shrink-0">Països Clau:</span>
+            <button id="subpill-intl-all" onclick="setIntlQuickFilter('Tots')" class="intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0">Tots els Mercats (172)</button>
+            <button id="subpill-intl-de" onclick="setIntlQuickFilter('Alemanya')" class="intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🇩🇪 Alemanya (26)</button>
+            <button id="subpill-intl-nl" onclick="setIntlQuickFilter('Països Baixos')" class="intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🇳🇱 Països Baixos (24)</button>
+            <button id="subpill-intl-uk" onclick="setIntlQuickFilter('Regne Unit')" class="intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🇬🇧 Regne Unit (23)</button>
+            <button id="subpill-intl-ca" onclick="setIntlQuickFilter('Canadà')" class="intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🇨🇦 Canadà (20)</button>
+            <button id="subpill-intl-dk" onclick="setIntlQuickFilter('Dinamarca')" class="intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🇩🇰 Dinamarca (10)</button>
+            <button id="subpill-intl-jp" onclick="setIntlQuickFilter('Japó')" class="intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🇯🇵 Japó (9)</button>
+            <button id="subpill-intl-se" onclick="setIntlQuickFilter('Suècia')" class="intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🇸🇪 Suècia (9)</button>
+            <button id="subpill-intl-ch" onclick="setIntlQuickFilter('Suïssa')" class="intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🇨🇭 Suïssa (7)</button>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0 flex-wrap sm:flex-nowrap">
+            <div class="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-stone-200 shadow-2xs flex-1 sm:flex-initial">
+              <span class="text-[11px] font-bold text-stone-400 shrink-0">🌍 País:</span>
+              <select id="intl-country-select" onchange="handleIntlCountryChange(this.value)" class="text-xs font-bold text-stone-800 bg-transparent focus:outline-none cursor-pointer w-full sm:w-auto sm:max-w-[170px] truncate">
+                <option value="Tots">🌍 Tots els Països (24)</option>
+              </select>
+            </div>
+
+            <div class="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-stone-200 shadow-2xs flex-1 sm:flex-initial">
+              <span class="text-[11px] font-bold text-stone-400 shrink-0">🏙️ Ciutat:</span>
+              <select id="intl-city-select" onchange="handleIntlCityChange(this.value)" class="text-xs font-bold text-stone-800 bg-transparent focus:outline-none cursor-pointer w-full sm:w-auto sm:max-w-[160px] truncate">
+                <option value="Totes">🏙️ Totes les Ciutats (100)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-panell: XARXA CASAJOU -->
         <div id="subpanel-casajou" class="hidden flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
           <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-            <button id="subpill-casajou-all" onclick="setCasajouSubFilter('Tots')" class="casajou-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-900 text-white border border-amber-900 transition-all shrink-0">
+            <button id="subpill-casajou-all" onclick="setCasajouSubFilter('Tots')" class="casajou-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0">
               Tots els contactes (17)
             </button>
-            <button id="subpill-casajou-dist" onclick="setCasajouSubFilter('distribuidor')" class="casajou-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
+            <button id="subpill-casajou-dist" onclick="setCasajouSubFilter('distribuidor')" class="casajou-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">
               📦 Distribuïdors Oficials
             </button>
-            <button id="subpill-casajou-imp" onclick="setCasajouSubFilter('importador')" class="casajou-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
+            <button id="subpill-casajou-imp" onclick="setCasajouSubFilter('importador')" class="casajou-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">
               ✈️ Importadors EUA & Europa
             </button>
-            <button id="subpill-casajou-somm" onclick="setCasajouSubFilter('prescriptor')" class="casajou-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
+            <button id="subpill-casajou-somm" onclick="setCasajouSubFilter('prescriptor')" class="casajou-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">
               ⭐ Prescriptors & Sommeliers
             </button>
           </div>
@@ -307,168 +402,39 @@
           </div>
         </div>
 
-        <!-- Sub-panell: Tots -->
+        <!-- Sub-panell: CORPINNAT (24 Cellers) -->
+        <div id="subpanel-corpinnat" class="hidden flex flex-col md:flex-row items-stretch md:items-center gap-2.5">
+          <div class="shrink-0">
+            <select id="filter-winery" onchange="handleCorpinnatWineryChange(this.value)" class="w-full md:w-64 py-1.5 px-3 bg-white border border-amber-300 rounded-xl text-xs font-bold text-amber-950 focus:outline-none focus:ring-2 focus:ring-amber-800 shadow-2xs">
+              <option value="Tots">🍾 Tots els 24 Cellers de Corpinnat</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            <button id="subpill-corp-all" onclick="setCorpinnatSubWinery('Tots')" class="corpinnat-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0">Tots els Distribuïdors</button>
+            <button id="subpill-corp-recaredo" onclick="setCorpinnatSubWinery('Recaredo')" class="corpinnat-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🍾 Recaredo</button>
+            <button id="subpill-corp-gramona" onclick="setCorpinnatSubWinery('Gramona')" class="corpinnat-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🍾 Gramona</button>
+            <button id="subpill-corp-llopart" onclick="setCorpinnatSubWinery('Llopart')" class="corpinnat-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🍾 Llopart</button>
+            <button id="subpill-corp-nadal" onclick="setCorpinnatSubWinery('Nadal')" class="corpinnat-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🍾 Nadal</button>
+            <button id="subpill-corp-torello" onclick="setCorpinnatSubWinery('Torelló')" class="corpinnat-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 shrink-0">🍾 Torelló</button>
+          </div>
+        </div>
+
+        <!-- Sub-panell: TOTS (Filtres Ràpids Generals) -->
         <div id="subpanel-all" class="flex flex-wrap items-center justify-between gap-2 text-xs">
           <div class="flex items-center gap-1.5 flex-wrap">
             <span class="text-stone-400 font-medium mr-1">Filtres ràpids:</span>
-            <button id="btn-quick-active" onclick="toggleQuickStatus('Actiu')" class="px-2.5 py-1 rounded-lg bg-white border border-stone-200 hover:border-emerald-500 hover:text-emerald-800 font-semibold text-stone-700 transition-all text-xs">
+            <button id="btn-quick-active" onclick="toggleQuickStatus('Actiu')" class="px-2.5 py-1 rounded-xl bg-white border border-stone-200 hover:border-emerald-500 hover:text-emerald-800 font-semibold text-stone-700 transition-all text-xs">
               🟢 Només Actius (425)
             </button>
-            <button id="btn-quick-instagram" onclick="toggleQuickInstagram()" class="px-2.5 py-1 rounded-lg bg-white border border-stone-200 hover:border-rose-400 hover:text-rose-800 font-semibold text-stone-700 transition-all text-xs">
+            <button id="btn-quick-instagram" onclick="toggleQuickInstagram()" class="px-2.5 py-1 rounded-xl bg-white border border-stone-200 hover:border-rose-400 hover:text-rose-800 font-semibold text-stone-700 transition-all text-xs">
               📸 Amb Instagram
             </button>
-            <button id="btn-quick-priority" onclick="toggleQuickPriority('Alta')" class="px-2.5 py-1 rounded-lg bg-white border border-stone-200 hover:border-amber-500 hover:text-amber-900 font-semibold text-stone-700 transition-all text-xs">
+            <button id="btn-quick-priority" onclick="toggleQuickPriority('Alta')" class="px-2.5 py-1 rounded-xl bg-white border border-stone-200 hover:border-amber-500 hover:text-amber-900 font-semibold text-stone-700 transition-all text-xs">
               ⭐ Prioritat Alta
             </button>
           </div>
-          <span class="text-[11px] text-stone-400">458 contactes comercials totals</span>
-        </div>
-
-        <!-- Sub-panell: Espanya -->
-        <div id="subpanel-spain" class="hidden flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
-          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-            <button id="subpill-spain-all" onclick="setSpainSubZone('Tots')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-900 text-white border border-amber-900 transition-all shrink-0">
-              Tota Espanya (199)
-            </button>
-            <button id="subpill-spain-catalunya" onclick="setSpainSubZone('Catalunya')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🍷 Catalunya (56)
-            </button>
-            <button id="subpill-spain-barcelona" onclick="setSpainSubZone('Barcelona')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              📍 Barcelona (33)
-            </button>
-            <button id="subpill-spain-penedes" onclick="setSpainSubZone('Penedès')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🍇 Penedès (3)
-            </button>
-            <button id="subpill-spain-balears" onclick="setSpainSubZone('Balears')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🏖️ Balears (13)
-            </button>
-            <button id="subpill-spain-madrid" onclick="setSpainSubZone('Madrid')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🏛️ Madrid (11)
-            </button>
-            <button id="subpill-spain-paisbasc" onclick="setSpainSubZone('País Basc')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              ⛰️ País Basc (14)
-            </button>
-            <button id="subpill-spain-andalusia" onclick="setSpainSubZone('Andalusia')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              ☀️ Andalusia (12)
-            </button>
-            <button id="subpill-spain-valencia" onclick="setSpainSubZone('València')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🍊 València (9)
-            </button>
-            <button id="subpill-spain-galicia" onclick="setSpainSubZone('Galícia')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🌊 Galícia (8)
-            </button>
-            <button id="subpill-spain-girona" onclick="setSpainSubZone('Girona')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              📍 Girona (9)
-            </button>
-            <button id="subpill-spain-canaries" onclick="setSpainSubZone('Canàries')" class="spain-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🌴 Canàries (4)
-            </button>
-          </div>
-          <!-- Províncies dropdown compacte -->
-          <div class="shrink-0 flex items-center gap-1.5">
-            <span class="text-[11px] text-stone-400 font-bold shrink-0">Província:</span>
-            <select id="filter-zone" class="py-1 px-2.5 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-700 focus:outline-none focus:ring-2 focus:ring-amber-800">
-              <option value="Totes">📍 Totes les Províncies</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Sub-panell: Corpinnat -->
-        <div id="subpanel-corpinnat" class="hidden flex flex-col md:flex-row items-stretch md:items-center gap-2.5">
-          <!-- Desplegable elegant dels 24 cellers -->
-          <div class="shrink-0">
-            <select id="filter-winery" class="w-full md:w-64 py-1.5 px-3 bg-white border border-amber-300 rounded-xl text-xs font-bold text-amber-950 focus:outline-none focus:ring-2 focus:ring-amber-800 shadow-2xs">
-              <option value="Tots">🍾 Tots els Cellers Corpinnat (24)</option>
-            </select>
-          </div>
-          <!-- Pastilles d'accés ràpid als cellers principals -->
-          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-            <button id="subpill-winery-all" onclick="setCorpinnatSubWinery('Tots')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-900 text-white border border-amber-900 transition-all shrink-0">
-              Tots els 24
-            </button>
-            <button id="subpill-winery-Gramona" onclick="setCorpinnatSubWinery('Gramona')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">Gramona</button>
-            <button id="subpill-winery-Recaredo" onclick="setCorpinnatSubWinery('Recaredo')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">Recaredo</button>
-            <button id="subpill-winery-Llopart" onclick="setCorpinnatSubWinery('Llopart')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">Llopart</button>
-            <button id="subpill-winery-Nadal" onclick="setCorpinnatSubWinery('Nadal')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">Nadal</button>
-            <button id="subpill-winery-Torello" onclick="setCorpinnatSubWinery('Torelló')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">Torelló</button>
-            <button id="subpill-winery-SabateiCoca" onclick="setCorpinnatSubWinery('Sabaté i Coca')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">Sabaté i Coca</button>
-            <button id="subpill-winery-ATRoca" onclick="setCorpinnatSubWinery('AT Roca')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">AT Roca</button>
-            <button id="subpill-winery-Pardas" onclick="setCorpinnatSubWinery('Pardas')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">Pardas</button>
-            <button id="subpill-winery-CellerKripta" onclick="setCorpinnatSubWinery('Celler Kripta')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">Celler Kripta</button>
-            <button id="subpill-winery-MasCandi" onclick="setCorpinnatSubWinery('Mas Candí')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">Mas Candí</button>
-            <button id="subpill-winery-CanFeixes" onclick="setCorpinnatSubWinery('Can Feixes')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">Can Feixes</button>
-            <button id="subpill-winery-JuliaBernet" onclick="setCorpinnatSubWinery('Júlia Bernet')" class="corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">Júlia Bernet</button>
-          </div>
-        </div>
-
-        <!-- Sub-panell: EUA -->
-        <div id="subpanel-usa" class="hidden flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-          <button id="subpill-usa-all" onclick="setUsaSubState('Tots')" class="usa-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-900 text-white border border-amber-900 transition-all shrink-0">
-            Tots els EUA (99)
-          </button>
-          <button id="subpill-usa-california" onclick="setUsaSubState('Califòrnia')" class="usa-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-            🌉 Califòrnia (16)
-          </button>
-          <button id="subpill-usa-novayork" onclick="setUsaSubState('Nova York')" class="usa-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-            🗽 Nova York (14)
-          </button>
-          <button id="subpill-usa-florida" onclick="setUsaSubState('Florida')" class="usa-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-            ☀️ Florida (5)
-          </button>
-          <button id="subpill-usa-texas" onclick="setUsaSubState('Texas')" class="usa-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-            🤠 Texas (5)
-          </button>
-          <button id="subpill-usa-illinois" onclick="setUsaSubState('Illinois')" class="usa-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-            🏙️ Chicago / IL (4)
-          </button>
-          <button id="subpill-usa-washington" onclick="setUsaSubState('Washington')" class="usa-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-            🌲 Seattle / WA (4)
-          </button>
-          <button id="subpill-usa-oregon" onclick="setUsaSubState('Oregon')" class="usa-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-            🍷 Portland / OR (2)
-          </button>
-          <button id="subpill-usa-colorado" onclick="setUsaSubState('Colorado')" class="usa-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-            🏔️ Colorado (4)
-          </button>
-        </div>
-
-        <!-- Sub-panell: Internacional -->
-        <div id="subpanel-intl" class="hidden flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
-          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-            <button id="subpill-intl-all" onclick="setIntlSubCountry('Tots')" class="intl-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-900 text-white border border-amber-900 transition-all shrink-0">
-              Tots els Mercats (170)
-            </button>
-            <button id="subpill-intl-germany" onclick="setIntlSubCountry('Alemanya')" class="intl-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🇩🇪 Alemanya (25)
-            </button>
-            <button id="subpill-intl-nl" onclick="setIntlSubCountry('Països Baixos')" class="intl-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🇳🇱 Països Baixos (23)
-            </button>
-            <button id="subpill-intl-uk" onclick="setIntlSubCountry('Regne Unit')" class="intl-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🇬🇧 Regne Unit (21)
-            </button>
-            <button id="subpill-intl-ca" onclick="setIntlSubCountry('Canadà')" class="intl-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🇨🇦 Canadà (20)
-            </button>
-            <button id="subpill-intl-dk" onclick="setIntlSubCountry('Dinamarca')" class="intl-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🇩🇰 Dinamarca (9)
-            </button>
-            <button id="subpill-intl-jp" onclick="setIntlSubCountry('Japó')" class="intl-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🇯🇵 Japó (9)
-            </button>
-            <button id="subpill-intl-se" onclick="setIntlSubCountry('Suècia')" class="intl-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🇸🇪 Suècia (8)
-            </button>
-            <button id="subpill-intl-ch" onclick="setIntlSubCountry('Suïssa')" class="intl-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0">
-              🇨🇭 Suïssa (7)
-            </button>
-          </div>
-          <!-- Selector de país -->
-          <div class="shrink-0 flex items-center gap-1.5">
-            <span class="text-[11px] text-stone-400 font-bold shrink-0">País:</span>
-            <select id="filter-country" class="py-1 px-2.5 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-700 focus:outline-none focus:ring-2 focus:ring-amber-800">
-              <option value="Tots">🌍 Tots els Països</option>
-            </select>
+          <div class="text-[11px] text-stone-400">
+            483 distribuïdors i importadors internacionals
           </div>
         </div>
 
@@ -477,10 +443,9 @@
       <!-- 4. Calaix Desplegable de Filtres Avançats (Ocult per defecte) -->
       <div id="advanced-filters-drawer" class="hidden p-4 bg-stone-50 border-b border-stone-200">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <!-- Estat Comercial -->
           <div>
             <label class="block text-[11px] font-bold text-stone-500 uppercase tracking-wider mb-1">Estat Comercial</label>
-            <select id="filter-status" class="w-full py-2 px-3 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-700 focus:outline-none focus:ring-2 focus:ring-amber-800">
+            <select id="filter-status" onchange="handleStatusFilterChange(this.value)" class="w-full py-2 px-3 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-700 focus:outline-none focus:ring-2 focus:ring-amber-800">
               <option value="Tots">Tots els Estats</option>
               <option value="Actiu">🟢 Actiu</option>
               <option value="En negociació">🔵 En negociació</option>
@@ -488,19 +453,16 @@
               <option value="Inactiu">⚪ Inactiu</option>
             </select>
           </div>
-          <!-- Especialitat -->
           <div>
             <label class="block text-[11px] font-bold text-stone-500 uppercase tracking-wider mb-1">Especialitat / Focus</label>
-            <select id="filter-specialty" class="w-full py-2 px-3 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-700 focus:outline-none focus:ring-2 focus:ring-amber-800">
+            <select id="filter-specialty" onchange="handleSpecialtyFilterChange(this.value)" class="w-full py-2 px-3 bg-white border border-stone-200 rounded-xl text-xs font-bold text-stone-700 focus:outline-none focus:ring-2 focus:ring-amber-800">
               <option value="Totes">Totes les Especialitats</option>
               <option value="Corpinnat">🍾 Corpinnat / Escumosos</option>
               <option value="Vi Espanyol">🇪🇸 Especialista Vi Espanyol/Català</option>
               <option value="Champagne Vigneron">🥂 Champagne Vigneron / Terroir</option>
-              <option value="Provincial">📍 Distribuïdors d'Espanya</option>
               <option value="Vi Natural">🌱 Vi Natural / Biodinàmic</option>
             </select>
           </div>
-          <!-- Boto de neteja -->
           <div class="flex items-end">
             <button onclick="resetFilters()" class="w-full py-2 px-3 bg-stone-200 hover:bg-stone-300 rounded-xl text-xs font-bold text-stone-700 transition-all flex items-center justify-center gap-1.5">
               <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
@@ -513,7 +475,7 @@
       <!-- 5. Barra inferior de recompte i filtres actius -->
       <div class="px-4 py-2.5 bg-white flex items-center justify-between text-xs">
         <div class="flex items-center gap-2 flex-wrap">
-          <span id="results-count" class="font-bold text-stone-800">458 distribuïdors</span>
+          <span id="results-count" class="font-bold text-stone-800">483 distribuïdors</span>
           <div id="active-filter-chips" class="flex items-center gap-1.5 flex-wrap"></div>
         </div>
         <button id="clear-filters-btn" onclick="resetFilters()" class="hidden text-amber-900 hover:text-amber-950 font-bold hover:underline shrink-0">
@@ -591,7 +553,7 @@
           <div>
             <div class="flex items-center gap-2">
               <h3 class="text-base sm:text-lg font-black text-white leading-tight">Afegir Nou Distribuïdor / Importador</h3>
-              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v22 • Ultraràpid (< 2s)</span>
+              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v23 • Geografia Completa & Filtres</span>
             </div>
             <p class="text-[11px] text-amber-300/80 font-medium">Amb escàner IA d'Instagram (Interactions API) i detector de duplicats</p>
           </div>
@@ -935,7 +897,7 @@
   </nav>
 
   <!-- Scripts -->
-  <script src="data.js?v=22"></script>
-  <script src="app.js?v=22"></script>
+  <script src="data.js?v=23"></script>
+  <script src="app.js?v=23"></script>
 </body>
 </html>

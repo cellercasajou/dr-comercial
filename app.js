@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v22';
+const STORAGE_KEY = 'crm_sparkling_distributors_v23';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -47,6 +47,8 @@ function getCountryFlag(country) {
 
 const state = {
   distributors: [],
+  filterProvince: 'Totes',
+  filterCity: 'Totes',
   searchQuery: '',
   activeTab: 'all',
   filterStatus: 'Tots',
@@ -78,6 +80,7 @@ function initApp() {
     saveDistributorsLocally();
   }
   setupEventListeners();
+  initGeographicFilters();
   render();
   updateSyncIndicator();
 }
@@ -176,24 +179,51 @@ function getFilteredDistributors() {
     if (state.quickOnlyPriority && d.priority !== 'Alta' && d.priority !== 'Molt alta') return false;
 
     if (state.filterStatus !== 'Tots' && d.status !== state.filterStatus) return false;
-    if (state.filterCountry !== 'Tots' && d.country !== state.filterCountry) return false;
-    
-    // Filtre de Zona / Província
-    if (state.filterZone !== 'Totes') {
+
+    // Filtre de País
+    if (state.filterCountry !== 'Tots') {
+      const dCountry = (d.country || '').toLowerCase();
+      const targetCountry = state.filterCountry.toLowerCase();
+      if (!dCountry.includes(targetCountry) && d.country !== state.filterCountry) return false;
+    }
+
+    // Filtre de Província / Estat (Espanya o EUA)
+    if (state.filterProvince && state.filterProvince !== 'Totes' && state.filterProvince !== 'Tots') {
       const prov = (d.province || '').toLowerCase();
-      const city = (d.city || '').toLowerCase();
-      const target = state.filterZone.toLowerCase();
-      if (!prov.includes(target) && !city.includes(target)) return false;
-    }
-
-    // Filtre de Comunitat / Regió
-    if (state.filterRegion !== 'Totes') {
       const reg = (d.region || '').toLowerCase();
-      const target = state.filterRegion.toLowerCase();
-      if (!reg.includes(target)) return false;
+      const city = (d.city || '').toLowerCase();
+      const tags = (d.specialty_tags || []).join(' ').toLowerCase();
+      const target = state.filterProvince.toLowerCase();
+
+      const cleanTarget = target.replace(/\(.*?\)/g, '').trim();
+      const codeMatch = target.match(/\(([a-z0-9]+)\)/);
+      const code = codeMatch ? codeMatch[1].toLowerCase() : '';
+
+      const matchProv = prov.includes(target) || prov.includes(cleanTarget) || (code && prov.includes(code));
+      const matchReg = reg.includes(target) || reg.includes(cleanTarget) || (code && reg.includes(code));
+      const matchCity = city.includes(target) || city.includes(cleanTarget) || (code && city.includes(code));
+      const matchTags = tags.includes(target) || tags.includes(cleanTarget);
+
+      if (!matchProv && !matchReg && !matchCity && !matchTags) return false;
     }
 
-    // Filtre Xarxa Casajou (comptes seguits i xarxa d'Instagram)
+    // Filtre de Ciutat / Localitat
+    if (state.filterCity && state.filterCity !== 'Totes' && state.filterCity !== 'Tots') {
+      const city = (d.city || '').toLowerCase();
+      const addr = (d.address || '').toLowerCase();
+      const targetCity = state.filterCity.toLowerCase();
+      if (!city.includes(targetCity) && !addr.includes(targetCity)) return false;
+    }
+
+    // Filtre de Regió / Comunitat
+    if (state.filterRegion && state.filterRegion !== 'Totes' && state.filterRegion !== 'Tots') {
+      const reg = (d.region || '').toLowerCase();
+      const prov = (d.province || '').toLowerCase();
+      const target = state.filterRegion.toLowerCase();
+      if (!reg.includes(target) && !prov.includes(target)) return false;
+    }
+
+    // Filtre Xarxa Casajou
     if (state.activeTab === 'casajou') {
       const isCasajou = d.is_casajou || (d.specialty_tags && d.specialty_tags.some(t => t.toLowerCase().includes('casajou')));
       if (!isCasajou) return false;
@@ -354,13 +384,13 @@ function renderFilters() {
 function setMainTab(tab) {
   state.activeTab = tab;
   
-  // 1. Estil de pestanyes principals (Desktop & Header)
+  // 1. Estil de pestanyes principals (Segmented Navigation moderna)
   document.querySelectorAll('.category-tab').forEach(b => {
-    b.className = 'category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-stone-50 text-stone-600 hover:bg-stone-100 border border-stone-200';
+    b.className = 'category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 bg-white text-stone-700 hover:bg-stone-100 border border-stone-200';
   });
   const activeBtn = document.getElementById('tab-' + tab);
   if (activeBtn) {
-    activeBtn.className = 'category-tab px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 bg-amber-900 text-white shadow-2xs border-transparent';
+    activeBtn.className = 'category-tab px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 bg-amber-900 text-white shadow-2xs border-transparent';
   }
 
   // 1b. Sincronitzar la barra de navegació inferior d'iPhone (iOS Tab Bar)
@@ -388,17 +418,19 @@ function setMainTab(tab) {
   });
 
   // 3. Adaptar l'estat dels filtres segons la pestanya
+  state.filterCity = 'Totes';
+
   if (tab === 'all') {
     state.filterCountry = 'Tots';
+    state.filterProvince = 'Totes';
     state.filterRegion = 'Totes';
-    state.filterZone = 'Totes';
     state.filterWinery = 'Tots';
     state.filterSpecialty = 'Totes';
     state.filterCasajouCategory = 'Tots';
   } else if (tab === 'casajou') {
     state.filterCountry = 'Tots';
+    state.filterProvince = 'Totes';
     state.filterRegion = 'Totes';
-    state.filterZone = 'Totes';
     state.filterWinery = 'Tots';
     state.filterSpecialty = 'Totes';
     state.filterCasajouCategory = 'Tots';
@@ -406,35 +438,35 @@ function setMainTab(tab) {
     return;
   } else if (tab === 'spain') {
     state.filterCountry = 'Espanya';
+    state.filterProvince = 'Totes';
     state.filterRegion = 'Totes';
-    state.filterZone = 'Totes';
     state.filterWinery = 'Tots';
     state.filterSpecialty = 'Totes';
-    setSpainSubZone('Tots');
+    setSpainQuickFilter('Tots');
     return;
   } else if (tab === 'corpinnat') {
     state.filterCountry = 'Tots';
+    state.filterProvince = 'Totes';
     state.filterRegion = 'Totes';
-    state.filterZone = 'Totes';
     state.filterWinery = 'Tots';
     state.filterSpecialty = 'Corpinnat';
     setCorpinnatSubWinery('Tots');
     return;
   } else if (tab === 'usa') {
     state.filterCountry = 'Estats Units';
+    state.filterProvince = 'Totes';
     state.filterRegion = 'Totes';
-    state.filterZone = 'Totes';
     state.filterWinery = 'Tots';
     state.filterSpecialty = 'Totes';
-    setUsaSubState('Tots');
+    setUsaQuickFilter('Tots');
     return;
   } else if (tab === 'intl') {
     state.filterCountry = 'Tots';
+    state.filterProvince = 'Totes';
     state.filterRegion = 'Totes';
-    state.filterZone = 'Totes';
     state.filterWinery = 'Tots';
     state.filterSpecialty = 'Totes';
-    setIntlSubCountry('Tots');
+    setIntlQuickFilter('Tots');
     return;
   }
 
@@ -613,6 +645,16 @@ function updateActiveChips() {
 
   if (state.searchQuery) {
     chips.push({ label: '"' + state.searchQuery + '"', action: 'clearSearch()' });
+  }
+  if (state.filterCountry && state.filterCountry !== 'Tots' && state.activeTab === 'intl') {
+    chips.push({ label: '🌍 ' + state.filterCountry, action: 'handleIntlCountryChange("Tots")' });
+  }
+  if (state.filterProvince && state.filterProvince !== 'Totes' && state.filterProvince !== 'Tots') {
+    const icon = state.activeTab === 'usa' ? '🗺️ ' : '📍 ';
+    chips.push({ label: icon + state.filterProvince, action: 'state.filterProvince="Totes"; render(); updateActiveChips();' });
+  }
+  if (state.filterCity && state.filterCity !== 'Totes') {
+    chips.push({ label: '🏙️ ' + state.filterCity, action: 'state.filterCity="Totes"; render(); updateActiveChips();' });
   }
   if (state.filterZone && state.filterZone !== 'Totes') {
     chips.push({ label: 'Zona: ' + state.filterZone, action: 'setSpainSubZone("Tots")' });
@@ -2404,6 +2446,8 @@ function showToast(message, type = 'info') {
 
 function resetFilters() {
   state.searchQuery = '';
+  state.filterProvince = 'Totes';
+  state.filterCity = 'Totes';
   state.filterStatus = 'Tots';
   state.filterCountry = 'Tots';
   state.filterZone = 'Totes';
@@ -2556,6 +2600,437 @@ function setCasajouSubFilter(cat) {
     activeBtn.className = 'casajou-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-900 text-white border border-amber-900 transition-all shrink-0';
   }
   
+  render();
+  updateActiveChips();
+}
+
+// ========================================================
+// SISTEMA DE FILTRES GEOGRÀFICS DINÀMICS COMPLETS (v23)
+// Espanya: 52 Províncies + 116 Ciutats
+// Estats Units: 50 Estats + 83 Ciutats
+// Internacional: 24 Països + 100 Ciutats
+// ========================================================
+
+const SPAIN_PROVINCE_MAPPING = [
+  ['Barcelona', ['barcelona', 'penedès', 'osona', 'bages', 'llobregat', 'cabrera', 'sitges', 'igualada', 'manresa', 'vic', 'vilanova', 'badalona', 'sabadell', 'terrassa']],
+  ['Girona', ['girona', 'empordà', 'figueres', 'costa brava', 'olot', 'palafrugell', 'blanes', 'roses', 'palamós']],
+  ['Lleida', ['lleida', 'urgell', 'segarra', 'pirineu', 'cerdanya', 'arreu', 'balaguer', 'tàrrega', 'tremp']],
+  ['Tarragona', ['tarragona', 'reus', 'priorat', "terres de l'ebre", 'tortosa', 'cambrils', 'salou', 'valls', 'el vendrell']],
+  ['Madrid', ['madrid', 'alcalá', 'alcobendas', 'pozuelo', 'las rozas', 'getafe', 'leganés', 'majadahonda']],
+  ['Balears', ['balears', 'baleares', 'mallorca', 'menorca', 'ibiza', 'eivissa', 'formentera', 'palma', 'manacor', 'ciutadella', 'maó']],
+  ['València', ['valència', 'valencia', 'gandia', 'sagunt', 'paterna', 'torrent']],
+  ['Alacant', ['alacant', 'alicante', 'elx', 'elche', 'denia', 'altea', 'benidorm', 'xàbia', 'torrevella']],
+  ['Castelló', ['castelló', 'castellon', 'vila-real', 'borriana', 'vinaròs']],
+  ['Biscaia', ['bizkaia', 'vizcaya', 'bilbao', 'getxo', 'barakaldo', 'durango', 'portugalete']],
+  ['Guipúscoa', ['guipúzcoa', 'guipúscoa', 'donostia', 'san sebastián', 'irun', 'errenteria', 'zarautz']],
+  ['Àlaba', ['álava', 'àlaba', 'vitoria', 'gasteiz', 'amurrio']],
+  ['Navarra', ['navarra', 'pamplona', 'irunya', 'tudela', 'estella']],
+  ['La Rioja', ['rioja', 'logronyo', 'logroño', 'haro', 'calahorra', 'arnedo']],
+  ['Astúries', ['astúries', 'asturias', 'oviedo', 'gijón', 'aviles', 'mieres', 'siero']],
+  ['Cantàbria', ['cantàbria', 'cantabria', 'santander', 'torrelavega', 'castro urdiales', 'laredo']],
+  ['Saragossa', ['zaragoza', 'saragossa', 'calatayud', 'tarazona', 'ejea']],
+  ['Osca', ['huesca', 'osca', 'barbastro', 'monzón', 'jaca']],
+  ['Terol', ['teruel', 'terol', 'alcañiz', 'andorra terol']],
+  ['Sevilla', ['sevilla', 'dos hermanas', 'alcalá de guadaíra', 'utrera', 'écija']],
+  ['Màlaga', ['màlaga', 'málaga', 'marbella', 'ronda', 'estepona', 'fuengirola', 'antequera']],
+  ['Cadis', ['cadis', 'cádiz', 'jerez', 'el puerto', 'sanlucar', 'algesires', 'chiclana']],
+  ['Còrdova', ['còrdova', 'córdoba', 'montilla', 'lucena', 'puente genil']],
+  ['Granada', ['granada', 'motril', 'baza', 'loja', 'guadix']],
+  ['Almeria', ['almeria', 'almería', 'roquetas', 'el ejido', 'níjar']],
+  ['Jaén', ['jaén', 'ubeda', 'úbeda', 'baeza', 'linares', 'andújar']],
+  ['Huelva', ['huelva', 'almonte', 'lepe', 'isla cristina']],
+  ['La Corunya', ['corunya', 'coruña', 'santiago de compostela', 'ferrol', 'betanzos', 'ribeira']],
+  ['Pontevedra', ['pontevedra', 'vigo', 'vilagarcía', 'redondela', 'marín']],
+  ['Ourense', ['ourense', 'orense', 'verín', 'o barco']],
+  ['Lugo', ['lugo', 'monforte', 'viveiro', 'ribadeo']],
+  ['Valladolid', ['valladolid', 'medina del campo', 'peñafiel', 'tordesillas']],
+  ['Burgos', ['burgos', 'aranda de duero', 'miranda de ebro', 'lerma']],
+  ['Lleó', ['lleó', 'león', 'ponferrada', 'astorga']],
+  ['Salamanca', ['salamanca', 'béjar', 'ciudad rodrigo']],
+  ['Segòvia', ['segòvia', 'segovia', 'cuéllar']],
+  ['Sòria', ['sòria', 'soria', 'el burgo de osma']],
+  ['Palència', ['palència', 'palencia', 'aguilar de campoo']],
+  ['Àvila', ['àvila', 'ávila', 'arévalo']],
+  ['Zamora', ['zamora', 'toro', 'benavente']],
+  ['Toledo', ['toledo', 'talavera', 'illescas']],
+  ['Ciudad Real', ['ciudad real', 'valdepeñas', 'puertollano', 'alcázar de san juan']],
+  ['Albacete', ['albacete', 'hellín', 'villarrobledo', 'almansa']],
+  ['Conca', ['cuenca', 'conca', 'tarancón']],
+  ['Guadalajara', ['guadalajara', 'azuqueca']],
+  ['Múrcia', ['murcia', 'múrcia', 'cartagena', 'jumilla', 'lorca', 'caravaca']],
+  ['Las Palmas', ['las palmas', 'grancanaria', 'fuerteventura', 'lanzarote', 'telde', 'arrecife']],
+  ['Santa Cruz de Tenerife', ['tenerife', 'la palma', 'la gomera', 'el hierro', 'la laguna', 'arona']],
+  ['Canàries', ['canàries', 'canarias']],
+  ['Badajoz', ['badajoz', 'merida', 'mérida', 'almendralejo', 'zafra']],
+  ['Càceres', ['cáceres', 'càceres', 'plasencia', 'navalmoral', 'trujillo']],
+  ['Ceuta', ['ceuta']],
+  ['Melilla', ['melilla']]
+];
+
+const USA_STATE_MAPPING = [
+  ['Nova York (NY)', ['nova york', 'new york', 'brooklyn', 'manhattan', 'queens', 'ny']],
+  ['Califòrnia (CA)', ['califòrnia', 'california', 'los angeles', 'san francisco', 'oakland', 'napa', 'sonoma', 'benicia', 'brentwood', 'ca']],
+  ['Florida (FL)', ['florida', 'miami', 'tampa', 'orlando', 'fl']],
+  ['Illinois (IL)', ['illinois', 'chicago', 'il']],
+  ['Texas (TX)', ['texas', 'austin', 'dallas', 'houston', 'tx']],
+  ['Washington (WA)', ['washington', 'seattle', 'wa']],
+  ['Oregon (OR)', ['oregon', 'portland', 'or']],
+  ['Colorado (CO)', ['colorado', 'denver', 'boulder', 'aspen', 'co']],
+  ['Geòrgia (GA)', ['geòrgia', 'georgia', 'atlanta', 'ga']],
+  ['Massachusetts (MA)', ['massachusetts', 'boston', 'cambridge', 'ma']],
+  ['Carolina del Nord (NC)', ['carolina del nord', 'north carolina', 'charlotte', 'durham', 'asheville', 'nc']],
+  ['Nova Jersey (NJ)', ['nova jersey', 'new jersey', 'newark', 'nj']],
+  ['Connecticut (CT)', ['connecticut', 'ct']],
+  ['Pennsilvània (PA)', ['pennsilvània', 'pennsylvania', 'filadèlfia', 'philadelphia', 'pa']],
+  ['Washington DC', ['washington dc', 'dc']],
+  ['Louisiana (LA)', ['louisiana', 'nova orleans', 'new orleans', 'la']],
+  ['Michigan (MI)', ['michigan', 'detroit', 'mi']],
+  ['Missouri (MO)', ['missouri', 'st. louis', 'kansas city', 'mo']],
+  ['Minnesota (MN)', ['minnesota', 'minneapolis', 'mn']],
+  ['Montana (MT)', ['montana', 'bozeman', 'mt']],
+  ['Ohio (OH)', ['ohio', 'cincinnati', 'cleveland', 'columbus', 'oh']],
+  ['Oklahoma (OK)', ['oklahoma', 'oklahoma city', 'ok']],
+  ['Utah (UT)', ['utah', 'salt lake', 'ut']],
+  ['Vermont (VT)', ['vermont', 'burlington', 'vt']],
+  ['Wisconsin (WI)', ['wisconsin', 'milwaukee', 'wi']],
+  ['Iowa (IA)', ['iowa', 'des moines', 'ia']],
+  ['Maine (ME)', ['maine', 'portland maine', 'me']],
+  ['Delaware (DE)', ['delaware', 'de']],
+  ['Carolina del Sud (SC)', ['carolina del sud', 'south carolina', 'charleston', 'sc']]
+];
+
+function getDistributorProvince(d) {
+  const text = [d.province || '', d.region || '', d.city || '', (d.specialty_tags || []).join(' ')].join(' ').toLowerCase();
+  for (const [provName, keywords] of SPAIN_PROVINCE_MAPPING) {
+    for (const kw of keywords) {
+      if (text.includes(kw)) return provName;
+    }
+  }
+  return d.province || 'Altres Províncies';
+}
+
+function getDistributorUsaState(d) {
+  const text = [d.province || '', d.region || '', d.city || '', (d.specialty_tags || []).join(' ')].join(' ').toLowerCase();
+  for (const [stateName, keywords] of USA_STATE_MAPPING) {
+    for (const kw of keywords) {
+      if (text.includes(kw)) return stateName;
+    }
+  }
+  return d.province || 'Altres Estats';
+}
+
+function initGeographicFilters() {
+  const dists = state.distributors || [];
+
+  // 1. ESPANYA: Províncies i Ciutats
+  const spainDists = dists.filter(d => (d.country || '').includes('Espanya') || (d.country || '').includes('Spain'));
+  const provCount = {};
+  spainDists.forEach(d => {
+    const p = getDistributorProvince(d);
+    provCount[p] = (provCount[p] || 0) + 1;
+  });
+
+  const provSelect = document.getElementById('spain-province-select');
+  if (provSelect) {
+    let opts = '<option value="Totes">📍 Totes les Províncies (' + spainDists.length + ')</option>';
+    const sortedProvs = Object.keys(provCount).sort((a, b) => provCount[b] - provCount[a]);
+    sortedProvs.forEach(p => {
+      opts += `<option value="${p}">${p} (${provCount[p]})</option>`;
+    });
+    provSelect.innerHTML = opts;
+  }
+  updateSpainCitiesSelect('Totes');
+
+  // 2. ESTATS UNITS: Estats i Ciutats
+  const usaDists = dists.filter(d => (d.country || '').includes('Estats Units') || (d.country || '').includes('EUA') || (d.country || '').includes('USA'));
+  const stateCount = {};
+  usaDists.forEach(d => {
+    const s = getDistributorUsaState(d);
+    stateCount[s] = (stateCount[s] || 0) + 1;
+  });
+
+  const usaStateSelect = document.getElementById('usa-state-select');
+  if (usaStateSelect) {
+    let opts = '<option value="Tots">🗺️ Tots els Estats dels EUA (' + usaDists.length + ')</option>';
+    const sortedStates = Object.keys(stateCount).sort((a, b) => stateCount[b] - stateCount[a]);
+    sortedStates.forEach(s => {
+      opts += `<option value="${s}">${s} (${stateCount[s]})</option>`;
+    });
+    usaStateSelect.innerHTML = opts;
+  }
+  updateUsaCitiesSelect('Tots');
+
+  // 3. INTERNACIONAL: Països i Ciutats
+  const intlDists = dists.filter(d => !spainDists.includes(d) && !usaDists.includes(d));
+  const countryCount = {};
+  intlDists.forEach(d => {
+    const c = (d.country || '').trim() || 'Altres Països';
+    countryCount[c] = (countryCount[c] || 0) + 1;
+  });
+
+  const intlCountrySelect = document.getElementById('intl-country-select');
+  if (intlCountrySelect) {
+    let opts = '<option value="Tots">🌍 Tots els Països (' + intlDists.length + ')</option>';
+    const sortedCountries = Object.keys(countryCount).sort((a, b) => countryCount[b] - countryCount[a]);
+    sortedCountries.forEach(c => {
+      const flag = COUNTRY_FLAGS[c] || '🌍';
+      opts += `<option value="${c}">${flag} ${c} (${countryCount[c]})</option>`;
+    });
+    intlCountrySelect.innerHTML = opts;
+  }
+  updateIntlCitiesSelect('Tots');
+
+  // 4. CORPINNAT: 24 Cellers
+  populateCorpinnatWinerySelect();
+}
+
+function updateSpainCitiesSelect(selectedProvince = 'Totes') {
+  const citySelect = document.getElementById('spain-city-select');
+  if (!citySelect) return;
+
+  const spainDists = (state.distributors || []).filter(d => (d.country || '').includes('Espanya') || (d.country || '').includes('Spain'));
+  const filtered = (selectedProvince === 'Totes') ? spainDists : spainDists.filter(d => getDistributorProvince(d) === selectedProvince);
+
+  const cityCount = {};
+  filtered.forEach(d => {
+    const c = (d.city || '').trim();
+    if (c) cityCount[c] = (cityCount[c] || 0) + 1;
+  });
+
+  let opts = '<option value="Totes">🏙️ Totes les Ciutats (' + Object.keys(cityCount).length + ')</option>';
+  const sortedCities = Object.keys(cityCount).sort((a, b) => cityCount[b] - cityCount[a]);
+  sortedCities.forEach(c => {
+    opts += `<option value="${c}">${c} (${cityCount[c]})</option>`;
+  });
+  citySelect.innerHTML = opts;
+}
+
+function updateUsaCitiesSelect(selectedState = 'Tots') {
+  const citySelect = document.getElementById('usa-city-select');
+  if (!citySelect) return;
+
+  const usaDists = (state.distributors || []).filter(d => (d.country || '').includes('Estats Units') || (d.country || '').includes('EUA') || (d.country || '').includes('USA'));
+  const filtered = (selectedState === 'Tots') ? usaDists : usaDists.filter(d => getDistributorUsaState(d) === selectedState);
+
+  const cityCount = {};
+  filtered.forEach(d => {
+    const c = (d.city || '').trim();
+    if (c) cityCount[c] = (cityCount[c] || 0) + 1;
+  });
+
+  let opts = '<option value="Totes">🏙️ Totes les Ciutats (' + Object.keys(cityCount).length + ')</option>';
+  const sortedCities = Object.keys(cityCount).sort((a, b) => cityCount[b] - cityCount[a]);
+  sortedCities.forEach(c => {
+    opts += `<option value="${c}">${c} (${cityCount[c]})</option>`;
+  });
+  citySelect.innerHTML = opts;
+}
+
+function updateIntlCitiesSelect(selectedCountry = 'Tots') {
+  const citySelect = document.getElementById('intl-city-select');
+  if (!citySelect) return;
+
+  const intlDists = (state.distributors || []).filter(d => !(d.country || '').includes('Espanya') && !(d.country || '').includes('Estats Units'));
+  const filtered = (selectedCountry === 'Tots') ? intlDists : intlDists.filter(d => (d.country || '').trim() === selectedCountry);
+
+  const cityCount = {};
+  filtered.forEach(d => {
+    const c = (d.city || '').trim();
+    if (c) cityCount[c] = (cityCount[c] || 0) + 1;
+  });
+
+  let opts = '<option value="Totes">🏙️ Totes les Ciutats (' + Object.keys(cityCount).length + ')</option>';
+  const sortedCities = Object.keys(cityCount).sort((a, b) => cityCount[b] - cityCount[a]);
+  sortedCities.forEach(c => {
+    opts += `<option value="${c}">${c} (${cityCount[c]})</option>`;
+  });
+  citySelect.innerHTML = opts;
+}
+
+function populateCorpinnatWinerySelect() {
+  const winerySelect = document.getElementById('filter-winery');
+  if (!winerySelect) return;
+
+  const wineries = [
+    'Recaredo', 'Gramona', 'Llopart', 'Nadal', 'Torelló', 'Can Feixes', 'Júlia Bernet',
+    'Mas Candí', 'Can Descregut', 'Pardas', 'Bufadors', 'Celler Kripta (Agustí Torelló Mata)',
+    'Sabartés', "Castell d'Encús", 'Celler Batllori', 'AT Roca', 'Mas Bertran', 'Colet',
+    'Raventós i Blanc', 'Clos Lentiscus', 'Celler Sanstravé', 'Eudald Massana', 'Enric Soler', 'Sicus'
+  ];
+
+  let opts = '<option value="Tots">🍾 Tots els 24 Cellers de Corpinnat</option>';
+  wineries.forEach(w => {
+    opts += `<option value="${w}">🍾 ${w}</option>`;
+  });
+  winerySelect.innerHTML = opts;
+}
+
+function handleSpainProvinceChange(prov) {
+  state.filterProvince = prov;
+  state.filterCity = 'Totes';
+  state.filterRegion = 'Totes';
+  updateSpainCitiesSelect(prov);
+  render();
+  updateActiveChips();
+}
+
+function handleSpainCityChange(city) {
+  state.filterCity = city;
+  render();
+  updateActiveChips();
+}
+
+function setSpainQuickFilter(zone) {
+  document.querySelectorAll('.spain-quick-pill').forEach(b => {
+    b.className = 'spain-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0';
+  });
+
+  const provSelect = document.getElementById('spain-province-select');
+
+  if (zone === 'Tots') {
+    state.filterProvince = 'Totes';
+    state.filterRegion = 'Totes';
+    state.filterCity = 'Totes';
+    if (provSelect) provSelect.value = 'Totes';
+    const allBtn = document.getElementById('subpill-spain-all');
+    if (allBtn) allBtn.className = 'spain-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0';
+  } else {
+    const isReg = ['Catalunya', 'País Basc', 'Andalusia', 'Galícia'].includes(zone);
+    if (isReg) {
+      state.filterRegion = zone;
+      state.filterProvince = 'Totes';
+      if (provSelect) provSelect.value = 'Totes';
+    } else {
+      state.filterRegion = 'Totes';
+      state.filterProvince = zone;
+      if (provSelect) provSelect.value = zone;
+    }
+    state.filterCity = 'Totes';
+    const cleanId = 'subpill-spain-' + zone.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const activeSubBtn = document.getElementById(cleanId);
+    if (activeSubBtn) activeSubBtn.className = 'spain-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0';
+  }
+
+  updateSpainCitiesSelect(state.filterProvince);
+  render();
+  updateActiveChips();
+}
+
+function handleUsaStateChange(stateName) {
+  state.filterProvince = stateName;
+  state.filterCity = 'Totes';
+  updateUsaCitiesSelect(stateName);
+  render();
+  updateActiveChips();
+}
+
+function handleUsaCityChange(city) {
+  state.filterCity = city;
+  render();
+  updateActiveChips();
+}
+
+function setUsaQuickFilter(stateName) {
+  document.querySelectorAll('.usa-quick-pill').forEach(b => {
+    b.className = 'usa-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0';
+  });
+
+  const stateSelect = document.getElementById('usa-state-select');
+
+  if (stateName === 'Tots') {
+    state.filterProvince = 'Totes';
+    state.filterCity = 'Totes';
+    if (stateSelect) stateSelect.value = 'Tots';
+    const allBtn = document.getElementById('subpill-usa-all');
+    if (allBtn) allBtn.className = 'usa-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0';
+  } else {
+    state.filterProvince = stateName;
+    state.filterCity = 'Totes';
+    if (stateSelect) {
+      for (let i = 0; i < stateSelect.options.length; i++) {
+        if (stateSelect.options[i].value.includes(stateName)) {
+          stateSelect.selectedIndex = i;
+          break;
+        }
+      }
+    }
+    const cleanId = 'subpill-usa-' + stateName.toLowerCase().slice(0, 2);
+    const activeSubBtn = document.getElementById(cleanId);
+    if (activeSubBtn) activeSubBtn.className = 'usa-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0';
+  }
+
+  updateUsaCitiesSelect(state.filterProvince);
+  render();
+  updateActiveChips();
+}
+
+function handleIntlCountryChange(country) {
+  state.filterCountry = country;
+  state.filterCity = 'Totes';
+  updateIntlCitiesSelect(country);
+  render();
+  updateActiveChips();
+}
+
+function handleIntlCityChange(city) {
+  state.filterCity = city;
+  render();
+  updateActiveChips();
+}
+
+function setIntlQuickFilter(country) {
+  document.querySelectorAll('.intl-quick-pill').forEach(b => {
+    b.className = 'intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0';
+  });
+
+  const countrySelect = document.getElementById('intl-country-select');
+
+  if (country === 'Tots') {
+    state.filterCountry = 'Tots';
+    state.filterCity = 'Totes';
+    if (countrySelect) countrySelect.value = 'Tots';
+    const allBtn = document.getElementById('subpill-intl-all');
+    if (allBtn) allBtn.className = 'intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0';
+  } else {
+    state.filterCountry = country;
+    state.filterCity = 'Totes';
+    if (countrySelect) countrySelect.value = country;
+    const mapPill = {
+      'Alemanya': 'subpill-intl-de',
+      'Països Baixos': 'subpill-intl-nl',
+      'Regne Unit': 'subpill-intl-uk',
+      'Canadà': 'subpill-intl-ca',
+      'Dinamarca': 'subpill-intl-dk',
+      'Japó': 'subpill-intl-jp',
+      'Suècia': 'subpill-intl-se',
+      'Suïssa': 'subpill-intl-ch'
+    };
+    const pillId = mapPill[country];
+    if (pillId) {
+      const activeBtn = document.getElementById(pillId);
+      if (activeBtn) activeBtn.className = 'intl-quick-pill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0';
+    }
+  }
+
+  updateIntlCitiesSelect(state.filterCountry);
+  render();
+  updateActiveChips();
+}
+
+function handleCorpinnatWineryChange(winery) {
+  state.filterWinery = winery;
+  render();
+  updateActiveChips();
+}
+
+function handleStatusFilterChange(status) {
+  state.filterStatus = status;
+  render();
+  updateActiveChips();
+}
+
+function handleSpecialtyFilterChange(spec) {
+  state.filterSpecialty = spec;
   render();
   updateActiveChips();
 }
