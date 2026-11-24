@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v17';
+const STORAGE_KEY = 'crm_sparkling_distributors_v18';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -1771,7 +1771,7 @@ function processAiImageBlob(file) {
 
     if (previewContainer) previewContainer.classList.remove('hidden');
     if (previewImg) previewImg.src = dataUrl;
-    if (statusText) statusText.innerText = "La IA està analitzant la imatge d'Instagram...";
+    if (statusText) statusText.innerText = "Connectant amb Gemini 3.8 Flash (Interactions API)...";
     if (statusDetail) statusDetail.innerText = "Llegint text, @handle, bio, ubicació i cellers representats...";
 
     const mimeType = file.type || 'image/jpeg';
@@ -2424,7 +2424,7 @@ function mobileNavSelect(tab) {
 }
 
 function forceRefreshApp() {
-  showToast('🔄 Refrescant dades de Dr. Comercial...', 'info');
+  showToast('🔄 Netejant memòria cau i recarregant versió nova...', 'info');
   try {
     if (window.caches) {
       caches.keys().then(keys => {
@@ -2434,8 +2434,9 @@ function forceRefreshApp() {
   } catch(e) {}
   
   setTimeout(() => {
-    window.location.reload(true);
-  }, 350);
+    const cleanUrl = window.location.href.split('?')[0];
+    window.location.replace(cleanUrl + '?v=' + Date.now());
+  }, 300);
 }
 
 function setCasajouSubFilter(cat) {
