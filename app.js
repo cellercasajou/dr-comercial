@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v24';
+const STORAGE_KEY = 'crm_sparkling_distributors_v25';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -82,6 +82,13 @@ function initApp() {
   }
   setupEventListeners();
   initGeographicFilters();
+  try {
+    const savedView = localStorage.getItem('crm_view_mode');
+    if (savedView && ['grid', 'grid-large', 'table'].includes(savedView)) {
+      state.viewMode = savedView;
+    }
+  } catch (e) {}
+  updateViewMenuUI();
   render();
   updateSyncIndicator();
 }
@@ -755,6 +762,8 @@ function renderDistributorsList() {
 
   if (state.viewMode === 'table') {
     renderTableView(filtered, container);
+  } else if (state.viewMode === 'grid-large') {
+    renderLargeGridView(filtered, container);
   } else {
     renderGridView(filtered, container);
   }
@@ -2542,18 +2551,15 @@ function setupEventListeners() {
     });
   }
 
-  document.getElementById('view-grid-btn').addEventListener('click', () => {
-    state.viewMode = 'grid';
-    document.getElementById('view-grid-btn').className = 'p-1.5 rounded-xl bg-amber-800 text-white';
-    document.getElementById('view-table-btn').className = 'p-1.5 rounded-xl bg-stone-100 text-stone-600 hover:bg-stone-200';
-    renderDistributorsList();
-  });
-
-  document.getElementById('view-table-btn').addEventListener('click', () => {
-    state.viewMode = 'table';
-    document.getElementById('view-table-btn').className = 'p-1.5 rounded-xl bg-amber-800 text-white';
-    document.getElementById('view-grid-btn').className = 'p-1.5 rounded-xl bg-stone-100 text-stone-600 hover:bg-stone-200';
-    renderDistributorsList();
+  // Gestió de tancament del menú desplegable estil Dropbox
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('view-popover-menu');
+    const btn = document.getElementById('view-menu-btn');
+    if (menu && !menu.classList.contains('hidden')) {
+      if (btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+    }
   });
 
   initAiScannerAndDuplicateListeners();
@@ -3060,4 +3066,205 @@ function toggleQuickCasajou() {
   }
   render();
   updateActiveChips();
+}
+
+// ========================================================
+// MENÚ DE DISSENY ESTIL DROPBOX (Quadrícula, Quadrícula gran, Llista)
+// ========================================================
+
+function toggleViewMenu(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  const menu = document.getElementById('view-popover-menu');
+  if (!menu) return;
+  menu.classList.toggle('hidden');
+}
+
+function setViewMode(mode) {
+  state.viewMode = mode;
+  try {
+    localStorage.setItem('crm_view_mode', mode);
+  } catch (e) {}
+
+  updateViewMenuUI();
+
+  const menu = document.getElementById('view-popover-menu');
+  if (menu) menu.classList.add('hidden');
+
+  renderDistributorsList();
+}
+
+function updateViewMenuUI() {
+  const mode = state.viewMode || 'grid';
+  const labelEl = document.getElementById('view-menu-label');
+  const iconEl = document.getElementById('view-menu-icon');
+
+  const modes = ['grid', 'grid-large', 'table'];
+  modes.forEach(m => {
+    const btn = document.getElementById('view-opt-' + m);
+    const check = document.getElementById('check-' + m);
+    if (!btn) return;
+
+    if (m === mode) {
+      btn.className = 'w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold border-2 border-blue-500 bg-stone-100/80 text-stone-900 transition-all text-left shadow-2xs';
+      if (check) check.classList.remove('hidden');
+    } else {
+      btn.className = 'w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium hover:bg-stone-50 border-2 border-transparent text-stone-700 transition-all text-left';
+      if (check) check.classList.add('hidden');
+    }
+  });
+
+  if (labelEl) {
+    if (mode === 'grid') labelEl.textContent = 'Quadrícula';
+    else if (mode === 'grid-large') labelEl.textContent = 'Quadrícula gran';
+    else if (mode === 'table') labelEl.textContent = 'Llista';
+  }
+
+  if (iconEl) {
+    if (mode === 'grid') iconEl.innerHTML = '<i data-lucide="layout-grid" class="w-4 h-4 text-stone-700"></i>';
+    else if (mode === 'grid-large') iconEl.innerHTML = '<i data-lucide="grid-2x2" class="w-4 h-4 text-stone-700"></i>';
+    else if (mode === 'table') iconEl.innerHTML = '<i data-lucide="list" class="w-4 h-4 text-stone-700"></i>';
+    if (window.lucide) lucide.createIcons();
+  }
+}
+
+// Vista Quadrícula Gran: targetes àmplies i espaioses (1-2 columnes) amb gran detall comercial
+function renderLargeGridView(distributors, container) {
+  container.className = 'grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6';
+  container.innerHTML = distributors.map(d => {
+    const primaryContact = (d.contacts || []).find(c => c.is_primary) || (d.contacts || [])[0] || null;
+    const phoneNum = (primaryContact && (primaryContact.mobile || primaryContact.phone)) || d.phone || '';
+    const emailAddr = (primaryContact && primaryContact.email) || d.email || '';
+    
+    // Status colors
+    let statusClass = 'bg-stone-100 text-stone-700 border-stone-200';
+    if (d.status === 'Actiu') statusClass = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+    if (d.status === 'En negociació') statusClass = 'bg-sky-50 text-sky-800 border-sky-200';
+    if (d.status === 'Potencial') statusClass = 'bg-amber-50 text-amber-900 border-amber-200';
+    if (d.status === 'Inactiu') statusClass = 'bg-rose-50 text-rose-800 border-rose-200';
+
+    // Priority badge & Casajou badge
+    let priorityBadge = '';
+    if (d.is_casajou) {
+      priorityBadge = '<span class="text-xs bg-gradient-to-r from-amber-100 to-rose-100 text-amber-950 font-black px-2.5 py-1 rounded-full border border-amber-300 flex items-center gap-1 shadow-2xs">🍇 Xarxa Casajou</span>';
+    } else if (d.priority === 'Molt alta') {
+      priorityBadge = '<span class="text-xs bg-rose-100 text-rose-800 font-extrabold px-2.5 py-1 rounded-full border border-rose-200">⭐ Prioritat Màxima</span>';
+    } else if (d.priority === 'Alta') {
+      priorityBadge = '<span class="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded-full border border-amber-200">⭐ Alta</span>';
+    }
+
+    const flag = COUNTRY_FLAGS[d.country] || '📍';
+    const cleanIg = (d.instagram || '').replace('https://www.instagram.com/', '').replace(/\/$/, '').replace('@', '');
+
+    return `
+      <div class="bg-white rounded-3xl border border-stone-200/90 shadow-xs hover:shadow-md transition-all duration-200 p-5 sm:p-6 flex flex-col justify-between group">
+        <div>
+          <!-- Header: Logo/Bandera, Nom, Tipus i Estat -->
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-stone-100 to-stone-200 border border-stone-200 flex items-center justify-center text-2xl shrink-0 shadow-2xs">
+                ${flag}
+              </div>
+              <div class="min-w-0">
+                <h3 class="text-base sm:text-lg font-black text-stone-900 truncate leading-snug group-hover:text-amber-900 transition-colors">
+                  ${d.name}
+                </h3>
+                <div class="text-xs text-stone-500 font-medium flex items-center gap-2 truncate mt-0.5">
+                  <span class="truncate">${d.city ? d.city + ', ' : ''}${d.country}</span>
+                  ${d.distribution_type ? '<span class="w-1 h-1 rounded-full bg-stone-300 shrink-0"></span><span class="text-amber-900 font-semibold truncate">' + d.distribution_type + '</span>' : ''}
+                </div>
+              </div>
+            </div>
+
+            <!-- Badges d'estat i Casajou -->
+            <div class="flex flex-col items-end gap-1.5 shrink-0">
+              <span class="text-xs font-bold px-2.5 py-1 rounded-full border ${statusClass}">
+                ${d.status}
+              </span>
+              ${priorityBadge}
+            </div>
+          </div>
+
+          <!-- Portfoli / Cellers a Cartera (Destacat en gran) -->
+          ${d.related_wineries ? `
+            <div class="p-3 bg-amber-50/60 rounded-2xl border border-amber-200/70 mb-4">
+              <div class="text-[10px] font-extrabold uppercase tracking-wider text-amber-900 mb-1 flex items-center gap-1.5">
+                <span>🍾 Cellers & Productors a Cartera:</span>
+              </div>
+              <p class="text-xs font-semibold text-stone-800 leading-relaxed">
+                ${d.related_wineries}
+              </p>
+            </div>
+          ` : ''}
+
+          <!-- Focus en Escumosos / Terrer -->
+          ${d.sparkling_focus ? `
+            <div class="mb-4 text-xs text-stone-600 leading-relaxed bg-stone-50 p-3 rounded-2xl border border-stone-200/80">
+              <span class="font-bold text-stone-800">🥂 Focus Escumosos & Terrer:</span> ${d.sparkling_focus}
+            </div>
+          ` : ''}
+
+          <!-- Condicions Comercials Clau (4 Columnes / Blocs) -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 text-center">
+            <div class="bg-stone-50 p-2.5 rounded-xl border border-stone-100">
+              <span class="text-[9px] font-bold text-stone-400 uppercase">Incoterm</span>
+              <div class="text-xs font-black text-stone-800 mt-0.5">${d.incoterm || 'EXW'}</div>
+            </div>
+            <div class="bg-stone-50 p-2.5 rounded-xl border border-stone-100">
+              <span class="text-[9px] font-bold text-stone-400 uppercase">Pagament</span>
+              <div class="text-xs font-black text-stone-800 mt-0.5">${d.payment_terms || '30 dies'}</div>
+            </div>
+            <div class="bg-stone-50 p-2.5 rounded-xl border border-stone-100">
+              <span class="text-[9px] font-bold text-stone-400 uppercase">Comanda Mín.</span>
+              <div class="text-xs font-black text-stone-800 mt-0.5">${d.moq || '1 Palet'}</div>
+            </div>
+            <div class="bg-stone-50 p-2.5 rounded-xl border border-stone-100">
+              <span class="text-[9px] font-bold text-stone-400 uppercase">Canals</span>
+              <div class="text-xs font-black text-stone-800 mt-0.5 truncate" title="${d.channels || 'HORECA'}">${d.channels || 'HORECA'}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer: Contacte Ràpid i Accions -->
+        <div class="pt-4 border-t border-stone-100 flex items-center justify-between gap-3 flex-wrap">
+          <div class="flex items-center gap-2 flex-wrap">
+            ${cleanIg ? `
+              <a href="https://www.instagram.com/${cleanIg}/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs flex items-center gap-1.5 border border-rose-200 transition-colors">
+                <i data-lucide="instagram" class="w-3.5 h-3.5"></i>
+                <span>@${cleanIg}</span>
+              </a>
+            ` : ''}
+            ${d.website ? `
+              <a href="${d.website}" target="_blank" class="p-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-200 transition-colors" title="Web de l'empresa">
+                <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+              </a>
+            ` : ''}
+            ${phoneNum ? `
+              <a href="tel:${phoneNum}" class="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition-colors" title="Trucar">
+                <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+              </a>
+            ` : ''}
+            ${emailAddr ? `
+              <a href="mailto:${emailAddr}" class="p-2 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 transition-colors" title="Enviar correu">
+                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+              </a>
+            ` : ''}
+          </div>
+
+          <div class="flex items-center gap-2 ml-auto">
+            <button onclick="openEditDistributorModal('${d.id}')" class="px-3 py-1.5 text-xs font-semibold text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200 rounded-xl transition-colors">
+              Editar
+            </button>
+            <button onclick="openDistributorDetail('${d.id}')" class="px-3.5 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-amber-800 to-wine-900 hover:from-amber-700 hover:to-wine-800 rounded-xl shadow-2xs transition-all active:scale-95 flex items-center gap-1">
+              <span>Obrir Fitxa</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    `;
+  }).join('');
 }

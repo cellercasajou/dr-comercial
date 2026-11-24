@@ -247,14 +247,54 @@
             <span id="active-filters-count" class="hidden px-1.5 py-0.5 rounded-full bg-amber-900 text-white text-[10px]">0</span>
           </button>
 
-          <!-- Commutador Vista Targetes / Taula -->
-          <div class="flex items-center bg-stone-100 p-1 rounded-2xl border border-stone-200">
-            <button id="view-grid-btn" class="p-2 rounded-xl bg-amber-800 text-white shadow-2xs transition-all" title="Vista en targetes">
-              <i data-lucide="layout-grid" class="w-4 h-4"></i>
+<!-- Menú Desplegable d'Estil Dropbox (Disseny de Vista) -->
+          <div class="relative">
+            <button id="view-menu-btn" onclick="toggleViewMenu(event)" 
+                    class="h-10 px-3 bg-stone-100 hover:bg-stone-200 border border-stone-200 rounded-2xl flex items-center gap-1.5 text-stone-700 font-bold text-xs shadow-2xs transition-all active:scale-95"
+                    title="Canviar disseny de vista">
+              <span id="view-menu-icon" class="flex items-center">
+                <i data-lucide="layout-grid" class="w-4 h-4 text-stone-700"></i>
+              </span>
+              <span class="hidden sm:inline" id="view-menu-label">Quadrícula</span>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-stone-400"></i>
             </button>
-            <button id="view-table-btn" class="p-2 rounded-xl bg-stone-100 text-stone-600 hover:bg-stone-200 transition-all" title="Vista en taula">
-              <i data-lucide="table" class="w-4 h-4"></i>
-            </button>
+
+            <!-- Menú Flotant estil Dropbox -->
+            <div id="view-popover-menu" class="hidden absolute right-0 top-12 z-50 w-56 bg-white rounded-2xl border border-stone-200 shadow-xl p-2 space-y-1 animate-in fade-in zoom-in-95 duration-150">
+              <div class="text-[11px] font-bold text-stone-400 uppercase tracking-wider px-3 py-1.5">
+                Disseny
+              </div>
+              
+              <!-- Opció 1: Quadrícula -->
+              <button onclick="setViewMode('grid')" id="view-opt-grid" 
+                      class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold border-2 border-blue-500 bg-stone-100/80 text-stone-900 transition-all text-left shadow-2xs">
+                <div class="flex items-center gap-2.5">
+                  <span id="check-grid" class="w-4 text-sm font-bold text-blue-600">✓</span>
+                  <span>Quadrícula</span>
+                </div>
+                <i data-lucide="layout-grid" class="w-4 h-4 text-stone-700"></i>
+              </button>
+
+              <!-- Opció 2: Quadrícula gran -->
+              <button onclick="setViewMode('grid-large')" id="view-opt-grid-large" 
+                      class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium hover:bg-stone-50 border-2 border-transparent text-stone-700 transition-all text-left">
+                <div class="flex items-center gap-2.5">
+                  <span id="check-grid-large" class="w-4 text-sm font-bold text-blue-600 hidden">✓</span>
+                  <span>Quadrícula gran</span>
+                </div>
+                <i data-lucide="grid-2x2" class="w-4 h-4 text-stone-700"></i>
+              </button>
+
+              <!-- Opció 3: Llista -->
+              <button onclick="setViewMode('table')" id="view-opt-table" 
+                      class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium hover:bg-stone-50 border-2 border-transparent text-stone-700 transition-all text-left">
+                <div class="flex items-center gap-2.5">
+                  <span id="check-table" class="w-4 text-sm font-bold text-blue-600 hidden">✓</span>
+                  <span>Llista</span>
+                </div>
+                <i data-lucide="list" class="w-4 h-4 text-stone-700"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -532,7 +572,7 @@
           <div>
             <div class="flex items-center gap-2">
               <h3 class="text-base sm:text-lg font-black text-white leading-tight">Afegir Nou Distribuïdor / Importador</h3>
-              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v24 • Xarxa Casajou Integrada</span>
+              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v25 • Menú de Disseny estil Dropbox</span>
             </div>
             <p class="text-[11px] text-amber-300/80 font-medium">Amb escàner IA d'Instagram (Interactions API) i detector de duplicats</p>
           </div>
@@ -876,7 +916,7 @@
   </nav>
 
   <!-- Scripts -->
-  <script src="data.js?v=24"></script>
-  <script src="app.js?v=24"></script>
+  <script src="data.js?v=25"></script>
+  <script src="app.js?v=25"></script>
 </body>
 </html>
