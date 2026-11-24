@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v25';
+const STORAGE_KEY = 'crm_sparkling_distributors_v26';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -192,6 +192,13 @@ function getFilteredDistributors() {
 
     if (state.filterStatus !== 'Tots' && d.status !== state.filterStatus) return false;
 
+    // Filtre de Pestanya Internacional (si no s'ha triat cap país concret, mostra només els que no són Espanya ni EUA)
+    if (state.activeTab === 'intl' && state.filterCountry === 'Tots') {
+      const isSpain = (d.country || '').includes('Espanya') || (d.country || '').includes('Spain');
+      const isUsa = (d.country || '').includes('Estats Units') || (d.country || '').includes('EUA') || (d.country || '').includes('USA');
+      if (isSpain || isUsa) return false;
+    }
+
     // Filtre de País
     if (state.filterCountry !== 'Tots') {
       const dCountry = (d.country || '').toLowerCase();
@@ -347,15 +354,17 @@ function getUniqueZones() {
 
 function renderFilters() {
   const countrySelect = document.getElementById('filter-country');
-  const currentCountry = state.filterCountry;
-  const countryList = getUniqueCountries();
-  
-  countrySelect.innerHTML = `<option value="Tots">Tots els Mercats (${state.distributors.length})</option>` +
-    countryList.map(item => `
-      <option value="${item.country}" ${item.country === currentCountry ? 'selected' : ''}>
-        ${getCountryFlag(item.country)} ${item.country} (${item.count})
-      </option>
-    `).join('');
+  if (countrySelect) {
+    const currentCountry = state.filterCountry;
+    const countryList = getUniqueCountries();
+    
+    countrySelect.innerHTML = `<option value="Tots">Tots els Mercats (${state.distributors.length})</option>` +
+      countryList.map(item => `
+        <option value="${item.country}" ${item.country === currentCountry ? 'selected' : ''}>
+          ${getCountryFlag(item.country)} ${item.country} (${item.count})
+        </option>
+      `).join('');
+  }
 
   // Selector de Cellers Corpinnat (24)
   const winerySelect = document.getElementById('filter-winery');
@@ -2520,20 +2529,29 @@ function setupEventListeners() {
     });
   }
 
-  document.getElementById('filter-status').addEventListener('change', (e) => {
-    state.filterStatus = e.target.value;
-    renderDistributorsList();
-  });
+  const filterStatus = document.getElementById('filter-status');
+  if (filterStatus) {
+    filterStatus.addEventListener('change', (e) => {
+      state.filterStatus = e.target.value;
+      renderDistributorsList();
+    });
+  }
 
-  document.getElementById('filter-country').addEventListener('change', (e) => {
-    state.filterCountry = e.target.value;
-    renderDistributorsList();
-  });
+  const filterCountry = document.getElementById('filter-country');
+  if (filterCountry) {
+    filterCountry.addEventListener('change', (e) => {
+      state.filterCountry = e.target.value;
+      renderDistributorsList();
+    });
+  }
 
-  document.getElementById('filter-specialty').addEventListener('change', (e) => {
-    state.filterSpecialty = e.target.value;
-    renderDistributorsList();
-  });
+  const filterSpecialty = document.getElementById('filter-specialty');
+  if (filterSpecialty) {
+    filterSpecialty.addEventListener('change', (e) => {
+      state.filterSpecialty = e.target.value;
+      renderDistributorsList();
+    });
+  }
 
   const zoneSelect = document.getElementById('filter-zone');
   if (zoneSelect) {
