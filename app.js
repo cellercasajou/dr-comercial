@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v16';
+const STORAGE_KEY = 'crm_sparkling_distributors_v17';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -1795,8 +1795,7 @@ async function analyzeImageWithGemini(base64Data, mimeType) {
     return;
   }
 
-  try {
-    const promptText = `Ets un expert sommelier i director d'exportació de vins i escumosos d'autor (Corpinnat, Champagne de vignerons, vins naturals).
+  const promptText = `Ets un expert sommelier i director d'exportació de vins i escumosos d'autor (Corpinnat, Champagne de vignerons, vins naturals).
 Analitza amb precisió aquesta imatge (captura de pantalla d'un compte d'Instagram, perfil comercial, targeta de visita o catàleg d'un distribuïdor / importador de vi).
 Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni blocs de markdown amb aquests camps exactes:
 {
@@ -1814,7 +1813,53 @@ Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni 
   "notes": "Comentaris sobre la bio, seguidors i perfil comercial"
 }`;
 
-    const payload = {
+  let rawText = null;
+  let lastError = null;
+
+  // 1. INTENT PRINCIPAL: Interactions API de Google Gemini (gemini-3.8-flash)
+  try {
+    const interactionsUrl = 'https://generativelanguage.googleapis.com/v1beta/interactions?key=' + encodeURIComponent(apiKey);
+    const interactionsPayload = {
+      model: 'gemini-3.8-flash',
+      input: [
+        { type: 'text', text: promptText },
+        { type: 'image', mime_type: mimeType, data: base64Data }
+      ]
+    };
+
+    const res = await fetch(interactionsUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey
+      },
+      body: JSON.stringify(interactionsPayload)
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data.steps && Array.isArray(data.steps)) {
+        for (const step of data.steps) {
+          if (step.content && Array.isArray(step.content)) {
+            for (const item of step.content) {
+              if (item.text) rawText = (rawText || '') + item.text;
+            }
+          }
+        }
+      }
+      if (!rawText && data.output_text) rawText = data.output_text;
+    } else {
+      const errJson = await res.json().catch(() => ({}));
+      lastError = new Error(errJson.error ? errJson.error.message : 'Error Interactions API HTTP ' + res.status);
+    }
+  } catch (err) {
+    lastError = err;
+  }
+
+  // 2. INTENT FALLBACK: generateContent amb models compatibles
+  if (!rawText) {
+    const fallbackModels = ['gemini-2.5-flash', 'gemini-1.5-flash'];
+    const generatePayload = {
       contents: [
         {
           parts: [
@@ -1834,60 +1879,49 @@ Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni 
       }
     };
 
-    // Suport per a models recomanats per Google AI Studio amb fallback automàtic
-    const candidateModels = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash'];
-    let resJson = null;
-    let lastError = null;
-
-    for (const model of candidateModels) {
+    for (const model of fallbackModels) {
       try {
-        const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(apiKey);
-        const response = await fetch(endpoint, {
+        const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + encodeURIComponent(apiKey);
+        const res = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(generatePayload)
         });
 
-        if (response.ok) {
-          resJson = await response.json();
-          break;
+        if (res.ok) {
+          const data = await res.json();
+          const cand = data.candidates && data.candidates[0];
+          rawText = cand && cand.content && cand.content.parts && cand.content.parts[0] && cand.content.parts[0].text;
+          if (rawText) break;
         } else {
-          const errJson = await response.json().catch(() => ({}));
-          lastError = new Error(errJson.error ? errJson.error.message : 'Error HTTP ' + response.status + ' (' + model + ')');
+          const errJson = await res.json().catch(() => ({}));
+          lastError = new Error(errJson.error ? errJson.error.message : 'Error HTTP ' + res.status + ' (' + model + ')');
         }
-      } catch (e) {
-        lastError = e;
+      } catch (err) {
+        lastError = err;
       }
     }
+  }
 
-    if (!resJson) {
-      throw lastError || new Error("No s'ha pogut obtenir resposta de cap model de Gemini");
-    }
-    const candidate = resJson.candidates && resJson.candidates[0];
-    const rawText = candidate && candidate.content && candidate.content.parts && candidate.content.parts[0] && candidate.content.parts[0].text;
+  if (!rawText) {
+    const errorMsg = lastError ? (lastError.message || String(lastError)) : "No s'ha pogut obtenir resposta de la IA";
+    if (statusText) statusText.innerText = "⚠️ Error processant imatge";
+    if (statusDetail) statusDetail.innerText = errorMsg;
+    showToast("Error IA: " + errorMsg, "error");
+    return;
+  }
 
-    if (!rawText) {
-      throw new Error("No s'ha pogut obtenir resposta de text de la IA");
-    }
-
-    let parsedData = null;
-    try {
-      const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-      parsedData = JSON.parse(cleanJson);
-    } catch (e) {
-      console.error("Error parsejant JSON de Gemini:", rawText);
-      throw new Error("La resposta de la IA no té format JSON vàlid");
-    }
-
+  try {
+    const cleanJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+    const parsedData = JSON.parse(cleanJson);
     fillFormWithAiData(parsedData);
     if (statusText) statusText.innerText = "✨ Imatge processada amb èxit!";
     if (statusDetail) statusDetail.innerText = "Les dades s'han bolcat automàticament al formulari.";
-
-  } catch (err) {
-    console.error("Error analitzant imatge amb Gemini:", err);
-    if (statusText) statusText.innerText = "⚠️ Error processant imatge";
-    if (statusDetail) statusDetail.innerText = err.message || "Comprova la clau d'API o la connexió a internet.";
-    showToast("Error IA: " + (err.message || "Error analitzant imatge"), "error");
+  } catch (parseErr) {
+    console.error("Error parsejant JSON de Gemini:", rawText);
+    if (statusText) statusText.innerText = "⚠️ Error de format de resposta";
+    if (statusDetail) statusDetail.innerText = "La IA no ha retornat un format JSON vàlid.";
+    showToast("Error en el format de dades de la IA", "error");
   }
 }
 
