@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v28';
+const STORAGE_KEY = 'crm_sparkling_distributors_v29';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -415,7 +415,7 @@ function setMainTab(tab) {
   }
 
   // 1b. Sincronitzar la barra de navegació inferior d'iPhone (iOS Tab Bar)
-  ['all', 'spain', 'corpinnat', 'usa', 'intl'].forEach(t => {
+  ['all', 'spain', 'usa', 'intl'].forEach(t => {
     const mobBtn = document.getElementById('mobnav-' + t);
     if (mobBtn) {
       if (t === tab || (t === 'intl' && tab === 'usa')) {
@@ -427,7 +427,7 @@ function setMainTab(tab) {
   });
 
   // 2. Mostrar només el sub-panell contextual actiu
-  ['all', 'spain', 'corpinnat', 'usa', 'intl'].forEach(t => {
+  ['all', 'spain', 'usa', 'intl'].forEach(t => {
     const p = document.getElementById('subpanel-' + t);
     if (p) {
       if (t === tab) {
@@ -528,22 +528,49 @@ function setSpainSubZone(zone) {
 
 function setCorpinnatSubWinery(winery) {
   state.filterWinery = winery;
-  
+  if (winery === 'Tots') {
+    state.filterSpecialty = 'Totes';
+  } else {
+    state.filterSpecialty = 'Corpinnat';
+  }
+
   document.querySelectorAll('.corp-subpill').forEach(b => {
-    b.className = 'corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0';
+    b.className = 'corp-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0';
   });
 
   if (winery === 'Tots') {
-    const allBtn = document.getElementById('subpill-winery-all');
-    if (allBtn) allBtn.className = 'corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-900 text-white border border-amber-900 transition-all shrink-0';
+    const allBtn = document.getElementById('subpill-corp-all');
+    if (allBtn) allBtn.className = 'corp-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0';
   } else {
-    const cleanId = 'subpill-winery-' + winery.replace(/[^a-zA-Z0-9]/g, '');
+    const cleanId = 'subpill-winery-' + winery.toLowerCase().replace(/[^a-z0-9]/g, '');
     const activeSubBtn = document.getElementById(cleanId);
-    if (activeSubBtn) activeSubBtn.className = 'corp-subpill px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-900 text-white border border-amber-900 transition-all shrink-0';
+    if (activeSubBtn) activeSubBtn.className = 'corp-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0';
   }
 
   const winerySelect = document.getElementById('filter-winery');
   if (winerySelect) winerySelect.value = winery;
+
+  renderDistributorsList();
+  updateActiveChips();
+}
+
+function toggleCorpinnatOnly() {
+  document.querySelectorAll('.corp-subpill').forEach(b => {
+    b.className = 'corp-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 transition-all shrink-0';
+  });
+
+  if (state.filterSpecialty === 'Corpinnat' && state.filterWinery === 'Tots') {
+    state.filterSpecialty = 'Totes';
+    const allBtn = document.getElementById('subpill-corp-all');
+    if (allBtn) allBtn.className = 'corp-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0';
+  } else {
+    state.filterSpecialty = 'Corpinnat';
+    state.filterWinery = 'Tots';
+    const onlyBtn = document.getElementById('subpill-corp-only');
+    if (onlyBtn) onlyBtn.className = 'corp-subpill px-2.5 py-1 rounded-xl text-xs font-bold bg-amber-900 text-white shadow-2xs shrink-0';
+    const winerySelect = document.getElementById('filter-winery');
+    if (winerySelect) winerySelect.value = 'Tots';
+  }
 
   renderDistributorsList();
   updateActiveChips();
@@ -3036,9 +3063,7 @@ function setIntlQuickFilter(country) {
 }
 
 function handleCorpinnatWineryChange(winery) {
-  state.filterWinery = winery;
-  render();
-  updateActiveChips();
+  setCorpinnatSubWinery(winery);
 }
 
 function handleStatusFilterChange(status) {
