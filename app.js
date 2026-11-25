@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v27';
+const STORAGE_KEY = 'crm_sparkling_distributors_v28';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -617,10 +617,7 @@ function toggleQuickStatus(status) {
   state.quickOnlyActive = !state.quickOnlyActive;
   const btn = document.getElementById('btn-quick-active');
   if (btn) {
-    if (state.quickOnlyCasajou) {
-    chips.push({ label: '🍇 Xarxa Casajou', action: 'toggleQuickCasajou()' });
-  }
-  if (state.quickOnlyActive) {
+    if (state.quickOnlyActive) {
       btn.className = 'px-2.5 py-1 rounded-lg bg-emerald-700 text-white border border-emerald-700 font-bold transition-all text-xs';
     } else {
       btn.className = 'px-2.5 py-1 rounded-lg bg-white border border-stone-200 hover:border-emerald-500 hover:text-emerald-800 font-semibold text-stone-700 transition-all text-xs';
