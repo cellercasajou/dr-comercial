@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v30';
+const STORAGE_KEY = 'crm_sparkling_distributors_v31';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -89,6 +89,12 @@ function initApp() {
     }
   } catch (e) {}
   updateViewMenuUI();
+
+  // Control d'accés i seguretat
+  if (!checkAuthentication()) {
+    return;
+  }
+
   render();
   updateSyncIndicator();
 }
@@ -3291,4 +3297,421 @@ function renderLargeGridView(distributors, container) {
       </div>
     `;
   }).join('');
+}
+
+
+// ========================================================
+// MÒDUL DE PRIVACITAT, ACCÉS & AUDITORIA D'ADMINISTRACIÓ
+// ========================================================
+
+const AUTH_PASSWORD_KEY = 'crm_auth_password_v1';
+const AUTH_TOKEN_KEY = 'crm_auth_token_v1';
+const AUTH_USER_KEY = 'crm_auth_user_v1';
+const ACCESS_LOGS_KEY = 'crm_access_logs_v1';
+const DEFAULT_AUTH_PASSWORD = 'casajou';
+
+function getStoredPassword() {
+  return localStorage.getItem(AUTH_PASSWORD_KEY) || DEFAULT_AUTH_PASSWORD;
+}
+
+function getClientDeviceInfo() {
+  if (typeof navigator === 'undefined') return 'Dispositiu desconegut';
+  const ua = navigator.userAgent || '';
+  let dev = 'Ordinador';
+  if (/iPhone/i.test(ua)) dev = 'iPhone';
+  else if (/iPad/i.test(ua)) dev = 'iPad';
+  else if (/Macintosh|Mac OS X/i.test(ua)) dev = 'Mac';
+  else if (/Windows/i.test(ua)) dev = 'Windows PC';
+  else if (/Android/i.test(ua)) dev = 'Android';
+  else if (/Linux/i.test(ua)) dev = 'Linux';
+
+  let browser = 'Navegador';
+  if (/Chrome|CriOS/i.test(ua) && !/Edge|OPR/i.test(ua)) browser = 'Chrome';
+  else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = 'Safari';
+  else if (/Firefox/i.test(ua)) browser = 'Firefox';
+  else if (/Edge/i.test(ua)) browser = 'Edge';
+
+  return `${dev} • ${browser}`;
+}
+
+function getAccessLogs() {
+  try {
+    const raw = localStorage.getItem(ACCESS_LOGS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function addAccessLog(username, success, details = '') {
+  const logs = getAccessLogs();
+  const now = new Date();
+  const logEntry = {
+    id: 'log-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+    timestamp: now.toISOString(),
+    formattedTime: now.toLocaleString('ca-ES', { dateStyle: 'short', timeStyle: 'medium' }),
+    username: username || 'Anònim',
+    device: getClientDeviceInfo(),
+    status: success ? 'Autoritzat' : 'Intent fallit (clau incorrecta)',
+    success: success,
+    details: details
+  };
+
+  logs.unshift(logEntry);
+  if (logs.length > 250) logs.pop();
+  localStorage.setItem(ACCESS_LOGS_KEY, JSON.stringify(logs));
+
+  if (state.supabaseClient) {
+    state.supabaseClient.from('access_logs').insert([{
+      timestamp: logEntry.timestamp,
+      username: logEntry.username,
+      device: logEntry.device,
+      status: logEntry.status,
+      success: logEntry.success,
+      details: logEntry.details
+    }]).then(() => {}).catch(err => console.warn('Sync log Supabase:', err));
+  }
+
+  return logEntry;
+}
+
+function checkAuthentication() {
+  const token = sessionStorage.getItem(AUTH_TOKEN_KEY) || localStorage.getItem(AUTH_TOKEN_KEY);
+  if (!token) {
+    showAuthGate();
+    return false;
+  }
+  hideAuthGate();
+  return true;
+}
+
+function showAuthGate() {
+  const modal = document.getElementById('auth-gate-modal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+    
+    const userInp = document.getElementById('auth-username-input');
+    const savedUser = localStorage.getItem(AUTH_USER_KEY) || '';
+    if (userInp) {
+      if (savedUser) userInp.value = savedUser;
+      else userInp.value = 'Jaume';
+    }
+
+    const pwdInp = document.getElementById('auth-password-input');
+    if (pwdInp) {
+      pwdInp.value = '';
+      setTimeout(() => pwdInp.focus(), 150);
+    }
+
+    const errBox = document.getElementById('auth-error-msg');
+    if (errBox) errBox.classList.add('hidden');
+
+    if (window.lucide) lucide.createIcons();
+  }
+}
+
+function hideAuthGate() {
+  const modal = document.getElementById('auth-gate-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+}
+
+function toggleAuthPasswordVisibility() {
+  const inp = document.getElementById('auth-password-input');
+  const icon = document.getElementById('auth-pwd-eye-icon');
+  if (!inp) return;
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    if (icon) icon.setAttribute('data-lucide', 'eye-off');
+  } else {
+    inp.type = 'password';
+    if (icon) icon.setAttribute('data-lucide', 'eye');
+  }
+  if (window.lucide) lucide.createIcons();
+}
+
+function handleAuthLogin(e) {
+  if (e) e.preventDefault();
+
+  const userInp = document.getElementById('auth-username-input');
+  const pwdInp = document.getElementById('auth-password-input');
+  const remChk = document.getElementById('auth-remember-me');
+  const errBox = document.getElementById('auth-error-msg');
+  const errText = document.getElementById('auth-error-text');
+
+  const username = userInp ? userInp.value.trim() : 'Administrador';
+  const password = pwdInp ? pwdInp.value : '';
+  const remember = remChk ? remChk.checked : true;
+
+  const validPassword = getStoredPassword();
+
+  if (password === validPassword) {
+    const token = 'token-' + Date.now() + '-' + Math.random().toString(36).substr(2, 8);
+    sessionStorage.setItem(AUTH_TOKEN_KEY, token);
+    if (remember) {
+      localStorage.setItem(AUTH_TOKEN_KEY, token);
+    }
+    localStorage.setItem(AUTH_USER_KEY, username);
+
+    addAccessLog(username, true, 'Inici de sessió amb èxit');
+    hideAuthGate();
+
+    render();
+    updateSyncIndicator();
+    showToast(`Benvingut/da, ${username}! Accés concedit.`, 'success');
+  } else {
+    addAccessLog(username, false, 'Contrasenya incorrecta introduïda');
+    if (errBox) {
+      errBox.classList.remove('hidden');
+      if (errText) errText.textContent = 'Contrasenya incorrecta. Torna-ho a provar.';
+    }
+    if (pwdInp) {
+      pwdInp.value = '';
+      pwdInp.focus();
+    }
+    showToast('Contrasenya incorrecta', 'error');
+  }
+}
+
+function handleLogout() {
+  sessionStorage.removeItem(AUTH_TOKEN_KEY);
+  localStorage.removeItem(AUTH_TOKEN_KEY);
+  closeSettingsModal();
+  showAuthGate();
+  showToast('Sessió tancada correctament', 'info');
+}
+
+// ==========================================
+// PANELL DE CONFIGURACIÓ & ADMINISTRACIÓ
+// ==========================================
+
+function openSettingsModal(defaultTab = 'admin') {
+  const modal = document.getElementById('settings-modal');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+  document.body.classList.add('overflow-hidden');
+
+  switchSettingsTab(defaultTab);
+  
+  const cloudUrl = document.getElementById('settings-cloud-url');
+  const cloudKey = document.getElementById('settings-cloud-key');
+  if (cloudUrl && state.supabaseConfig) cloudUrl.value = state.supabaseConfig.url || '';
+  if (cloudKey && state.supabaseConfig) cloudKey.value = state.supabaseConfig.key || '';
+
+  const geminiInp = document.getElementById('settings-gemini-key');
+  if (geminiInp) geminiInp.value = localStorage.getItem('crm_gemini_api_key') || '';
+
+  if (window.lucide) lucide.createIcons();
+}
+
+function closeSettingsModal() {
+  const modal = document.getElementById('settings-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  }
+}
+
+function switchSettingsTab(tab) {
+  ['admin', 'security', 'cloud', 'ai'].forEach(t => {
+    const btn = document.getElementById('settab-' + t);
+    const content = document.getElementById('setcontent-' + t);
+    if (btn) {
+      if (t === tab) {
+        btn.className = 'settings-tab px-3.5 py-2 font-bold text-xs rounded-t-xl transition-all border-b-2 border-amber-800 text-amber-950 bg-white shadow-2xs';
+      } else {
+        btn.className = 'settings-tab px-3.5 py-2 font-bold text-xs rounded-t-xl transition-all text-stone-500 hover:text-stone-800';
+      }
+    }
+    if (content) {
+      if (t === tab) content.classList.remove('hidden');
+      else content.classList.add('hidden');
+    }
+  });
+
+  if (tab === 'admin') {
+    renderAccessLogs();
+  }
+
+  if (window.lucide) lucide.createIcons();
+}
+
+function renderAccessLogs() {
+  const tbody = document.getElementById('access-logs-tbody');
+  const totalEl = document.getElementById('stat-total-logins');
+  const lastUserEl = document.getElementById('stat-last-login-user');
+  const lastTimeEl = document.getElementById('stat-last-login-time');
+  const currentSessionEl = document.getElementById('stat-current-session');
+
+  const logs = getAccessLogs();
+
+  if (totalEl) totalEl.textContent = logs.length;
+  if (currentSessionEl) currentSessionEl.textContent = (localStorage.getItem(AUTH_USER_KEY) || 'Jaume') + ' • Actiu';
+
+  const lastSuccess = logs.find(l => l.success) || logs[0];
+  if (lastSuccess) {
+    if (lastUserEl) lastUserEl.textContent = lastSuccess.username;
+    if (lastTimeEl) lastTimeEl.textContent = lastSuccess.formattedTime || lastSuccess.timestamp;
+  } else {
+    if (lastUserEl) lastUserEl.textContent = 'Cap accés';
+    if (lastTimeEl) lastTimeEl.textContent = '-';
+  }
+
+  if (!tbody) return;
+
+  if (logs.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" class="py-8 text-center text-stone-400">
+          <i data-lucide="shield" class="w-6 h-6 mx-auto mb-1 opacity-50"></i>
+          Encara no s'ha registrat cap accés.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = logs.map(l => `
+    <tr class="hover:bg-stone-50 transition-colors">
+      <td class="py-2.5 px-3.5 text-stone-500 whitespace-nowrap font-mono text-[11px]">${l.formattedTime || l.timestamp}</td>
+      <td class="py-2.5 px-3.5 font-bold text-stone-900 whitespace-nowrap flex items-center gap-1.5">
+        <span class="w-5 h-5 rounded-full bg-stone-200 text-stone-700 flex items-center justify-center text-[10px] font-black">${(l.username || 'A')[0].toUpperCase()}</span>
+        <span>${l.username}</span>
+      </td>
+      <td class="py-2.5 px-3.5 text-stone-600 whitespace-nowrap">${l.device || 'Desconegut'}</td>
+      <td class="py-2.5 px-3.5 whitespace-nowrap">
+        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${l.success ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+          ${l.status}
+        </span>
+      </td>
+    </tr>
+  `).join('');
+
+  if (window.lucide) lucide.createIcons();
+}
+
+function exportAccessLogsToCsv() {
+  const logs = getAccessLogs();
+  if (logs.length === 0) {
+    showToast("No hi ha registres d'accés per exportar", 'info');
+    return;
+  }
+
+  let csv = "\uFEFFData i Hora,Usuari / Comercial,Dispositiu,Estat,Detalls\n";
+  logs.forEach(l => {
+    csv += `"${(l.formattedTime || l.timestamp).replace(/"/g, '""')}","${(l.username || '').replace(/"/g, '""')}","${(l.device || '').replace(/"/g, '""')}","${(l.status || '').replace(/"/g, '""')}","${(l.details || '').replace(/"/g, '""')}"\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `registre_accessos_casajou_${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast("Registre d'accessos descarregat en CSV", 'success');
+}
+
+function clearAccessLogs() {
+  if (confirm("Segur que vols buidar tot el registre d'accessos? Aquesta acció no es pot desfer.")) {
+    localStorage.removeItem(ACCESS_LOGS_KEY);
+    renderAccessLogs();
+    showToast("Registre d'accessos buidat", 'info');
+  }
+}
+
+function handlePasswordChange(e) {
+  if (e) e.preventDefault();
+
+  const curInp = document.getElementById('pwd-current');
+  const newInp = document.getElementById('pwd-new');
+  const confInp = document.getElementById('pwd-confirm');
+
+  const curVal = curInp ? curInp.value : '';
+  const newVal = newInp ? newInp.value : '';
+  const confVal = confInp ? confInp.value : '';
+
+  const stored = getStoredPassword();
+
+  if (curVal !== stored) {
+    showToast('La contrasenya actual no és correcta', 'error');
+    if (curInp) curInp.focus();
+    return;
+  }
+
+  if (newVal.length < 4) {
+    showToast('La nova contrasenya ha de tenir com a mínim 4 caràcters', 'error');
+    if (newInp) newInp.focus();
+    return;
+  }
+
+  if (newVal !== confVal) {
+    showToast('Les dues noves contrasenyes no coincideixen', 'error');
+    if (confInp) confInp.focus();
+    return;
+  }
+
+  localStorage.setItem(AUTH_PASSWORD_KEY, newVal);
+  addAccessLog(localStorage.getItem(AUTH_USER_KEY) || 'Administrador', true, 'Contrasenya canviada');
+
+  if (curInp) curInp.value = '';
+  if (newInp) newInp.value = '';
+  if (confInp) confInp.value = '';
+
+  showToast('Contrasenya d\'accés actualitzada correctament!', 'success');
+}
+
+function saveSupabaseSettingsFromModal() {
+  const urlInp = document.getElementById('settings-cloud-url');
+  const keyInp = document.getElementById('settings-cloud-key');
+  if (!urlInp || !keyInp) return;
+
+  const url = urlInp.value.trim();
+  const key = keyInp.value.trim();
+
+  if (!url || !key) {
+    showToast('Introdueix la URL i la clau de Supabase', 'error');
+    return;
+  }
+
+  state.supabaseConfig = { url, key, connected: true };
+  localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify(state.supabaseConfig));
+
+  if (window.supabase) {
+    state.supabaseClient = window.supabase.createClient(url, key);
+  }
+
+  updateSyncIndicator();
+  showToast('Supabase connectat correctament!', 'success');
+}
+
+function disconnectSupabaseFromModal() {
+  state.supabaseConfig = { url: '', key: '', connected: false };
+  state.supabaseClient = null;
+  localStorage.removeItem(SUPABASE_CONFIG_KEY);
+  const urlInp = document.getElementById('settings-cloud-url');
+  const keyInp = document.getElementById('settings-cloud-key');
+  if (urlInp) urlInp.value = '';
+  if (keyInp) keyInp.value = '';
+
+  updateSyncIndicator();
+  showToast('Supabase desconnectat', 'info');
+}
+
+function saveGeminiKeyFromModal() {
+  const inp = document.getElementById('settings-gemini-key');
+  if (!inp) return;
+  const val = inp.value.trim();
+  if (val) {
+    localStorage.setItem('crm_gemini_api_key', val);
+    showToast('Clau de Gemini guardada amb èxit!', 'success');
+  } else {
+    localStorage.removeItem('crm_gemini_api_key');
+    showToast('Clau de Gemini esborrada', 'info');
+  }
 }

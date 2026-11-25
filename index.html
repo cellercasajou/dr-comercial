@@ -137,6 +137,17 @@
           <span class="md:hidden text-[10px]">Local</span>
         </div>
 
+        <!-- Settings & Administration Button -->
+        <button onclick="openSettingsModal()" title="Configuració & Panell d'Administradors" class="h-8 sm:h-9 px-2 sm:px-2.5 bg-stone-800 hover:bg-stone-700 active:bg-stone-600 text-stone-200 rounded-xl border border-stone-700 flex items-center justify-center gap-1.5 text-xs font-semibold transition-colors active:scale-95 shrink-0">
+          <i data-lucide="settings" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span class="hidden md:inline">Configuració</span>
+        </button>
+
+        <!-- Lock / Logout Button -->
+        <button onclick="handleLogout()" title="Bloquejar / Tancar Sessió" class="h-8 sm:h-9 px-2 sm:px-2 bg-stone-800 hover:bg-stone-700 active:bg-stone-600 text-stone-300 hover:text-white rounded-xl border border-stone-700 flex items-center justify-center transition-colors active:scale-95 shrink-0">
+          <i data-lucide="lock" class="w-3.5 h-3.5 text-stone-400"></i>
+        </button>
+
         <!-- In-App Refresh Button (Compacte a iPad/Mòbil, amb text a PC) -->
         <button onclick="forceRefreshApp()" title="Refrescar i actualitzar dades" class="h-8 sm:h-9 px-2 sm:px-2.5 bg-stone-800 hover:bg-stone-700 active:bg-stone-600 text-stone-200 rounded-xl border border-stone-700 flex items-center justify-center gap-1.5 text-xs font-semibold transition-colors active:scale-95 shrink-0">
           <i data-lucide="rotate-cw" class="w-3.5 h-3.5 text-amber-400"></i>
@@ -546,7 +557,7 @@
           <div>
             <div class="flex items-center gap-2">
               <h3 class="text-base sm:text-lg font-black text-white leading-tight">Afegir Nou Distribuïdor / Importador</h3>
-              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v30 • Neteja Píndoles Corpinnat</span>
+              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v31 • Panell Administradors & Privacitat</span>
             </div>
             <p class="text-[11px] text-amber-300/80 font-medium">Amb escàner IA d'Instagram (Interactions API) i detector de duplicats</p>
           </div>
@@ -852,6 +863,270 @@
     </div>
   </div>
 
+  <!-- ========================================== -->
+  <!-- MODAL: PANTALLA D'ACCÉS / SEGURETAT        -->
+  <!-- ========================================== -->
+  <div id="auth-gate-modal" class="hidden fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-stone-900 border border-amber-600/30 rounded-3xl w-full max-w-md p-6 sm:p-8 shadow-2xl text-white relative overflow-hidden animate-slide-up">
+      <!-- Glow ambient background -->
+      <div class="absolute -top-24 -left-24 w-48 h-48 bg-amber-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-rose-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Header amb Logo Dr. Comercial -->
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-stone-800 via-stone-900 to-amber-950 mx-auto flex items-center justify-center text-amber-300 border border-amber-500/30 shadow-lg mb-3">
+          <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="44" stroke="#D4AF37" stroke-width="2" stroke-opacity="0.5"/>
+            <circle cx="50" cy="50" r="39" stroke="#D4AF37" stroke-width="1" stroke-dasharray="3 3" stroke-opacity="0.4"/>
+            <text x="50" y="58" font-family="Georgia, Cambria, 'Times New Roman', serif" font-size="32" font-weight="bold" fill="#EAD598" text-anchor="middle" letter-spacing="-0.5">Dr.</text>
+            <circle cx="50" cy="22" r="2" fill="#D4AF37"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-black text-white tracking-tight">Accés Protegit • Dr. Comercial</h2>
+        <p class="text-xs text-amber-200/70 mt-1">Introdueix la contrasenya d'accés per consultar el CRM</p>
+      </div>
+
+      <!-- Formulari d'accés -->
+      <form id="auth-gate-form" onsubmit="handleAuthLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-stone-300 mb-1.5">Identificador / Qui ets?</label>
+          <div class="relative">
+            <i data-lucide="user" class="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="auth-username-input" placeholder="Ex: Jaume Vilaseca, Comercial..." required
+                   class="w-full pl-10 pr-3.5 py-2.5 bg-stone-800 border border-stone-700 rounded-xl text-sm font-semibold text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-stone-300 mb-1.5">Contrasenya</label>
+          <div class="relative">
+            <i data-lucide="lock" class="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input type="password" id="auth-password-input" placeholder="••••••••" required
+                   class="w-full pl-10 pr-10 py-2.5 bg-stone-800 border border-stone-700 rounded-xl text-sm font-semibold text-white placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all">
+            <button type="button" onclick="toggleAuthPasswordVisibility()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-200">
+              <i id="auth-pwd-eye-icon" data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <div id="auth-error-msg" class="hidden text-xs text-rose-400 font-bold mt-1.5 flex items-center gap-1">
+            <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+            <span id="auth-error-text">Contrasenya incorrecta.</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-stone-400 pt-1">
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" id="auth-remember-me" checked class="rounded border-stone-700 text-amber-600 focus:ring-amber-500 bg-stone-800">
+            <span>Recorda la sessió</span>
+          </label>
+          <span class="text-[11px] text-stone-500">Privacitat Celler Casajou</span>
+        </div>
+
+        <button type="submit" id="auth-submit-btn" class="w-full py-3 bg-gradient-to-r from-amber-600 via-amber-700 to-amber-900 hover:from-amber-500 hover:to-amber-800 text-white rounded-xl font-black text-sm tracking-wide shadow-lg active:scale-98 transition-all flex items-center justify-center gap-2 mt-2">
+          <i data-lucide="key" class="w-4 h-4"></i>
+          <span>Entrar al CRM</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CONFIGURACIÓ & ADMINISTRACIÓ        -->
+  <!-- ========================================== -->
+  <div id="settings-modal" class="hidden fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 overflow-hidden">
+    <div class="bg-white rounded-t-[32px] sm:rounded-3xl w-full max-w-4xl max-h-[92vh] sm:max-h-[88vh] flex flex-col shadow-2xl border border-stone-200 overflow-hidden animate-slide-up sm:animate-in sm:zoom-in-95 duration-200 pb-[env(safe-area-inset-bottom)] sm:pb-0">
+      <!-- iOS Drag Indicator Bar (Mobile Only) -->
+      <div class="w-12 h-1.5 bg-stone-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0 cursor-pointer" onclick="closeSettingsModal()"></div>
+
+      <!-- Capçalera del Modal -->
+      <div class="p-4 sm:p-5 bg-stone-900 text-white flex items-center justify-between border-b border-stone-800 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-amber-900/60 border border-amber-600/40 flex items-center justify-center text-amber-300">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-white leading-tight">Configuració & Administració</h3>
+            <p class="text-[11px] text-stone-400">Control de privacitat, auditories d'accés i sistema</p>
+          </div>
+        </div>
+        <button onclick="closeSettingsModal()" class="w-8 h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-stone-300 flex items-center justify-center transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Pestanyes de configuració -->
+      <div class="px-4 sm:px-6 pt-3 bg-stone-50 border-b border-stone-200 flex items-center gap-2 overflow-x-auto no-scrollbar shrink-0">
+        <button id="settab-admin" onclick="switchSettingsTab('admin')" class="settings-tab px-3.5 py-2 font-bold text-xs rounded-t-xl transition-all border-b-2 border-amber-800 text-amber-950 bg-white shadow-2xs">
+          👥 Panell d'Administradors & Accessos
+        </button>
+        <button id="settab-security" onclick="switchSettingsTab('security')" class="settings-tab px-3.5 py-2 font-bold text-xs rounded-t-xl transition-all text-stone-500 hover:text-stone-800">
+          🔐 Contrasenya & Seguretat
+        </button>
+        <button id="settab-cloud" onclick="switchSettingsTab('cloud')" class="settings-tab px-3.5 py-2 font-bold text-xs rounded-t-xl transition-all text-stone-500 hover:text-stone-800">
+          ☁️ Núvol & Supabase
+        </button>
+        <button id="settab-ai" onclick="switchSettingsTab('ai')" class="settings-tab px-3.5 py-2 font-bold text-xs rounded-t-xl transition-all text-stone-500 hover:text-stone-800">
+          ✨ Clau IA Gemini
+        </button>
+      </div>
+
+      <!-- Contingut de les pestanyes (amb scroll intern) -->
+      <div class="p-4 sm:p-6 overflow-y-auto flex-1 space-y-6">
+        
+        <!-- PESTANYA 1: Panell d'Administradors & Accessos (Audit Log) -->
+        <div id="setcontent-admin" class="space-y-5">
+          <!-- KPIs de Seguretat -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="p-4 bg-stone-50 rounded-2xl border border-stone-200">
+              <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider">Connexions Totals</span>
+              <div id="stat-total-logins" class="text-2xl font-black text-stone-900 mt-1">0</div>
+              <span class="text-[10px] text-stone-400">Historial complet</span>
+            </div>
+            <div class="p-4 bg-emerald-50/70 rounded-2xl border border-emerald-200/80">
+              <span class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider">Últim Accés</span>
+              <div id="stat-last-login-user" class="text-sm font-black text-emerald-950 mt-1 truncate">-</div>
+              <span id="stat-last-login-time" class="text-[10px] text-emerald-700 truncate block">-</span>
+            </div>
+            <div class="p-4 bg-amber-50/70 rounded-2xl border border-amber-200/80">
+              <span class="text-[11px] font-bold text-amber-800 uppercase tracking-wider">Sessió Actual</span>
+              <div id="stat-current-session" class="text-sm font-black text-amber-950 mt-1 truncate">-</div>
+              <span class="text-[10px] text-amber-700">Aquest dispositiu</span>
+            </div>
+          </div>
+
+          <!-- Taula del Registre d'Accessos -->
+          <div>
+            <div class="flex items-center justify-between mb-2.5 flex-wrap gap-2">
+              <div>
+                <h4 class="text-sm font-black text-stone-900">Registre d'Entrades & Auditoria</h4>
+                <p class="text-xs text-stone-500">Qui s'ha connectat a l'aplicació, quin dia, a quina hora i des de quin dispositiu</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="exportAccessLogsToCsv()" class="px-2.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-xs rounded-xl border border-stone-200 transition-colors flex items-center gap-1">
+                  <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                  <span>Exportar CSV</span>
+                </button>
+                <button onclick="clearAccessLogs()" class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-xl border border-rose-200 transition-colors flex items-center gap-1">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  <span>Buidar</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Taula d'Accessos -->
+            <div class="overflow-x-auto border border-stone-200 rounded-2xl bg-white max-h-72">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead class="sticky top-0 bg-stone-50 z-10">
+                  <tr class="border-b border-stone-200 font-bold text-stone-600 uppercase text-[10px] tracking-wider">
+                    <th class="py-2.5 px-3.5">Data & Hora</th>
+                    <th class="py-2.5 px-3.5">Usuari / Comercial</th>
+                    <th class="py-2.5 px-3.5">Dispositiu & Navegador</th>
+                    <th class="py-2.5 px-3.5">Estat</th>
+                  </tr>
+                </thead>
+                <tbody id="access-logs-tbody" class="divide-y divide-stone-100 font-medium text-stone-700">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PESTANYA 2: Seguretat & Contrasenya -->
+        <div id="setcontent-security" class="hidden space-y-6">
+          <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-2xl flex items-start gap-3">
+            <i data-lucide="shield-check" class="w-5 h-5 text-amber-800 shrink-0 mt-0.5"></i>
+            <div>
+              <h5 class="text-xs font-bold text-amber-950">Privacitat i Protecció per Contrasenya</h5>
+              <p class="text-[11px] text-amber-800 mt-0.5">
+                La contrasenya protegeix el CRM perquè només les persones autoritzades de Celler Casajou puguin veure la base de dades i els contactes dels distribuïdors.
+              </p>
+            </div>
+          </div>
+
+          <!-- Formulari per canviar contrasenya -->
+          <form onsubmit="handlePasswordChange(event)" class="space-y-4 max-w-md">
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">Contrasenya Actual</label>
+              <input type="password" id="pwd-current" required placeholder="Contrasenya actual..."
+                     class="w-full px-3.5 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-800">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">Nova Contrasenya</label>
+              <input type="password" id="pwd-new" required placeholder="Mínim 4 caràcters..."
+                     class="w-full px-3.5 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-800">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-stone-700 mb-1">Repetir Nova Contrasenya</label>
+              <input type="password" id="pwd-confirm" required placeholder="Confirma la nova contrasenya..."
+                     class="w-full px-3.5 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-800">
+            </div>
+
+            <button type="submit" class="px-5 py-2.5 bg-amber-900 hover:bg-amber-950 text-white rounded-xl text-xs font-bold transition-all shadow-xs">
+              Actualitzar Contrasenya
+            </button>
+          </form>
+
+          <hr class="border-stone-200">
+
+          <!-- Acció de Tancar Sessió -->
+          <div class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200">
+            <div>
+              <h5 class="text-xs font-bold text-stone-900">Tancar la Sessió Actual</h5>
+              <p class="text-[11px] text-stone-500">Bloqueja immediatament l'aplicació en aquest dispositiu requerint la contrasenya.</p>
+            </div>
+            <button onclick="handleLogout()" class="px-4 py-2 bg-stone-900 hover:bg-black text-white font-bold text-xs rounded-xl transition-all flex items-center gap-1.5 shrink-0">
+              <i data-lucide="log-out" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Tancar Sessió</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- PESTANYA 3: Núvol & Supabase -->
+        <div id="setcontent-cloud" class="hidden space-y-4 max-w-lg">
+          <p class="text-xs text-stone-600">
+            Connecta el CRM amb la base de dades PostgreSQL a Supabase per sincronitzar en temps real els distribuïdors i els registres d'accés entre tots els dispositius.
+          </p>
+          <div>
+            <label class="block text-xs font-bold text-stone-700 mb-1">Supabase Project URL</label>
+            <input type="url" id="settings-cloud-url" placeholder="https://xyzcompany.supabase.co" class="w-full px-3.5 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-800">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-stone-700 mb-1">Supabase Anon Key</label>
+            <input type="password" id="settings-cloud-key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." class="w-full px-3.5 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-800">
+          </div>
+          <div class="flex items-center gap-2 pt-2">
+            <button onclick="saveSupabaseSettingsFromModal()" class="px-4 py-2 bg-emerald-800 hover:bg-emerald-900 text-white rounded-xl text-xs font-bold transition-all shadow-xs">
+              Guardar i Connectar Núvol
+            </button>
+            <button onclick="disconnectSupabaseFromModal()" class="px-4 py-2 bg-stone-200 hover:bg-stone-300 text-stone-700 rounded-xl text-xs font-bold transition-all">
+              Desconnectar
+            </button>
+          </div>
+        </div>
+
+        <!-- PESTANYA 4: Clau IA Gemini -->
+        <div id="setcontent-ai" class="hidden space-y-4 max-w-lg">
+          <p class="text-xs text-stone-600">
+            Clau d'API de Google Gemini utilitzada per a l'anàlisi de captures de perfils d'Instagram i targetes comercials.
+          </p>
+          <div>
+            <label class="block text-xs font-bold text-stone-700 mb-1">Google Gemini API Key</label>
+            <input type="password" id="settings-gemini-key" placeholder="AIzaSy..." class="w-full px-3.5 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-800">
+          </div>
+          <div class="flex items-center gap-2 pt-2">
+            <button onclick="saveGeminiKeyFromModal()" class="px-4 py-2 bg-amber-800 hover:bg-amber-900 text-white rounded-xl text-xs font-bold transition-all shadow-xs">
+              Guardar Clau Gemini
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
   <!-- Toast Notification element -->
   <div id="toast" class="fixed bottom-5 right-5 z-50 px-4 py-3 rounded-2xl shadow-xl text-white font-bold text-xs md:text-sm transform translate-y-12 opacity-0 pointer-events-none transition-all duration-300"></div>
 
@@ -886,7 +1161,7 @@
   </nav>
 
   <!-- Scripts -->
-  <script src="data.js?v=30"></script>
-  <script src="app.js?v=30"></script>
+  <script src="data.js?v=31"></script>
+  <script src="app.js?v=31"></script>
 </body>
 </html>
