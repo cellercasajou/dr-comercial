@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v26';
+const STORAGE_KEY = 'crm_sparkling_distributors_v27';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -943,7 +943,6 @@ function renderTableView(distributors, container) {
           <th class="py-3.5 px-4">País / Àmbit</th>
           <th class="py-3.5 px-4">Estat & Prioritat</th>
           <th class="py-3.5 px-4">Cellers a Cartera / Focus</th>
-          <th class="py-3.5 px-4">Contacte Ràpid</th>
           <th class="py-3.5 px-4 text-right">Accions</th>
         </tr>
       </thead>
@@ -982,21 +981,6 @@ function renderTableView(distributors, container) {
               <td class="py-3 px-4 max-w-xs">
                 ${d.related_wineries ? `<div class="font-medium text-stone-800 truncate text-xs"><span class="font-bold text-rose-900">🍷</span> ${d.related_wineries}</div>` : ''}
                 ${d.sparkling_focus ? `<div class="text-stone-500 truncate text-[11px]">${d.sparkling_focus}</div>` : ''}
-              </td>
-              <td class="py-3 px-4" onclick="event.stopPropagation()">
-                <div class="flex items-center gap-2">
-                  ${phone ? `
-                    <a href="https://wa.me/${phone.replace(/[^0-9]/g, '')}" target="_blank" class="w-7 h-7 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded-lg flex items-center justify-center">
-                      <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
-                    </a>
-                  ` : ''}
-                  ${c.email || d.email ? `
-                    <a href="mailto:${c.email || d.email}" class="w-7 h-7 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-lg flex items-center justify-center">
-                      <i data-lucide="mail" class="w-3.5 h-3.5"></i>
-                    </a>
-                  ` : ''}
-                  ${phone ? `<span class="text-xs text-stone-600 font-mono">${phone}</span>` : ''}
-                </div>
               </td>
               <td class="py-3 px-4 text-right">
                 <button class="px-3 py-1 bg-stone-100 hover:bg-stone-900 hover:text-white rounded-lg text-xs font-bold transition-all">
