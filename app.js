@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v39';
+const STORAGE_KEY = 'crm_sparkling_distributors_v40';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 const FIREBASE_CONFIG_KEY = 'crm_firebase_config_v1';
 const DEFAULT_FIREBASE_CONFIG = {
@@ -1252,10 +1252,16 @@ function renderGridView(distributors, container) {
             ` : ''}
           </div>
 
-          <button onclick="openDetailModal('${d.id}')" class="px-3.5 py-2 sm:px-3 sm:py-1.5 bg-stone-100 hover:bg-amber-900 hover:text-white active:bg-amber-900 active:text-white rounded-xl text-stone-700 font-bold transition-all flex items-center gap-1 text-xs sm:text-[11px] active:scale-95">
-            <span>Fitxa</span>
-            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-          </button>
+          <div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
+            <button type="button" onclick="openEditDistributorModal('${d.id}')" class="px-2.5 py-2 sm:px-2.5 sm:py-1.5 bg-stone-100 hover:bg-stone-200 active:bg-stone-300 text-stone-700 font-bold rounded-xl transition-all flex items-center gap-1 text-xs sm:text-[11px] active:scale-95" title="Editar distribuïdor">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5 text-stone-500"></i>
+              <span>Editar</span>
+            </button>
+            <button type="button" onclick="openDetailModal('${d.id}')" class="px-3.5 py-2 sm:px-3 sm:py-1.5 bg-stone-900 hover:bg-amber-900 active:bg-amber-900 text-white rounded-xl font-bold transition-all flex items-center gap-1 text-xs sm:text-[11px] active:scale-95">
+              <span>Fitxa</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
         </div>
 
       </div>
@@ -1313,9 +1319,16 @@ function renderTableView(distributors, container) {
                 ${d.sparkling_focus ? `<div class="text-stone-500 truncate text-[11px]">${d.sparkling_focus}</div>` : ''}
               </td>
               <td class="py-3 px-4 text-right">
-                <button class="px-3 py-1 bg-stone-100 hover:bg-stone-900 hover:text-white rounded-lg text-xs font-bold transition-all">
-                  Fitxa
-                </button>
+                <div class="flex items-center justify-end gap-1.5" onclick="event.stopPropagation()">
+                  <button type="button" onclick="openEditDistributorModal('${d.id}')" class="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-lg text-xs transition-all flex items-center gap-1" title="Editar distribuïdor">
+                    <i data-lucide="edit-3" class="w-3 h-3 text-stone-500"></i>
+                    <span>Editar</span>
+                  </button>
+                  <button type="button" onclick="openDetailModal('${d.id}')" class="px-3 py-1 bg-stone-900 hover:bg-black text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1">
+                    <span>Fitxa</span>
+                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                  </button>
+                </div>
               </td>
             </tr>
           `;
@@ -1626,9 +1639,14 @@ function renderDetailModal() {
           <button onclick="deleteDistributor('${d.id}')" class="px-4 py-2 text-rose-700 hover:bg-rose-50 text-xs font-bold rounded-xl border border-rose-200 transition-colors flex items-center gap-1.5">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Eliminar Distribuïdor
           </button>
-          <button onclick="closeDetailModal()" class="px-5 py-2 bg-stone-900 hover:bg-black text-white text-xs font-bold rounded-xl shadow-xs transition-colors">
-            Tancar Fitxa
-          </button>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="openEditDistributorModal('${d.id}')" class="px-4 py-2 bg-amber-800 hover:bg-amber-900 text-white text-xs font-bold rounded-xl shadow-xs transition-colors flex items-center gap-1.5">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Editar Dades
+            </button>
+            <button onclick="closeDetailModal()" class="px-5 py-2 bg-stone-900 hover:bg-black text-white text-xs font-bold rounded-xl shadow-xs transition-colors">
+              Tancar Fitxa
+            </button>
+          </div>
         </div>
       </div>
     `;
@@ -3690,11 +3708,12 @@ function renderLargeGridView(distributors, container) {
             ` : ''}
           </div>
 
-          <div class="flex items-center gap-2 ml-auto">
-            <button onclick="openEditDistributorModal('${d.id}')" class="px-3 py-1.5 text-xs font-semibold text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200 rounded-xl transition-colors">
-              Editar
+          <div class="flex items-center gap-2 ml-auto" onclick="event.stopPropagation()">
+            <button type="button" onclick="openEditDistributorModal('${d.id}')" class="px-3 py-1.5 text-xs font-semibold text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200 rounded-xl transition-colors flex items-center gap-1" title="Editar distribuïdor">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5 text-stone-500"></i>
+              <span>Editar</span>
             </button>
-            <button onclick="openDistributorDetail('${d.id}')" class="px-3.5 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-amber-800 to-wine-900 hover:from-amber-700 hover:to-wine-800 rounded-xl shadow-2xs transition-all active:scale-95 flex items-center gap-1">
+            <button type="button" onclick="openDetailModal('${d.id}')" class="px-3.5 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-amber-800 to-wine-900 hover:from-amber-700 hover:to-wine-800 rounded-xl shadow-2xs transition-all active:scale-95 flex items-center gap-1">
               <span>Obrir Fitxa</span>
               <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </button>
@@ -4123,4 +4142,86 @@ function saveGeminiKeyFromModal() {
     localStorage.removeItem('crm_gemini_api_key');
     showToast('Clau de Gemini esborrada', 'info');
   }
+}
+
+
+// ========================================================
+// MÒDUL D'EDICIÓ DE DISTRIBUÏDORS (Accessible des de totes les vistes)
+// ========================================================
+
+function openEditDistributorModal(id) {
+  const dist = state.distributors.find(d => d.id === id);
+  if (!dist) return;
+
+  document.getElementById('edit-id').value = dist.id;
+  document.getElementById('edit-name').value = dist.name || '';
+  document.getElementById('edit-legal-name').value = dist.legal_name || '';
+  document.getElementById('edit-country').value = dist.country || '';
+  document.getElementById('edit-city').value = dist.city || '';
+  document.getElementById('edit-address').value = dist.address || '';
+  document.getElementById('edit-website').value = dist.website || '';
+  document.getElementById('edit-instagram').value = dist.instagram || '';
+  document.getElementById('edit-tax-id').value = dist.tax_id || '';
+  document.getElementById('edit-status').value = dist.status || 'Actiu';
+  document.getElementById('edit-priority').value = dist.priority || 'Mitjana';
+  document.getElementById('edit-type').value = dist.distribution_type || '';
+  document.getElementById('edit-channels').value = dist.channels || '';
+  document.getElementById('edit-wineries').value = dist.related_wineries || '';
+  document.getElementById('edit-incoterm').value = dist.incoterm || 'EXW';
+  document.getElementById('edit-payment').value = dist.payment_terms || '30 dies';
+  document.getElementById('edit-moq').value = dist.moq || '1 Palet';
+  document.getElementById('edit-focus').value = dist.sparkling_focus || '';
+  document.getElementById('edit-margin').value = dist.margin_commission || 'Estàndard';
+  document.getElementById('edit-notes').value = dist.notes || '';
+
+  const sub = document.getElementById('edit-modal-subtitle');
+  if (sub) sub.textContent = `Editant dades de "${dist.name}" (${dist.country})`;
+
+  document.getElementById('edit-dist-modal').classList.remove('hidden');
+  document.body.classList.add('overflow-hidden');
+  if (window.lucide) lucide.createIcons();
+}
+
+function closeEditDistributorModal() {
+  document.getElementById('edit-dist-modal').classList.add('hidden');
+  document.body.classList.remove('overflow-hidden');
+}
+
+function saveEditDistributor(e) {
+  if (e) e.preventDefault();
+  const id = document.getElementById('edit-id').value;
+  const dist = state.distributors.find(d => d.id === id);
+  if (!dist) return;
+
+  dist.name = document.getElementById('edit-name').value.trim();
+  dist.legal_name = document.getElementById('edit-legal-name').value.trim();
+  dist.country = document.getElementById('edit-country').value.trim();
+  dist.city = document.getElementById('edit-city').value.trim();
+  dist.address = document.getElementById('edit-address').value.trim();
+  dist.website = document.getElementById('edit-website').value.trim();
+  dist.instagram = document.getElementById('edit-instagram').value.trim();
+  dist.tax_id = document.getElementById('edit-tax-id').value.trim();
+  dist.status = document.getElementById('edit-status').value;
+  dist.priority = document.getElementById('edit-priority').value;
+  dist.distribution_type = document.getElementById('edit-type').value.trim();
+  dist.channels = document.getElementById('edit-channels').value.trim();
+  dist.related_wineries = document.getElementById('edit-wineries').value.trim();
+  dist.incoterm = document.getElementById('edit-incoterm').value.trim();
+  dist.payment_terms = document.getElementById('edit-payment').value.trim();
+  dist.moq = document.getElementById('edit-moq').value.trim();
+  dist.sparkling_focus = document.getElementById('edit-focus').value.trim();
+  dist.margin_commission = document.getElementById('edit-margin').value.trim();
+  dist.notes = document.getElementById('edit-notes').value.trim();
+
+  saveDistributorsLocally();
+  syncSingleDistributorToFirebase(dist);
+
+  if (state.selectedDistributor && state.selectedDistributor.id === id) {
+    state.selectedDistributor = dist;
+    renderDetailModal();
+  }
+
+  render();
+  closeEditDistributorModal();
+  showToast(`Canvis guardats per a "${dist.name}"!`, 'success');
 }
