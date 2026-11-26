@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v32';
+const STORAGE_KEY = 'crm_sparkling_distributors_v33';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -1969,18 +1969,32 @@ Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni 
   "notes": "Comentaris sobre el tast, la bio o perfil comercial"
 }`;
 
-  // Priorització directa de models ultraràpids (evitem la crida prèvia GET /models per no afegir latència)
-  let candidateModels = ['gemini-2.5-flash', 'gemini-3.8-flash', 'gemini-2.5-pro'];
-
-  // Si a la sessió ja s'ha verificat un model que funciona, situar-lo el primer
+  // Netejar models obsolets o descatalogats de la memòria de sessió (com gemini-2.5-pro o 2.5-flash)
   const cachedModel = sessionStorage.getItem('gemini_working_model');
-  if (cachedModel && candidateModels.includes(cachedModel)) {
-    candidateModels = [cachedModel, ...candidateModels.filter(m => m !== cachedModel)];
+  if (cachedModel && (cachedModel.includes('2.5') || cachedModel.includes('1.0') || cachedModel.includes('gemini-pro'))) {
+    sessionStorage.removeItem('gemini_working_model');
+  }
+
+  // Llista de models actius moderns (Google Gemini 3 i Flash)
+  // NOTA: Google ha descatalogat models/gemini-2.5-pro i gemini-2.5-flash per a nous usuaris
+  // i requereix usar gemini-3.1-pro-preview o la família Gemini 3 Flash
+  let candidateModels = [
+    'gemini-3.1-pro-preview',
+    'gemini-3.6-flash',
+    'gemini-3.8-flash',
+    'gemini-2.0-flash',
+    'gemini-1.5-flash'
+  ];
+
+  const validCachedModel = sessionStorage.getItem('gemini_working_model');
+  if (validCachedModel && candidateModels.includes(validCachedModel)) {
+    candidateModels = [validCachedModel, ...candidateModels.filter(m => m !== validCachedModel)];
   }
 
   let rawText = null;
   let lastError = null;
 
+  // 1. ESTRATÈGIA PRINCIPAL: crida directa REST a generateContent amb models actius
   for (const model of candidateModels) {
     try {
       if (statusDetail) {
@@ -2005,7 +2019,7 @@ Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni 
         ],
         generationConfig: {
           responseMimeType: 'application/json',
-          maxOutputTokens: 800,
+          maxOutputTokens: 1000,
           temperature: 0.1
         }
       };
@@ -2030,9 +2044,7 @@ Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni 
         const errJson = await res.json().catch(() => ({}));
         const errMsg = errJson.error ? errJson.error.message : ('Error HTTP ' + res.status);
         lastError = new Error(errMsg);
-
-        // Si el model té alta demanda o falla, passem immediatament al següent sense bloquejar l'usuari
-        console.warn(`Model ${model} ha retornat error (${res.status}): ${errMsg}. Provant següent...`);
+        console.warn(`Model ${model} ha retornat error (${res.status}): ${errMsg}. Provant següent model actiu...`);
       }
     } catch (err) {
       lastError = err;
@@ -2042,10 +2054,64 @@ Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni 
     if (rawText) break;
   }
 
-  // Fallback opcional: si cap dels 3 models directes funciona, fem una llista ràpida
+  // 2. ESTRATÈGIA SECUNDÀRIA: Interactions API oficial recomanada per Google
   if (!rawText) {
     try {
-      if (statusDetail) statusDetail.innerText = "Cercant model de reserva a Google...";
+      if (statusDetail) statusDetail.innerText = "Provant Interactions API oficial de Google...";
+      const interactionsUrl = 'https://generativelanguage.googleapis.com/v1beta/interactions?key=' + encodeURIComponent(apiKey);
+      const interactionsPayload = {
+        model: 'gemini-3.1-pro-preview',
+        input: [
+          { type: 'text', text: promptText },
+          {
+            type: 'image',
+            mime_type: mimeType || 'image/jpeg',
+            data: base64Data
+          }
+        ]
+      };
+
+      const intRes = await fetch(interactionsUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey
+        },
+        body: JSON.stringify(interactionsPayload)
+      });
+
+      if (intRes.ok) {
+        const intData = await intRes.json();
+        if (intData.steps && Array.isArray(intData.steps)) {
+          for (const step of intData.steps) {
+            if (step.content && Array.isArray(step.content)) {
+              for (const item of step.content) {
+                if (item.text) rawText = (rawText || '') + item.text;
+              }
+            }
+          }
+        }
+        if (!rawText && intData.output_text) {
+          rawText = intData.output_text;
+        }
+        if (rawText) {
+          sessionStorage.setItem('gemini_working_model', 'gemini-3.1-pro-preview');
+        }
+      } else {
+        const errJson = await intRes.json().catch(() => ({}));
+        if (errJson.error && errJson.error.message) {
+          lastError = new Error(errJson.error.message);
+        }
+      }
+    } catch (intErr) {
+      console.warn("Error amb Interactions API:", intErr);
+    }
+  }
+
+  // 3. ESTRATÈGIA TERCIÀRIA: Fallback dinàmic consultant models actius de la clau
+  if (!rawText) {
+    try {
+      if (statusDetail) statusDetail.innerText = "Cercant models actius a Google per a la teva clau...";
       const listRes = await fetch('https://generativelanguage.googleapis.com/v1beta/models?key=' + encodeURIComponent(apiKey));
       if (listRes.ok) {
         const listData = await listRes.json();
@@ -2053,16 +2119,22 @@ Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni 
           const alternateModels = listData.models
             .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
             .map(m => m.name.replace(/^models\//, ''))
-            .filter(m => !candidateModels.includes(m) && (m.includes('flash') || m.includes('pro')));
+            .filter(m => !m.includes('2.5') && !candidateModels.includes(m))
+            .sort((a, b) => {
+              if (a.includes('3.') && !b.includes('3.')) return -1;
+              if (!a.includes('3.') && b.includes('3.')) return 1;
+              if (a.includes('flash') && !b.includes('flash')) return -1;
+              return 0;
+            });
 
-          for (const altModel of alternateModels.slice(0, 2)) {
+          for (const altModel of alternateModels.slice(0, 3)) {
             const altUrl = 'https://generativelanguage.googleapis.com/v1beta/models/' + altModel + ':generateContent?key=' + encodeURIComponent(apiKey);
             const res = await fetch(altUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 contents: [{ role: 'user', parts: [{ text: promptText }, { inlineData: { mimeType: mimeType || 'image/jpeg', data: base64Data } }] }],
-                generationConfig: { responseMimeType: 'application/json', maxOutputTokens: 800, temperature: 0.1 }
+                generationConfig: { responseMimeType: 'application/json', maxOutputTokens: 1000, temperature: 0.1 }
               })
             });
             if (res.ok) {
@@ -2075,12 +2147,17 @@ Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni 
                 sessionStorage.setItem('gemini_working_model', altModel);
                 break;
               }
+            } else {
+              const errJson = await res.json().catch(() => ({}));
+              if (errJson.error && errJson.error.message) {
+                lastError = new Error(errJson.error.message);
+              }
             }
           }
         }
       }
     } catch (e) {
-      console.warn("Error en fallback de models:", e);
+      console.warn("Error en fallback dinàmic de models:", e);
     }
   }
 
@@ -2095,11 +2172,16 @@ Extreu i retorna ÚNICAMENT un objecte JSON vàlid sense cap text addicional ni 
   }
 
   try {
-    const cleanJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+    let cleanJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+    const jsonMatch = cleanJson.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      cleanJson = jsonMatch[0];
+    }
     const parsedData = JSON.parse(cleanJson);
     fillFormWithAiData(parsedData);
     if (statusText) statusText.innerText = `✨ Dades extretes en ${elapsedSec}s!`;
     if (statusDetail) statusDetail.innerText = "Les dades s'han bolcat automàticament al formulari.";
+    showToast(`Dades extretes amb èxit en ${elapsedSec}s!`, "success");
   } catch (parseErr) {
     console.error("Error parsejant JSON de Gemini:", rawText);
     if (statusText) statusText.innerText = "⚠️ Error de format de resposta";
