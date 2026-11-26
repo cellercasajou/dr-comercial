@@ -1156,8 +1156,8 @@ function formatDistributorLocation(d) {
   }
 }
 
-const DATA_REV = 52;
-const DELETED_INITIAL_IDS = ['dist-479'];
+const DATA_REV = 53;
+const DELETED_INITIAL_IDS = ['dist-479', 'dist-478', 'dist-480', 'dist-481', 'dist-482', 'dist-282', 'dist-293'];
 
 function hasValidCoords(d) {
   if (!d || d.lat === null || d.lat === undefined || d.lng === null || d.lng === undefined) return false;
