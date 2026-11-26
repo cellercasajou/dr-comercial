@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v43';
+const STORAGE_KEY = 'crm_sparkling_distributors_v44';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 const FIREBASE_CONFIG_KEY = 'crm_firebase_config_v1';
 const DEFAULT_FIREBASE_CONFIG = {
@@ -204,7 +204,7 @@ function startFirebaseRealtimeSync() {
         }
       });
 
-      state.distributors = Array.from(remoteMap.values());
+      state.distributors = sanitizeDistributorsData(Array.from(remoteMap.values()));
       saveDistributorsLocally();
       render();
       updateSyncIndicator();
@@ -362,6 +362,7 @@ function loadDistributors() {
     // 2. Comprovem claus locals anteriors per rescatar qualsevol distribuïdor afegit (el 484)
     const keysToCheck = [
       STORAGE_KEY,
+      'crm_sparkling_distributors_v43',
       'crm_sparkling_distributors_v42',
       'crm_sparkling_distributors_v41',
       'crm_sparkling_distributors_v40',
@@ -388,7 +389,7 @@ function loadDistributors() {
       } catch (e) {}
     }
 
-    state.distributors = Array.from(map.values());
+    state.distributors = sanitizeDistributorsData(Array.from(map.values()));
     saveDistributorsLocally();
   } catch (e) {
     console.error('Error carregant distribuïdors:', e);
@@ -1114,6 +1115,102 @@ function renderDistributorsList() {
   if (window.lucide) lucide.createIcons();
 }
 
+function formatDistributorLocation(d) {
+  if (!d) return '';
+  const country = (d.country || '').trim();
+  const city = (d.city || '').trim();
+  const prov = (d.province || '').trim();
+
+  if (country === 'Espanya') {
+    if (city && prov && !city.toLowerCase().includes(prov.toLowerCase()) && !prov.toLowerCase().includes(city.toLowerCase())) {
+      const cleanProv = prov.replace(/\(.*?\)/g, '').trim();
+      return cleanProv ? `${city} (${cleanProv})` : city;
+    }
+    return city || prov || '';
+  } else if (country === 'Estats Units') {
+    if (city && prov && !city.toLowerCase().includes(prov.toLowerCase())) {
+      const cleanProv = prov.replace(/\(.*?\)/g, '').replace(/-.*/g, '').trim();
+      return cleanProv ? `${city} (${cleanProv})` : city;
+    }
+    return city || prov || '';
+  } else {
+    if (city && city !== country) {
+      return city.split('/')[0].trim();
+    }
+    if (prov && prov !== country) {
+      return prov.split('/')[0].trim();
+    }
+    return '';
+  }
+}
+
+function sanitizeDistributorsData(list) {
+  if (!list || !Array.isArray(list)) return [];
+  const initialMap = new Map();
+  if (window.INITIAL_DISTRIBUTORS && Array.isArray(window.INITIAL_DISTRIBUTORS)) {
+    window.INITIAL_DISTRIBUTORS.forEach(init => {
+      if (init && init.id) initialMap.set(init.id, init);
+    });
+  }
+
+  let updatedCount = 0;
+  const updatedList = [];
+
+  list.forEach(d => {
+    if (!d || !d.id) return;
+    const init = initialMap.get(d.id);
+    let changed = false;
+
+    if (init) {
+      // 1. Sincronitzar llocs web verificant que no contingui enllaços fallits anteriors
+      if (init.website === '' && d.website && d.website !== '') {
+        d.website = '';
+        changed = true;
+      } else if (init.website && init.website !== d.website && (!d.website || d.website.includes('altervinos') || d.website.includes('gliggl') || d.website.includes('skurnik.com'))) {
+        d.website = init.website;
+        changed = true;
+      }
+
+      // 2. Sincronitzar Instagrams ficticis caiguts
+      if (init.instagram === '' && d.instagram && d.instagram !== '') {
+        d.instagram = '';
+        changed = true;
+      } else if (init.instagram && init.instagram !== d.instagram) {
+        d.instagram = init.instagram;
+        changed = true;
+      }
+
+      // 3. Corregir ubicacions que estaven errònies
+      if (init.city !== d.city) {
+        d.city = init.city;
+        changed = true;
+      }
+      if (init.province !== d.province) {
+        d.province = init.province;
+        changed = true;
+      }
+      if (init.region !== d.region) {
+        d.region = init.region;
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      updatedCount++;
+      updatedList.push(d);
+    }
+  });
+
+  if (updatedCount > 0) {
+    console.log(`Sanitized ${updatedCount} distributors with verified links and locations.`);
+    if (state.firebaseDb && updatedList.length > 0) {
+      uploadDistributorsToFirebase(updatedList);
+    }
+  }
+
+  return list;
+}
+
 function renderGridView(distributors, container) {
   container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5';
   container.innerHTML = distributors.map(d => {
@@ -1151,7 +1248,7 @@ function renderGridView(distributors, container) {
             <div class="min-w-0">
               <div class="flex items-center flex-wrap gap-1 text-xs font-bold text-stone-500 mb-1">
                 <span class="flex items-center gap-1">${getCountryFlag(d.country)} ${d.country}</span>
-                ${d.province ? `<span class="bg-amber-100/80 text-amber-950 px-2 py-0.5 rounded-md text-[11px] font-extrabold flex items-center gap-1">📍 ${d.province}</span>` : (d.city ? `<span class="bg-stone-100 text-stone-700 px-2 py-0.5 rounded-md text-[11px]">• ${d.city}</span>` : '')}
+                ${formatDistributorLocation(d) ? `<span class="bg-amber-100/80 text-amber-950 px-2 py-0.5 rounded-md text-[11px] font-extrabold flex items-center gap-1">📍 ${formatDistributorLocation(d)}</span>` : ''}
               </div>
               <h3 class="text-base font-black text-stone-900 group-hover:text-amber-900 transition-colors line-clamp-1">
                 ${d.name}
@@ -1294,7 +1391,7 @@ function renderTableView(distributors, container) {
                   <span>${getCountryFlag(d.country)}</span>
                   <span>${d.country}</span>
                 </div>
-                <div class="text-[11px] text-stone-400">${d.city || '-'}</div>
+                <div class="text-[11px] text-stone-400">${formatDistributorLocation(d) || '-'}</div>
               </td>
               <td class="py-3 px-4">
                 <div class="flex flex-col gap-1 items-start">
@@ -1361,7 +1458,8 @@ function renderDetailModal() {
 
   document.getElementById('modal-dist-name').textContent = d.name;
   document.getElementById('modal-dist-flag').textContent = getCountryFlag(d.country);
-  document.getElementById('modal-dist-country').textContent = `${d.country} ${d.city ? `• ${d.city}` : ''}`;
+  const locStr = formatDistributorLocation(d);
+  document.getElementById('modal-dist-country').textContent = locStr ? `${d.country} • ${locStr}` : d.country;
   
   const statusEl = document.getElementById('modal-dist-status');
   statusEl.textContent = d.status;
@@ -3575,7 +3673,7 @@ function renderLargeGridView(distributors, container) {
                   ${d.name}
                 </h3>
                 <div class="text-xs text-stone-500 font-medium flex items-center gap-2 truncate mt-0.5">
-                  <span class="truncate">${d.city ? d.city + ', ' : ''}${d.country}</span>
+                  <span class="truncate">${formatDistributorLocation(d) ? formatDistributorLocation(d) + ', ' : ''}${d.country}</span>
                   ${d.distribution_type ? '<span class="w-1 h-1 rounded-full bg-stone-300 shrink-0"></span><span class="text-amber-900 font-semibold truncate">' + d.distribution_type + '</span>' : ''}
                 </div>
               </div>
