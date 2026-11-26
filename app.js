@@ -1156,8 +1156,8 @@ function formatDistributorLocation(d) {
   }
 }
 
-const DATA_REV = 53;
-const DELETED_INITIAL_IDS = ['dist-479', 'dist-478', 'dist-480', 'dist-481', 'dist-482', 'dist-282', 'dist-293'];
+const DATA_REV = 54;
+const DELETED_INITIAL_IDS = ['dist-479', 'dist-478', 'dist-480', 'dist-481', 'dist-482', 'dist-282', 'dist-293', 'dist-274', 'dist-311', 'dist-348', 'dist-7', 'dist-278'];
 
 function hasValidCoords(d) {
   if (!d || d.lat === null || d.lat === undefined || d.lng === null || d.lng === undefined) return false;
@@ -1216,6 +1216,16 @@ function sanitizeDistributorsData(list) {
     // Rev. 51: correcció d'ubicació i tipus d'Enoteca Masketa (Donostia, Restaurant & Enoteca)
     if (rev < 51 && d.id === 'dist-479') {
       ['city', 'province', 'region', 'address', 'distribution_type', 'casajou_role', 'lat', 'lng', 'geo_precision'].forEach(field => {
+        if (init[field] !== undefined && d[field] !== init[field]) {
+          d[field] = init[field];
+          changed = true;
+        }
+      });
+    }
+
+    // Rev. 54: actualitzar La Galerie Wine Shop (ex-HUGE) i web de Pata Negra House Group
+    if (rev < 54 && (d.id === 'dist-337' || d.id === 'dist-342')) {
+      ['name', 'legal_name', 'city', 'website', 'distribution_type', 'notes'].forEach(field => {
         if (init[field] !== undefined && d[field] !== init[field]) {
           d[field] = init[field];
           changed = true;
