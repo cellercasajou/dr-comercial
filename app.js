@@ -3591,7 +3591,17 @@ function toggleViewMenu(e) {
   menu.classList.toggle('hidden');
 }
 
+function toggleMapView() {
+  if (state.viewMode === 'map') {
+    setViewMode(state.lastNonMapView || 'grid');
+  } else {
+    state.lastNonMapView = state.viewMode || 'grid';
+    setViewMode('map');
+  }
+}
+
 function setViewMode(mode) {
+  if (mode !== 'map') state.lastNonMapView = mode;
   state.viewMode = mode;
   try {
     localStorage.setItem('crm_view_mode', mode);
@@ -3637,6 +3647,18 @@ function updateViewMenuUI() {
     else if (mode === 'grid-large') iconEl.innerHTML = '<i data-lucide="grid-2x2" class="w-4 h-4 text-stone-700"></i>';
     else if (mode === 'table') iconEl.innerHTML = '<i data-lucide="list" class="w-4 h-4 text-stone-700"></i>';
     else if (mode === 'map') iconEl.innerHTML = '<i data-lucide="map" class="w-4 h-4 text-stone-700"></i>';
+    if (window.lucide) lucide.createIcons();
+  }
+
+  const mapBtn = document.getElementById('toggle-map-btn');
+  if (mapBtn) {
+    if (mode === 'map') {
+      mapBtn.className = 'flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl bg-amber-900 hover:bg-amber-950 border border-amber-900 text-white text-xs font-extrabold transition-all shadow-xs active:scale-95';
+      mapBtn.innerHTML = '<i data-lucide="map" class="w-4 h-4 text-amber-200"></i><span>Mapa</span>';
+    } else {
+      mapBtn.className = 'flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 text-xs font-extrabold transition-all shadow-2xs active:scale-95';
+      mapBtn.innerHTML = '<i data-lucide="map" class="w-4 h-4 text-amber-800"></i><span>Mapa</span>';
+    }
     if (window.lucide) lucide.createIcons();
   }
 }

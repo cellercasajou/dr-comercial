@@ -44,7 +44,7 @@
   <!-- Leaflet (mapa interactiu, gratuït, sense API key) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
-  <link rel="stylesheet" href="map.css?v=46">
+  <link rel="stylesheet" href="map.css?v=47">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
@@ -235,7 +235,7 @@
     </div>
 
     <!-- Filter & Search Controls (Disseny Modern: Segmented Control + Geografia Dinàmica Completa) -->
-    <div class="bg-white rounded-3xl border border-stone-200/90 shadow-2xs mb-6 overflow-hidden">
+    <div class="bg-white rounded-3xl border border-stone-200/90 shadow-2xs mb-6 overflow-visible">
       
       <!-- 1. Barra de Cerca Principal & Controls de Vista -->
       <div class="p-3.5 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-b border-stone-100">
@@ -260,7 +260,13 @@
             <span id="active-filters-count" class="hidden px-1.5 py-0.5 rounded-full bg-amber-900 text-white text-[10px]">0</span>
           </button>
 
-<!-- Menú Desplegable d'Estil Dropbox (Disseny de Vista) -->
+<!-- Botó Directe Mapa -->
+          <button id="toggle-map-btn" onclick="toggleMapView()" class="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-2xl bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 text-xs font-extrabold transition-all shadow-2xs active:scale-95" title="Veure distribuïdors al mapa">
+            <i data-lucide="map" class="w-4 h-4 text-amber-800"></i>
+            <span>Mapa</span>
+          </button>
+
+          <!-- Menú Desplegable d'Estil Dropbox (Disseny de Vista) -->
           <div class="relative">
             <button id="view-menu-btn" onclick="toggleViewMenu(event)" 
                     class="h-10 px-3 bg-stone-100 hover:bg-stone-200 border border-stone-200 rounded-2xl flex items-center gap-1.5 text-stone-700 font-bold text-xs shadow-2xs transition-all active:scale-95"
@@ -576,7 +582,7 @@
           <div>
             <div class="flex items-center gap-2">
               <h3 class="text-base sm:text-lg font-black text-white leading-tight">Afegir Nou Distribuïdor / Importador</h3>
-              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v46 • Mapa + Filtre Instagram</span>
+              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v47 • Botó Directe Mapa</span>
             </div>
             <p class="text-[11px] text-amber-300/80 font-medium">Amb escàner IA d'Instagram (Interactions API) i detector de duplicats</p>
           </div>
@@ -1282,8 +1288,8 @@ const firebaseConfig = {
   </nav>
 
   <!-- Scripts -->
-  <script src="data.js?v=46"></script>
-  <script src="map.js?v=46"></script>
-  <script src="app.js?v=46"></script>
+  <script src="data.js?v=47"></script>
+  <script src="map.js?v=47"></script>
+  <script src="app.js?v=47"></script>
 </body>
 </html>
