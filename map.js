@@ -137,7 +137,8 @@ function buildMapLayout(container) {
 
   mapCluster = L.markerClusterGroup({
     showCoverageOnHover: false,
-    maxClusterRadius: 45,
+    maxClusterRadius: 40,
+    disableClusteringAtZoom: 11,
     spiderfyOnMaxZoom: true,
     iconCreateFunction: (cluster) => {
       const n = cluster.getChildCount();
@@ -198,14 +199,42 @@ function updateMapMarkers(list) {
   mapCluster.clearLayers();
   mapMarkers = new Map();
 
-  const markers = [];
+  // Agrupem distribuïdors que comparteixen coordenades idèntiques per separar-los en cercle/espiral suau en fer zoom
+  const coordGroups = new Map();
   list.forEach(d => {
     if (!hasValidCoords(d)) return;
-    const marker = L.marker([Number(d.lat), Number(d.lng)], { icon: buildMapPinIcon(d), title: d.name });
-    marker.bindPopup(() => buildMapPopup(d), { maxWidth: 300, minWidth: 280, autoPanPadding: [30, 30] });
-    marker.on('click', () => setMapActive(d.id, { scrollList: true }));
-    mapMarkers.set(d.id, marker);
-    markers.push(marker);
+    const key = Number(d.lat).toFixed(4) + ',' + Number(d.lng).toFixed(4);
+    if (!coordGroups.has(key)) coordGroups.set(key, []);
+    coordGroups.get(key).push(d);
+  });
+
+  const markers = [];
+  coordGroups.forEach(group => {
+    const count = group.length;
+    group.forEach((d, idx) => {
+      let lat = Number(d.lat);
+      let lng = Number(d.lng);
+      if (count > 1) {
+        const cosLat = Math.max(0.2, Math.cos(lat * Math.PI / 180));
+        if (count <= 8) {
+          const angle = (2 * Math.PI * idx) / count - Math.PI / 2;
+          const radius = 0.015; // ~1.6 km al voltant del centre de la ciutat
+          lat += Math.sin(angle) * radius;
+          lng += (Math.cos(angle) * radius) / cosLat;
+        } else {
+          // Espiral daurada per ciutats amb molts distribuïdors (Barcelona, Madrid, NY...)
+          const angle = idx * 2.399963;
+          const radius = 0.0075 * Math.sqrt(idx + 1);
+          lat += Math.sin(angle) * radius;
+          lng += (Math.cos(angle) * radius) / cosLat;
+        }
+      }
+      const marker = L.marker([lat, lng], { icon: buildMapPinIcon(d), title: d.name });
+      marker.bindPopup(() => buildMapPopup(d), { maxWidth: 300, minWidth: 280, autoPanPadding: [30, 30] });
+      marker.on('click', () => setMapActive(d.id, { scrollList: true }));
+      mapMarkers.set(d.id, marker);
+      markers.push(marker);
+    });
   });
   mapCluster.addLayers(markers);
 
@@ -255,7 +284,7 @@ function focusDistributorOnMap(id) {
   const mapEl = document.getElementById('dist-map');
   if (mapEl && window.innerWidth < 1024) mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-  mapInstance.flyTo([Number(d.lat), Number(d.lng)], zoom, { duration: 0.8 });
+  mapInstance.flyTo(marker.getLatLng(), zoom, { duration: 0.8 });
   setTimeout(() => {
     if (!mapCluster || !mapMarkers.get(id)) return;
     mapCluster.zoomToShowLayer(marker, () => {
