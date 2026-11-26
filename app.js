@@ -1156,7 +1156,7 @@ function formatDistributorLocation(d) {
   }
 }
 
-const DATA_REV = 45;
+const DATA_REV = 51;
 
 function hasValidCoords(d) {
   if (!d || d.lat === null || d.lat === undefined || d.lng === null || d.lng === undefined) return false;
@@ -1200,6 +1200,16 @@ function sanitizeDistributorsData(list) {
       d.lng = init.lng;
       d.geo_precision = init.geo_precision || 'city';
       changed = true;
+    }
+
+    // Rev. 51: correcció d'ubicació i tipus d'Enoteca Masketa (Donostia, Restaurant & Enoteca)
+    if (rev < 51 && d.id === 'dist-479') {
+      ['city', 'province', 'region', 'address', 'distribution_type', 'casajou_role', 'lat', 'lng', 'geo_precision'].forEach(field => {
+        if (init[field] !== undefined && d[field] !== init[field]) {
+          d[field] = init[field];
+          changed = true;
+        }
+      });
     }
 
     if (rev < DATA_REV) {
