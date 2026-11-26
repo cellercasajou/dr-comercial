@@ -3,8 +3,9 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v34';
+const STORAGE_KEY = 'crm_sparkling_distributors_v35';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
+const FIREBASE_CONFIG_KEY = 'crm_firebase_config_v1';
 
 const COUNTRY_FLAGS = {
   'Espanya': '🇪🇸',
@@ -70,10 +71,14 @@ const state = {
     url: '',
     key: '',
     connected: false
-  }
+  },
+  firebaseDb: null,
+  firebaseConfig: null,
+  firebaseUnsubscribe: null
 };
 
 function initApp() {
+  loadFirebaseConfig();
   loadSupabaseConfig();
   loadDistributors();
   if ((!state.distributors || state.distributors.length === 0) && window.INITIAL_DISTRIBUTORS) {
@@ -98,11 +103,182 @@ function initApp() {
   render();
   updateSyncIndicator();
 
-  // Si Supabase està connectat, sincronitzar automàticament en segon pla
-  if (state.supabaseConfig.connected && state.supabaseClient) {
+  // Si Google Firebase està connectat, arrencar sincronització en temps real
+  if (state.firebaseConfig && state.firebaseDb) {
+    startFirebaseRealtimeSync();
+  } else if (state.supabaseConfig.connected && state.supabaseClient) {
     syncWithSupabase(true);
   }
 }
+
+function loadFirebaseConfig() {
+  try {
+    const raw = localStorage.getItem(FIREBASE_CONFIG_KEY);
+    if (raw) {
+      const config = JSON.parse(raw);
+      if (config && config.projectId && window.firebase) {
+        state.firebaseConfig = config;
+        state.firebaseDb = initFirebaseApp(config);
+      }
+    }
+  } catch (e) {
+    console.error('Error carregant configuració de Firebase:', e);
+  }
+}
+
+function initFirebaseApp(config) {
+  try {
+    if (!firebase.apps || !firebase.apps.length) {
+      firebase.initializeApp(config);
+    }
+    const db = firebase.firestore();
+    return db;
+  } catch (e) {
+    console.error('Error inicialitzant Firebase:', e);
+    return null;
+  }
+}
+
+function startFirebaseRealtimeSync() {
+  if (!state.firebaseDb) return;
+  if (state.firebaseUnsubscribe) {
+    try { state.firebaseUnsubscribe(); } catch (e) {}
+  }
+
+  state.firebaseUnsubscribe = state.firebaseDb.collection('distributors')
+    .onSnapshot((snapshot) => {
+      if (snapshot.empty) {
+        seedDistributorsToFirebase();
+        return;
+      }
+
+      const remoteList = [];
+      snapshot.forEach(doc => {
+        remoteList.push(doc.data());
+      });
+
+      if (remoteList.length > 0) {
+        state.distributors = remoteList;
+        saveDistributorsLocally();
+        render();
+        updateSyncIndicator();
+      }
+    }, (err) => {
+      console.warn('Error en temps real de Firebase:', err);
+      showToast('Avís Firebase: ' + (err.message || 'Error de connexió'), 'warning');
+    });
+}
+
+async function seedDistributorsToFirebase() {
+  if (!state.firebaseDb || !state.distributors.length) return;
+  showToast(`Pujant ${state.distributors.length} distribuïdors a Google Firebase...`, 'info');
+  try {
+    const batchSize = 400;
+    for (let i = 0; i < state.distributors.length; i += batchSize) {
+      const batch = state.firebaseDb.batch();
+      const slice = state.distributors.slice(i, i + batchSize);
+      for (const d of slice) {
+        const docRef = state.firebaseDb.collection('distributors').doc(d.id);
+        const copy = { ...d };
+        delete copy.contacts;
+        delete copy.interactions;
+        delete copy.documents;
+        batch.set(docRef, copy);
+      }
+      await batch.commit();
+    }
+    showToast("Tots els distribuïdors sincronitzats amb Firebase!", "success");
+    updateSyncIndicator();
+  } catch (err) {
+    console.error("Error inicialitzant dades a Firebase:", err);
+  }
+}
+
+function parseFirebaseConfigInput(text) {
+  if (!text) return null;
+  try {
+    const parsed = JSON.parse(text);
+    if (parsed.projectId) return parsed;
+  } catch (e) {}
+
+  const obj = {};
+  const keys = ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'];
+  for (const k of keys) {
+    const match = text.match(new RegExp(`${k}\\s*:\\s*["']([^"']+)["']`));
+    if (match) {
+      obj[k] = match[1];
+    }
+  }
+  if (obj.projectId && obj.apiKey) return obj;
+  return null;
+}
+
+function saveFirebaseConfigFromModal() {
+  const inp = document.getElementById('firebase-config-input');
+  if (!inp) return;
+  const config = parseFirebaseConfigInput(inp.value.trim());
+  if (!config) {
+    showToast("Format no reconegut. Assegura't d'enganxar el bloc firebaseConfig complet", 'error');
+    return;
+  }
+
+  localStorage.setItem(FIREBASE_CONFIG_KEY, JSON.stringify(config));
+  state.firebaseConfig = config;
+  state.firebaseDb = initFirebaseApp(config);
+  startFirebaseRealtimeSync();
+  updateSyncIndicator();
+  closeCloudModal();
+  showToast('Google Firebase connectat amb èxit!', 'success');
+}
+
+function saveFirebaseConfigFromSettingsModal() {
+  const inp = document.getElementById('settings-firebase-config');
+  if (!inp) return;
+  const config = parseFirebaseConfigInput(inp.value.trim());
+  if (!config) {
+    showToast("Format no reconegut. Assegura't d'enganxar el bloc firebaseConfig complet", 'error');
+    return;
+  }
+
+  localStorage.setItem(FIREBASE_CONFIG_KEY, JSON.stringify(config));
+  state.firebaseConfig = config;
+  state.firebaseDb = initFirebaseApp(config);
+  startFirebaseRealtimeSync();
+  updateSyncIndicator();
+  showToast('Google Firebase connectat amb èxit!', 'success');
+}
+
+function disconnectFirebase() {
+  if (state.firebaseUnsubscribe) {
+    try { state.firebaseUnsubscribe(); } catch (e) {}
+    state.firebaseUnsubscribe = null;
+  }
+  localStorage.removeItem(FIREBASE_CONFIG_KEY);
+  state.firebaseConfig = null;
+  state.firebaseDb = null;
+  updateSyncIndicator();
+  showToast('Google Firebase desconnectat', 'info');
+}
+
+function switchCloudTab(tab) {
+  const tabFb = document.getElementById('cloud-tab-firebase');
+  const tabSb = document.getElementById('cloud-tab-supabase');
+  const viewFb = document.getElementById('cloud-view-firebase');
+  const viewSb = document.getElementById('cloud-view-supabase');
+
+  if (tab === 'firebase') {
+    if (tabFb) tabFb.className = 'flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 bg-white text-amber-950 shadow-xs transition-all';
+    if (tabSb) tabSb.className = 'flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 text-stone-600 hover:text-stone-900 transition-all';
+    if (viewFb) viewFb.classList.remove('hidden');
+    if (viewSb) viewSb.classList.add('hidden');
+  } else {
+    if (tabSb) tabSb.className = 'flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 bg-white text-emerald-950 shadow-xs transition-all';
+    if (tabFb) tabFb.className = 'flex-1 py-2 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 text-stone-600 hover:text-stone-900 transition-all';
+    if (viewSb) viewSb.classList.remove('hidden');
+    if (viewFb) viewFb.classList.add('hidden');
+  }
+}
+
 
 function loadSupabaseConfig() {
   try {
@@ -1659,6 +1835,11 @@ function deleteDistributor(id) {
       .then(() => console.log('Distribuïdor eliminat de Supabase'))
       .catch(err => console.warn('Error eliminant de Supabase:', err));
   }
+  if (state.firebaseDb) {
+    state.firebaseDb.collection('distributors').doc(id).delete()
+      .then(() => console.log('Distribuïdor eliminat de Firebase:', id))
+      .catch(err => console.warn('Error eliminant de Firebase:', err));
+  }
   closeDetailModal();
   render();
   showToast('Distribuïdor eliminat', 'info');
@@ -2357,6 +2538,15 @@ function saveNewDistributorForm(e) {
   state.distributors.unshift(newDist);
   saveDistributorsLocally();
   syncSingleDistributorToSupabase(newDist);
+  if (state.firebaseDb) {
+    const copy = { ...newDist };
+    delete copy.contacts;
+    delete copy.interactions;
+    delete copy.documents;
+    state.firebaseDb.collection('distributors').doc(newDist.id).set(copy)
+      .then(() => console.log('Distribuïdor afegit a Firebase:', newDist.id))
+      .catch(err => console.warn('Error afegint a Firebase:', err));
+  }
   closeAddDistributorModal();
   render();
   openDetailModal(newDist.id);
@@ -2539,6 +2729,77 @@ function handleExcelImport(event) {
     }
   };
   reader.readAsArrayBuffer(file);
+}
+
+function openCloudModal() {
+  document.getElementById('cloud-url').value = state.supabaseConfig.url || '';
+  document.getElementById('cloud-key').value = state.supabaseConfig.key || '';
+  document.getElementById('cloud-modal').classList.remove('hidden');
+  const fbInp = document.getElementById('firebase-config-input');
+  if (fbInp && state.firebaseConfig) {
+    fbInp.value = JSON.stringify(state.firebaseConfig, null, 2);
+  }
+  document.body.classList.add('overflow-hidden');
+  if (window.lucide) lucide.createIcons();
+}
+
+function closeCloudModal() {
+  document.getElementById('cloud-modal').classList.add('hidden');
+  document.body.classList.remove('overflow-hidden');
+}
+
+function saveSupabaseConfig() {
+  const url = document.getElementById('cloud-url').value.trim();
+  const key = document.getElementById('cloud-key').value.trim();
+
+  state.supabaseConfig = { url, key, connected: false };
+  localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify(state.supabaseConfig));
+
+  if (url && key && window.supabase) {
+    try {
+      state.supabaseClient = window.supabase.createClient(url, key);
+      state.supabaseConfig.connected = true;
+      localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify(state.supabaseConfig));
+      updateSyncIndicator();
+      closeCloudModal();
+      showToast('Supabase connectat! Sincronitzant...', 'info');
+      syncWithSupabase(false);
+    } catch (e) {
+      showToast('Error amb les dades de connexió', 'error');
+    }
+  } else {
+    showToast("S'ha restablert el mode Local", "info");
+    updateSyncIndicator();
+    closeCloudModal();
+  }
+}
+
+function updateSyncIndicator() {
+  const badge = document.getElementById('sync-status-badge');
+  if (!badge) return;
+
+  const btnFbDisc = document.getElementById('btn-disconnect-firebase');
+  const setBtnFbDisc = document.getElementById('settings-btn-disconnect-firebase');
+
+  if (state.firebaseConfig && state.firebaseDb) {
+    badge.className = 'cursor-pointer text-[10px] sm:text-[11px] font-bold px-2 sm:px-2.5 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-600/80 flex items-center gap-1.5 hover:bg-amber-900 transition-colors shrink-0 shadow-2xs';
+    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> <span class="hidden md:inline">🔥 Firebase Actiu</span><span class="md:hidden">Firebase</span>';
+    badge.title = 'Google Firebase actiu (Sincronitzat en temps real)';
+    if (btnFbDisc) btnFbDisc.classList.remove('hidden');
+    if (setBtnFbDisc) setBtnFbDisc.classList.remove('hidden');
+  } else if (state.supabaseConfig && state.supabaseConfig.connected) {
+    badge.className = 'cursor-pointer text-[10px] sm:text-[11px] font-bold px-2 sm:px-2.5 py-1 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-700/80 flex items-center gap-1.5 hover:bg-emerald-900 transition-colors shrink-0';
+    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span class="hidden md:inline">☁️ Supabase Actiu</span><span class="md:hidden">Supabase</span>';
+    badge.title = 'Supabase actiu';
+    if (btnFbDisc) btnFbDisc.classList.add('hidden');
+    if (setBtnFbDisc) setBtnFbDisc.classList.add('hidden');
+  } else {
+    badge.className = 'cursor-pointer text-[10px] sm:text-[11px] font-semibold px-2 sm:px-2.5 py-1 rounded-full bg-stone-800/90 text-stone-300 border border-stone-700 flex items-center gap-1.5 hover:bg-stone-700 transition-colors shrink-0';
+    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400"></span> <span class="hidden md:inline">Mode Local</span><span class="md:hidden">Local</span>';
+    badge.title = 'Configuració de Núvol (Google Firebase / Supabase)';
+    if (btnFbDisc) btnFbDisc.classList.add('hidden');
+    if (setBtnFbDisc) setBtnFbDisc.classList.add('hidden');
+  }
 }
 
 function openCloudModal() {
