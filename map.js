@@ -229,7 +229,8 @@ function updateMapMarkers(list) {
           lng += (Math.cos(angle) * radius) / cosLat;
         }
       }
-      const marker = L.marker([lat, lng], { icon: buildMapPinIcon(d), title: d.name });
+      const marker = L.marker([lat, lng], { icon: buildMapPinIcon(d) });
+      marker.bindTooltip(mapEsc(d.name), { direction: 'top', offset: [0, -32], className: 'dr-tooltip', opacity: 1 });
       marker.bindPopup(() => buildMapPopup(d), { maxWidth: 300, minWidth: 280, autoPanPadding: [30, 30] });
       marker.on('click', () => setMapActive(d.id, { scrollList: true }));
       mapMarkers.set(d.id, marker);
