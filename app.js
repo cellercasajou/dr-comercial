@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v33';
+const STORAGE_KEY = 'crm_sparkling_distributors_v34';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 
 const COUNTRY_FLAGS = {
@@ -97,6 +97,11 @@ function initApp() {
 
   render();
   updateSyncIndicator();
+
+  // Si Supabase està connectat, sincronitzar automàticament en segon pla
+  if (state.supabaseConfig.connected && state.supabaseClient) {
+    syncWithSupabase(true);
+  }
 }
 
 function loadSupabaseConfig() {
@@ -146,41 +151,67 @@ function saveDistributorsLocally() {
   }
 }
 
-async function syncWithSupabase() {
+function syncSingleDistributorToSupabase(dist) {
+  if (!state.supabaseClient || !dist) return;
+  try {
+    const copy = { ...dist };
+    delete copy.contacts;
+    delete copy.interactions;
+    delete copy.documents;
+    state.supabaseClient.from('distributors').upsert(copy)
+      .then(() => console.log('Distribuïdor sincronitzat a Supabase:', dist.id))
+      .catch(err => console.warn('Error sincronitzant distribuïdor a Supabase:', err));
+  } catch (e) {
+    console.warn('Excepció sincronitzant a Supabase:', e);
+  }
+}
+
+async function syncWithSupabase(silent = false) {
   if (!state.supabaseClient) {
-    openCloudModal();
-    showToast('Configura primer les claus de Supabase a la pestanya Núvol', 'warning');
+    if (!silent) {
+      openCloudModal();
+      showToast('Configura primer les claus de Supabase a la pestanya Núvol', 'warning');
+    }
     return;
   }
 
-  showToast('Sincronitzant amb el núvol...', 'info');
+  if (!silent) showToast('Sincronitzant amb el núvol...', 'info');
   try {
     const { data, error } = await state.supabaseClient
       .from('distributors')
-      .select('*');
+      .select('*')
+      .order('name');
 
     if (error) throw error;
 
     if (data && data.length > 0) {
       state.distributors = data;
       saveDistributorsLocally();
-      showToast('Dades descarregades del núvol amb èxit!', 'success');
+      render();
+      updateSyncIndicator();
+      if (!silent) showToast(`Sincronitzat amb èxit (${data.length} distribuïdors al núvol)!`, 'success');
     } else {
-      showToast(`Pujant ${state.distributors.length} distribuïdors a Supabase...`, 'info');
-      for (const d of state.distributors) {
-        const copy = { ...d };
-        delete copy.contacts;
-        delete copy.interactions;
-        delete copy.documents;
-        await state.supabaseClient.from('distributors').upsert(copy);
+      // Si la taula a Supabase és buida, pugem tots els distribuïdors en blocs ràpids de 50
+      if (!silent) showToast(`Pujant ${state.distributors.length} distribuïdors inicials a Supabase...`, 'info');
+      const batchSize = 50;
+      for (let i = 0; i < state.distributors.length; i += batchSize) {
+        const batch = state.distributors.slice(i, i + batchSize).map(d => {
+          const copy = { ...d };
+          delete copy.contacts;
+          delete copy.interactions;
+          delete copy.documents;
+          return copy;
+        });
+        const { error: upsertErr } = await state.supabaseClient.from('distributors').upsert(batch);
+        if (upsertErr) throw upsertErr;
       }
-      showToast("Totes les dades s'han guardat al núvol!", "success");
+      if (!silent) showToast("Tots els distribuïdors s'han guardat correctament al núvol!", "success");
     }
     render();
     updateSyncIndicator();
   } catch (err) {
     console.error('Error de sincronització:', err);
-    showToast('Error de connexió: ' + (err.message || 'Comprova les credencials'), 'error');
+    if (!silent) showToast('Error de connexió a Supabase: ' + (err.message || 'Comprova les credencials'), 'error');
   }
 }
 
@@ -1623,6 +1654,11 @@ function deleteDistributor(id) {
   if (!confirm('Segur que vols eliminar aquest distribuïdor i totes les seves dades?')) return;
   state.distributors = state.distributors.filter(d => d.id !== id);
   saveDistributorsLocally();
+  if (state.supabaseClient) {
+    state.supabaseClient.from('distributors').delete().eq('id', id)
+      .then(() => console.log('Distribuïdor eliminat de Supabase'))
+      .catch(err => console.warn('Error eliminant de Supabase:', err));
+  }
   closeDetailModal();
   render();
   showToast('Distribuïdor eliminat', 'info');
@@ -2320,6 +2356,7 @@ function saveNewDistributorForm(e) {
 
   state.distributors.unshift(newDist);
   saveDistributorsLocally();
+  syncSingleDistributorToSupabase(newDist);
   closeAddDistributorModal();
   render();
   openDetailModal(newDist.id);
@@ -2529,9 +2566,10 @@ function saveSupabaseConfig() {
       state.supabaseClient = window.supabase.createClient(url, key);
       state.supabaseConfig.connected = true;
       localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify(state.supabaseConfig));
-      showToast('Credencials desades! Prova ara la sincronització.', 'success');
       updateSyncIndicator();
       closeCloudModal();
+      showToast('Supabase connectat! Sincronitzant...', 'info');
+      syncWithSupabase(false);
     } catch (e) {
       showToast('Error amb les dades de connexió', 'error');
     }
@@ -3769,7 +3807,8 @@ function saveSupabaseSettingsFromModal() {
   }
 
   updateSyncIndicator();
-  showToast('Supabase connectat correctament!', 'success');
+  showToast('Supabase connectat correctament! Sincronitzant...', 'info');
+  syncWithSupabase(false);
 }
 
 function disconnectSupabaseFromModal() {
