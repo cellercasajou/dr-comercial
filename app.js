@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v40';
+const STORAGE_KEY = 'crm_sparkling_distributors_v41';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 const FIREBASE_CONFIG_KEY = 'crm_firebase_config_v1';
 const DEFAULT_FIREBASE_CONFIG = {
@@ -3661,25 +3661,7 @@ function renderLargeGridView(distributors, container) {
             </div>
           ` : ''}
 
-          <!-- Condicions Comercials Clau (4 Columnes / Blocs) -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 text-center">
-            <div class="bg-stone-50 p-2.5 rounded-xl border border-stone-100">
-              <span class="text-[9px] font-bold text-stone-400 uppercase">Incoterm</span>
-              <div class="text-xs font-black text-stone-800 mt-0.5">${d.incoterm || 'EXW'}</div>
-            </div>
-            <div class="bg-stone-50 p-2.5 rounded-xl border border-stone-100">
-              <span class="text-[9px] font-bold text-stone-400 uppercase">Pagament</span>
-              <div class="text-xs font-black text-stone-800 mt-0.5">${d.payment_terms || '30 dies'}</div>
-            </div>
-            <div class="bg-stone-50 p-2.5 rounded-xl border border-stone-100">
-              <span class="text-[9px] font-bold text-stone-400 uppercase">Comanda Mín.</span>
-              <div class="text-xs font-black text-stone-800 mt-0.5">${d.moq || '1 Palet'}</div>
-            </div>
-            <div class="bg-stone-50 p-2.5 rounded-xl border border-stone-100">
-              <span class="text-[9px] font-bold text-stone-400 uppercase">Canals</span>
-              <div class="text-xs font-black text-stone-800 mt-0.5 truncate" title="${d.channels || 'HORECA'}">${d.channels || 'HORECA'}</div>
-            </div>
-          </div>
+
         </div>
 
         <!-- Footer: Contacte Ràpid i Accions -->
