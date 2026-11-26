@@ -19115,54 +19115,6 @@ window.INITIAL_DISTRIBUTORS = [
     "geo_precision": "city"
   },
   {
-    "id": "dist-479",
-    "name": "Enoteca Masketa",
-    "legal_name": "Enoteca Masketa",
-    "country": "Espanya",
-    "city": "Donostia (Guipúscoa)",
-    "address": "C/ Marino Tabuyo, 13, 20013 Donostia-San Sebastián",
-    "website": "https://www.instagram.com/enotecamasketa/",
-    "instagram": "https://www.instagram.com/enotecamasketa/",
-    "tax_id": "",
-    "status": "Actiu",
-    "distribution_type": "Restaurant & Enoteca",
-    "channels": "Directe a taula, ampolles per a emportar",
-    "incoterm": "EXW",
-    "payment_terms": "Comptat",
-    "currency": "EUR",
-    "moq": "6 ampolles",
-    "margin_commission": "Estàndard",
-    "sparkling_focus": "Vins de terroir, Jerez, escumosos singulars",
-    "annual_volume": "",
-    "related_wineries": "Celler Casajou",
-    "priority": "Alta",
-    "specialty_tags": [
-      "Xarxa Casajou",
-      "Wine Bar",
-      "Enoteca",
-      "Instagram Verificat"
-    ],
-    "notes": "Espai especialitzat en vins de terroir i escumosos artesanals que segueix i dóna suport a Celler Casajou a les xarxes socials.",
-    "contacts": [
-      {
-        "name": "Equip Masketa",
-        "role": "Sommelier",
-        "email": "masketa@enoteca.com",
-        "phone": "",
-        "is_primary": true
-      }
-    ],
-    "interactions": [],
-    "documents": [],
-    "province": "Guipúscoa (Donostia)",
-    "region": "País Basc",
-    "is_casajou": true,
-    "casajou_role": "Restaurant & Enoteca (Prescriptor)",
-    "lat": 43.32432,
-    "lng": -1.97182,
-    "geo_precision": "address"
-  },
-  {
     "id": "dist-480",
     "name": "Mont Bar & Mediamanga (Alain Salamano)",
     "legal_name": "Mont Bar Bcn",

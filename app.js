@@ -1156,7 +1156,8 @@ function formatDistributorLocation(d) {
   }
 }
 
-const DATA_REV = 51;
+const DATA_REV = 52;
+const DELETED_INITIAL_IDS = ['dist-479'];
 
 function hasValidCoords(d) {
   if (!d || d.lat === null || d.lat === undefined || d.lng === null || d.lng === undefined) return false;
@@ -1168,6 +1169,16 @@ function hasValidCoords(d) {
 // posteriors a cada migració ja no es tornen a sobreescriure.
 function sanitizeDistributorsData(list) {
   if (!list || !Array.isArray(list)) return [];
+  const deletedSet = new Set(DELETED_INITIAL_IDS);
+  const toDelete = list.filter(d => d && deletedSet.has(d.id));
+  if (toDelete.length > 0) {
+    list = list.filter(d => !d || !deletedSet.has(d.id));
+    if (state.firebaseDb) {
+      toDelete.forEach(d => {
+        state.firebaseDb.collection('distributors').doc(d.id).delete().catch(() => {});
+      });
+    }
+  }
   const initialMap = new Map();
   if (window.INITIAL_DISTRIBUTORS && Array.isArray(window.INITIAL_DISTRIBUTORS)) {
     window.INITIAL_DISTRIBUTORS.forEach(init => {
