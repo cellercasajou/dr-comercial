@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v37';
+const STORAGE_KEY = 'crm_sparkling_distributors_v38';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 const FIREBASE_CONFIG_KEY = 'crm_firebase_config_v1';
 const DEFAULT_FIREBASE_CONFIG = {
@@ -151,20 +151,10 @@ window.addEventListener('load', ensureFirebaseConnection);
 
 function loadFirebaseConfig() {
   try {
-    const raw = localStorage.getItem(FIREBASE_CONFIG_KEY);
-    let config = null;
-    if (raw) {
-      try { config = JSON.parse(raw); } catch (e) {}
-    }
-    
-    // Per defecte, connectar directament amb el projecte Firebase oficial configurat
-    if (!config || !config.projectId) {
-      config = DEFAULT_FIREBASE_CONFIG;
-      localStorage.setItem(FIREBASE_CONFIG_KEY, JSON.stringify(config));
-    }
-
-    if (config && config.projectId && window.firebase) {
-      state.firebaseConfig = config;
+    // Sincronització al núvol 100% interna i automàtica amb Google Firebase
+    const config = DEFAULT_FIREBASE_CONFIG;
+    state.firebaseConfig = config;
+    if (window.firebase) {
       state.firebaseDb = initFirebaseApp(config);
     }
   } catch (e) {
@@ -223,7 +213,6 @@ function startFirebaseRealtimeSync() {
 
 async function seedDistributorsToFirebase() {
   if (!state.firebaseDb || !state.distributors.length) return;
-  showToast(`Pujant ${state.distributors.length} distribuïdors a Google Firebase...`, 'info');
   try {
     const batchSize = 400;
     for (let i = 0; i < state.distributors.length; i += batchSize) {
@@ -231,15 +220,20 @@ async function seedDistributorsToFirebase() {
       const slice = state.distributors.slice(i, i + batchSize);
       for (const d of slice) {
         const docRef = state.firebaseDb.collection('distributors').doc(d.id);
-        const copy = { ...d };
-        delete copy.contacts;
-        delete copy.interactions;
-        delete copy.documents;
+        const copy = JSON.parse(JSON.stringify(d));
+        if (Array.isArray(copy.documents)) {
+          copy.documents = copy.documents.map(doc => {
+            if (doc.file_url && doc.file_url.length > 100000) {
+              return { ...doc, file_url: '#' };
+            }
+            return doc;
+          });
+        }
         batch.set(docRef, copy);
       }
       await batch.commit();
     }
-    showToast("Tots els distribuïdors sincronitzats amb Firebase!", "success");
+    console.log("Tots els distribuïdors sincronitzats amb Firebase!");
     updateSyncIndicator();
   } catch (err) {
     console.error("Error inicialitzant dades a Firebase:", err);
@@ -391,6 +385,26 @@ function syncSingleDistributorToSupabase(dist) {
       .catch(err => console.warn('Error sincronitzant distribuïdor a Supabase:', err));
   } catch (e) {
     console.warn('Excepció sincronitzant a Supabase:', e);
+  }
+}
+
+function syncSingleDistributorToFirebase(dist) {
+  if (!state.firebaseDb || !dist || !dist.id) return;
+  try {
+    const copy = JSON.parse(JSON.stringify(dist));
+    if (Array.isArray(copy.documents)) {
+      copy.documents = copy.documents.map(doc => {
+        if (doc.file_url && doc.file_url.length > 100000) {
+          return { ...doc, file_url: '#' };
+        }
+        return doc;
+      });
+    }
+    state.firebaseDb.collection('distributors').doc(dist.id).set(copy, { merge: true })
+      .then(() => console.log('Distribuïdor sincronitzat a Firebase:', dist.id))
+      .catch(err => console.warn('Error sincronitzant a Firebase:', err));
+  } catch (e) {
+    console.warn('Excepció sincronitzant a Firebase:', e);
   }
 }
 
@@ -1810,6 +1824,7 @@ function saveNewContact() {
 
   d.contacts.push(newContact);
   saveDistributorsLocally();
+  syncSingleDistributorToFirebase(d);
   render();
   showToast('Contacte afegit!', 'success');
 }
@@ -1840,6 +1855,7 @@ function saveNewInteraction() {
 
   d.interactions.unshift(newInt);
   saveDistributorsLocally();
+  syncSingleDistributorToFirebase(d);
   render();
   showToast('Interacció registrada correctament!', 'success');
 }
@@ -1863,6 +1879,7 @@ function handleFileUpload(event) {
     };
     d.documents.push(newDoc);
     saveDistributorsLocally();
+    syncSingleDistributorToFirebase(d);
     render();
     showToast('Fitxer ' + file.name + ' afegit a la fitxa!', 'success');
   };
@@ -1874,6 +1891,7 @@ function deleteDocument(docId) {
   if (!d || !d.documents) return;
   d.documents = d.documents.filter(doc => doc.id !== docId);
   saveDistributorsLocally();
+  syncSingleDistributorToFirebase(d);
   render();
   showToast('Document eliminat', 'info');
 }
@@ -2589,16 +2607,8 @@ function saveNewDistributorForm(e) {
 
   state.distributors.unshift(newDist);
   saveDistributorsLocally();
+  syncSingleDistributorToFirebase(newDist);
   syncSingleDistributorToSupabase(newDist);
-  if (state.firebaseDb) {
-    const copy = { ...newDist };
-    delete copy.contacts;
-    delete copy.interactions;
-    delete copy.documents;
-    state.firebaseDb.collection('distributors').doc(newDist.id).set(copy)
-      .then(() => console.log('Distribuïdor afegit a Firebase:', newDist.id))
-      .catch(err => console.warn('Error afegint a Firebase:', err));
-  }
   closeAddDistributorModal();
   render();
   openDetailModal(newDist.id);
@@ -2773,6 +2783,15 @@ function handleExcelImport(event) {
       });
 
       saveDistributorsLocally();
+      if (state.firebaseDb && importedCount > 0) {
+        const batch = state.firebaseDb.batch();
+        state.distributors.slice(-importedCount).forEach(dist => {
+          const docRef = state.firebaseDb.collection('distributors').doc(dist.id);
+          const copy = JSON.parse(JSON.stringify(dist));
+          batch.set(docRef, copy, { merge: true });
+        });
+        batch.commit().catch(e => console.warn('Error pujant importació a Firebase:', e));
+      }
       render();
       showToast(`S’han importat ${importedCount} distribuïdors amb èxit!`, "success");
     } catch (err) {
@@ -2827,82 +2846,10 @@ function saveSupabaseConfig() {
 }
 
 function updateSyncIndicator() {
+  // Sincronització interna amb Google Firebase: l'indicador roman ocult
   const badge = document.getElementById('sync-status-badge');
-  if (!badge) return;
-
-  const btnFbDisc = document.getElementById('btn-disconnect-firebase');
-  const setBtnFbDisc = document.getElementById('settings-btn-disconnect-firebase');
-
-  if (state.firebaseConfig && state.firebaseDb) {
-    badge.className = 'cursor-pointer text-[10px] sm:text-[11px] font-bold px-2 sm:px-2.5 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-600/80 flex items-center gap-1.5 hover:bg-amber-900 transition-colors shrink-0 shadow-2xs';
-    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> <span class="hidden md:inline">🔥 Firebase Actiu</span><span class="md:hidden">Firebase</span>';
-    badge.title = 'Google Firebase actiu (Sincronitzat en temps real)';
-    if (btnFbDisc) btnFbDisc.classList.remove('hidden');
-    if (setBtnFbDisc) setBtnFbDisc.classList.remove('hidden');
-  } else if (state.supabaseConfig && state.supabaseConfig.connected) {
-    badge.className = 'cursor-pointer text-[10px] sm:text-[11px] font-bold px-2 sm:px-2.5 py-1 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-700/80 flex items-center gap-1.5 hover:bg-emerald-900 transition-colors shrink-0';
-    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span class="hidden md:inline">☁️ Supabase Actiu</span><span class="md:hidden">Supabase</span>';
-    badge.title = 'Supabase actiu';
-    if (btnFbDisc) btnFbDisc.classList.add('hidden');
-    if (setBtnFbDisc) setBtnFbDisc.classList.add('hidden');
-  } else {
-    badge.className = 'cursor-pointer text-[10px] sm:text-[11px] font-semibold px-2 sm:px-2.5 py-1 rounded-full bg-stone-800/90 text-stone-300 border border-stone-700 flex items-center gap-1.5 hover:bg-stone-700 transition-colors shrink-0';
-    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400"></span> <span class="hidden md:inline">Mode Local</span><span class="md:hidden">Local</span>';
-    badge.title = 'Configuració de Núvol (Google Firebase / Supabase)';
-    if (btnFbDisc) btnFbDisc.classList.add('hidden');
-    if (setBtnFbDisc) setBtnFbDisc.classList.add('hidden');
-  }
-}
-
-function openCloudModal() {
-  document.getElementById('cloud-url').value = state.supabaseConfig.url || '';
-  document.getElementById('cloud-key').value = state.supabaseConfig.key || '';
-  document.getElementById('cloud-modal').classList.remove('hidden');
-  document.body.classList.add('overflow-hidden');
-  if (window.lucide) lucide.createIcons();
-}
-
-function closeCloudModal() {
-  document.getElementById('cloud-modal').classList.add('hidden');
-  document.body.classList.remove('overflow-hidden');
-}
-
-function saveSupabaseConfig() {
-  const url = document.getElementById('cloud-url').value.trim();
-  const key = document.getElementById('cloud-key').value.trim();
-
-  state.supabaseConfig = { url, key, connected: false };
-  localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify(state.supabaseConfig));
-
-  if (url && key && window.supabase) {
-    try {
-      state.supabaseClient = window.supabase.createClient(url, key);
-      state.supabaseConfig.connected = true;
-      localStorage.setItem(SUPABASE_CONFIG_KEY, JSON.stringify(state.supabaseConfig));
-      updateSyncIndicator();
-      closeCloudModal();
-      showToast('Supabase connectat! Sincronitzant...', 'info');
-      syncWithSupabase(false);
-    } catch (e) {
-      showToast('Error amb les dades de connexió', 'error');
-    }
-  } else {
-    showToast("S'ha restablert el mode Local", "info");
-    updateSyncIndicator();
-    closeCloudModal();
-  }
-}
-
-function updateSyncIndicator() {
-  const badge = document.getElementById('sync-status-badge');
-  if (!badge) return;
-
-  if (state.supabaseConfig.connected) {
-    badge.className = 'cursor-pointer text-[11px] font-bold px-2 sm:px-2.5 py-1 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-700/80 flex items-center gap-1.5 hover:bg-emerald-900 transition-colors shrink-0';
-    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span class="hidden md:inline">Núvol Actiu</span><span class="md:hidden text-[10px]">Núvol</span>';
-  } else {
-    badge.className = 'cursor-pointer text-[11px] font-semibold px-2 sm:px-2.5 py-1 rounded-full bg-stone-800/90 text-stone-300 border border-stone-700 flex items-center gap-1.5 hover:bg-stone-700 transition-colors shrink-0';
-    badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400"></span> <span class="hidden md:inline">Mode Local</span><span class="md:hidden text-[10px]">Local</span>';
+  if (badge) {
+    badge.className = 'hidden';
   }
 }
 
