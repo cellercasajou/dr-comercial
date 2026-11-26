@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v36';
+const STORAGE_KEY = 'crm_sparkling_distributors_v37';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 const FIREBASE_CONFIG_KEY = 'crm_firebase_config_v1';
 const DEFAULT_FIREBASE_CONFIG = {
@@ -89,6 +89,8 @@ const state = {
 function initApp() {
   loadFirebaseConfig();
   loadSupabaseConfig();
+  updateSyncIndicator();
+  ensureFirebaseConnection();
   loadDistributors();
   if ((!state.distributors || state.distributors.length === 0) && window.INITIAL_DISTRIBUTORS) {
     state.distributors = JSON.parse(JSON.stringify(window.INITIAL_DISTRIBUTORS));
@@ -119,6 +121,33 @@ function initApp() {
     syncWithSupabase(true);
   }
 }
+
+function ensureFirebaseConnection() {
+  if (state.firebaseDb) {
+    if (!state.firebaseUnsubscribe) {
+      startFirebaseRealtimeSync();
+    }
+    return;
+  }
+
+  const tryConnect = () => {
+    if (window.firebase) {
+      loadFirebaseConfig();
+      updateSyncIndicator();
+      if (state.firebaseConfig && state.firebaseDb) {
+        startFirebaseRealtimeSync();
+      }
+    }
+  };
+
+  tryConnect();
+  if (!state.firebaseDb) {
+    setTimeout(tryConnect, 300);
+    setTimeout(tryConnect, 1000);
+    setTimeout(tryConnect, 2500);
+  }
+}
+window.addEventListener('load', ensureFirebaseConnection);
 
 function loadFirebaseConfig() {
   try {
@@ -3865,6 +3894,7 @@ function handleAuthLogin(e) {
 
     render();
     updateSyncIndicator();
+    ensureFirebaseConnection();
     showToast(`Benvingut/da, ${username}! Accés concedit.`, 'success');
   } else {
     addAccessLog(username, false, 'Contrasenya incorrecta introduïda');

@@ -134,11 +134,11 @@
 
       <!-- Cloud Sync & Main Actions (Disseny responsive fluid per PC, iPad i iPhone) -->
       <div class="flex items-center gap-1 sm:gap-2 lg:gap-2.5 shrink-0 ml-auto">
-        <!-- Status indicator badge (Tema fosc integrat, mai blanc) -->
-        <div id="sync-status-badge" onclick="openCloudModal()" title="Configuració de Supabase / Núvol" class="cursor-pointer text-[10px] sm:text-[11px] font-semibold px-2 sm:px-2.5 py-1 rounded-full bg-stone-800/90 text-stone-300 border border-stone-700 flex items-center gap-1.5 hover:bg-stone-700 transition-colors shrink-0">
-          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-          <span class="hidden md:inline">Mode Local</span>
-          <span class="md:hidden">Local</span>
+        <!-- Status indicator badge (Per defecte Google Firebase Actiu) -->
+        <div id="sync-status-badge" onclick="openCloudModal()" title="Google Firebase actiu (Sincronitzat al núvol)" class="cursor-pointer text-[10px] sm:text-[11px] font-bold px-2 sm:px-2.5 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-600/80 flex items-center gap-1.5 hover:bg-amber-900 transition-colors shrink-0 shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span class="hidden md:inline">🔥 Firebase Actiu</span>
+          <span class="md:hidden">Firebase</span>
         </div>
 
         <!-- Settings & Administration Button -->
@@ -560,7 +560,7 @@
           <div>
             <div class="flex items-center gap-2">
               <h3 class="text-base sm:text-lg font-black text-white leading-tight">Afegir Nou Distribuïdor / Importador</h3>
-              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v36 • Google Firebase Configurat per Defecte</span>
+              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v37 • Google Firebase Auto-Connexió</span>
             </div>
             <p class="text-[11px] text-amber-300/80 font-medium">Amb escàner IA d'Instagram (Interactions API) i detector de duplicats</p>
           </div>
@@ -1209,7 +1209,7 @@ const firebaseConfig = {
   </nav>
 
   <!-- Scripts -->
-  <script src="data.js?v=36"></script>
-  <script src="app.js?v=36"></script>
+  <script src="data.js?v=37"></script>
+  <script src="app.js?v=37"></script>
 </body>
 </html>
