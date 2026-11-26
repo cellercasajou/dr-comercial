@@ -1,15 +1,19 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Permetre lectura i escriptura a les col·leccions del CRM
+    // Permetre lectura i escriptura exclusivament a la col·lecció de distribuïdors del CRM
     match /distributors/{distributorId} {
       allow read, write: if true;
     }
+    
+    // Registres d'accés del sistema
     match /access_logs/{logId} {
       allow read, write: if true;
     }
+
+    // Qualsevol altra col·lecció o document queda protegit i tancat per defecte
     match /{document=**} {
-      allow read, write: if true;
+      allow read, write: if false;
     }
   }
 }

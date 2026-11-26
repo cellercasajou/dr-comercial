@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v42';
+const STORAGE_KEY = 'crm_sparkling_distributors_v43';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 const FIREBASE_CONFIG_KEY = 'crm_firebase_config_v1';
 const DEFAULT_FIREBASE_CONFIG = {
@@ -362,6 +362,10 @@ function loadDistributors() {
     // 2. Comprovem claus locals anteriors per rescatar qualsevol distribuïdor afegit (el 484)
     const keysToCheck = [
       STORAGE_KEY,
+      'crm_sparkling_distributors_v42',
+      'crm_sparkling_distributors_v41',
+      'crm_sparkling_distributors_v40',
+      'crm_sparkling_distributors_v39',
       'crm_sparkling_distributors_v38',
       'crm_sparkling_distributors_v37',
       'crm_sparkling_distributors_v36',
@@ -1194,20 +1198,10 @@ function renderGridView(distributors, container) {
             </div>
           ` : ''}
 
-          <!-- Condicions o Dades Clau -->
-          <div class="grid grid-cols-3 gap-1 py-2 border-y border-stone-100 text-center mb-3">
-            <div class="bg-stone-50/80 p-1.5 rounded-lg">
-              <div class="text-[9px] uppercase font-bold text-stone-400">Tipus</div>
-              <div class="text-xs font-bold text-stone-800 truncate">${d.distribution_type ? d.distribution_type.split(' ')[0] : 'Distribuïdor'}</div>
-            </div>
-            <div class="bg-stone-50/80 p-1.5 rounded-lg">
-              <div class="text-[9px] uppercase font-bold text-stone-400">Incoterm</div>
-              <div class="text-xs font-bold text-stone-800">${d.incoterm || 'EXW'}</div>
-            </div>
-            <div class="bg-stone-50/80 p-1.5 rounded-lg">
-              <div class="text-[9px] uppercase font-bold text-stone-400">Pagament</div>
-              <div class="text-xs font-bold text-stone-800 truncate">${d.payment_terms || '30 dies'}</div>
-            </div>
+          <!-- Dades de Distribució i Canals -->
+          <div class="flex items-center justify-between gap-2 py-1.5 px-2.5 bg-stone-50/80 rounded-xl border border-stone-100 text-xs mb-3">
+            <span class="font-bold text-stone-700 truncate">${d.distribution_type ? d.distribution_type.split(' ')[0] : 'Distribuïdor'}</span>
+            <span class="text-[11px] font-semibold text-stone-500 truncate">${d.channels ? d.channels.split(',')[0] : 'HORECA'}</span>
           </div>
         </div>
 
@@ -1570,59 +1564,13 @@ function renderDetailModal() {
           ` : ''}
         </div>
 
-        <!-- BLOC 3: CONDICIONS COMERCIALS & VINS ESCUMOSOS -->
-        <div class="bg-stone-50 rounded-3xl p-5 border border-stone-200">
-          <h4 class="text-xs font-black uppercase text-stone-500 tracking-wider mb-3 flex items-center gap-2">
-            <i data-lucide="receipt" class="w-4 h-4 text-stone-700"></i> Condicions Comercials & Venda
-          </h4>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
-            <div class="bg-white p-3 rounded-2xl border border-stone-200 shadow-2xs">
-              <span class="text-stone-400 block text-[10px] font-bold uppercase">Incoterm</span>
-              <span class="text-sm font-black text-amber-900">${d.incoterm || 'EXW'}</span>
-            </div>
-            <div class="bg-white p-3 rounded-2xl border border-stone-200 shadow-2xs">
-              <span class="text-stone-400 block text-[10px] font-bold uppercase">Termini Pagament</span>
-              <span class="text-sm font-black text-stone-800">${d.payment_terms || '30 dies'}</span>
-            </div>
-            <div class="bg-white p-3 rounded-2xl border border-stone-200 shadow-2xs">
-              <span class="text-stone-400 block text-[10px] font-bold uppercase">Comanda Mín. (MOQ)</span>
-              <span class="text-sm font-black text-stone-800">${d.moq || '1 Palet'}</span>
-            </div>
-            <div class="bg-white p-3 rounded-2xl border border-stone-200 shadow-2xs">
-              <span class="text-stone-400 block text-[10px] font-bold uppercase">Marge / Comissió</span>
-              <span class="text-sm font-black text-stone-800">${d.margin_commission || 'Estàndard'}</span>
-            </div>
+        <!-- RAÓ SOCIAL (SI DIFEREIX DEL NOM COMERCIAL) -->
+        ${(d.legal_name && d.legal_name !== d.name) ? `
+          <div class="bg-stone-50 rounded-2xl p-4 border border-stone-200">
+            <span class="text-stone-400 block text-[10px] font-bold uppercase tracking-wider mb-0.5">Raó Social</span>
+            <span class="font-bold text-stone-800 text-sm">${d.legal_name}</span>
           </div>
-        </div>
-
-        <!-- BLOC 4: DADES DE L'EMPRESA & SEU -->
-        <div class="bg-stone-50 rounded-3xl p-5 border border-stone-200">
-          <h4 class="text-xs font-black uppercase text-stone-500 tracking-wider mb-3 flex items-center gap-2">
-            <i data-lucide="building-2" class="w-4 h-4 text-stone-700"></i> Dades Generals & Magatzem
-          </h4>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-            <div>
-              <span class="text-stone-400 block text-[10px] font-bold uppercase">Raó Social</span>
-              <span class="font-bold text-stone-800">${d.legal_name || d.name}</span>
-            </div>
-            <div>
-              <span class="text-stone-400 block text-[10px] font-bold uppercase">NIF / CAE / Tax ID</span>
-              <span class="font-mono font-bold text-stone-800">${d.tax_id || 'No informat'}</span>
-            </div>
-            <div class="sm:col-span-2">
-              <span class="text-stone-400 block text-[10px] font-bold uppercase">Adreça o Magatzem</span>
-              <div class="flex items-center justify-between gap-2 mt-0.5">
-                <span class="font-bold text-stone-800">${d.address || d.city || d.country || 'Sense adreça especificada'}</span>
-                ${(d.address || d.city) ? `
-                  <a href="https://maps.google.com/?q=${encodeURIComponent((d.address ? d.address + ', ' : '') + (d.city || '') + ' ' + d.country)}" 
-                     target="_blank" class="px-2.5 py-1 bg-white hover:bg-stone-100 text-stone-700 rounded-lg border border-stone-300 text-xs font-bold flex items-center gap-1 shadow-2xs">
-                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-600"></i> Maps
-                  </a>
-                ` : ''}
-              </div>
-            </div>
-          </div>
-        </div>
+        ` : ''}
 
         <!-- BLOC 5: NOTES DE SEGUIMENT I VERIFICACIÓ -->
         <div class="bg-stone-50 rounded-3xl p-5 border border-stone-200">

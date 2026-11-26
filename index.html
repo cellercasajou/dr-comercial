@@ -558,7 +558,7 @@
           <div>
             <div class="flex items-center gap-2">
               <h3 class="text-base sm:text-lg font-black text-white leading-tight">Afegir Nou Distribuïdor / Importador</h3>
-              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v42 • Formulari d'Edició Minimalista</span>
+              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v43 • Creació, Edició i Fitxa Minimalista</span>
             </div>
             <p class="text-[11px] text-amber-300/80 font-medium">Amb escàner IA d'Instagram (Interactions API) i detector de duplicats</p>
           </div>
@@ -675,10 +675,6 @@
               <label class="block font-semibold text-stone-700 mb-1">Ciutat / Província</label>
               <input id="new-city" placeholder="Ex: Barcelona, Copenhaguen, Nova York..." class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl">
             </div>
-            <div class="sm:col-span-2">
-              <label class="block font-semibold text-stone-700 mb-1">Adreça de Magatzem / Lliurament</label>
-              <input id="new-address" placeholder="Carrer, Número, Codi Postal" class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl">
-            </div>
             <div>
               <label class="block font-semibold text-stone-700 mb-1">Lloc Web</label>
               <input id="new-website" placeholder="https://..." class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl">
@@ -686,10 +682,6 @@
             <div>
               <label class="block font-semibold text-stone-700 mb-1">Perfil d'Instagram</label>
               <input id="new-instagram" placeholder="https://instagram.com/nomperfil" class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">NIF / CIF / CAE (Impostos Especials)</label>
-              <input id="new-tax-id" placeholder="Ex: FR89321 / CAE: ES08..." class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl font-mono">
             </div>
             <div>
               <label class="block font-semibold text-stone-700 mb-1">Estat Comercial</label>
@@ -721,45 +713,6 @@
             <div class="sm:col-span-2">
               <label class="block font-semibold text-stone-700 mb-1">Cellers que ja representa / Cartera</label>
               <input id="new-wineries" placeholder="Ex: Recaredo, Gramona, AT Roca..." class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl">
-            </div>
-          </div>
-        </div>
-
-        <!-- Bloc Condicions Comercials -->
-        <div class="pt-3 border-t border-stone-200">
-          <h4 class="font-bold text-amber-900 uppercase text-xs tracking-wider mb-2.5 flex items-center gap-1.5">
-            <i data-lucide="wine" class="w-3.5 h-3.5"></i> Condicions de Vins Escumosos
-          </h4>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">Incoterm</label>
-              <select id="new-incoterm" class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl font-bold">
-                <option value="EXW">EXW (Celler)</option>
-                <option value="FOB Barcelona">FOB Barcelona</option>
-                <option value="CIF">CIF (Port destinació)</option>
-                <option value="DDP">DDP (Lliurat a destí)</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">Condicions de Pagament</label>
-              <select id="new-payment" class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl">
-                <option value="30 dies">30 dies</option>
-                <option value="60 dies">60 dies</option>
-                <option value="Avançat 100%">Avançat 100%</option>
-                <option value="50% comanda / 50% càrrega">50% comanda / 50% càrrega</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">Comanda Mínima (MOQ)</label>
-              <input id="new-moq" placeholder="Ex: 1 Palet (600 ampolles)" class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl">
-            </div>
-            <div class="sm:col-span-2">
-              <label class="block font-semibold text-stone-700 mb-1">Focus en Escumosos</label>
-              <input id="new-focus" placeholder="Ex: Brut Nature Gran Reserva, Corpinnat, ecològic..." class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl">
-            </div>
-            <div>
-              <label class="block font-semibold text-stone-700 mb-1">Marges / Comissió</label>
-              <input id="new-margin" placeholder="Ex: 30% marge" class="w-full p-2.5 bg-stone-50 border border-stone-300 rounded-xl">
             </div>
           </div>
         </div>
@@ -1311,7 +1264,7 @@ const firebaseConfig = {
   </nav>
 
   <!-- Scripts -->
-  <script src="data.js?v=42"></script>
-  <script src="app.js?v=42"></script>
+  <script src="data.js?v=43"></script>
+  <script src="app.js?v=43"></script>
 </body>
 </html>
