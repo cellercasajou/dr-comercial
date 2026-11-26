@@ -31,7 +31,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Copenhaguen / Kødbyen",
-    "region": "Dinamarca"
+    "region": "Dinamarca",
+    "lat": 55.68672,
+    "lng": 12.57007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-2",
@@ -65,7 +68,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Copenhaguen",
-    "region": "Dinamarca"
+    "region": "Dinamarca",
+    "lat": 55.68672,
+    "lng": 12.57007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-3",
@@ -109,7 +115,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Randers",
-    "region": "Dinamarca"
+    "region": "Dinamarca",
+    "lat": 56.46175,
+    "lng": 10.03715,
+    "geo_precision": "city"
   },
   {
     "id": "dist-4",
@@ -153,7 +162,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Copenhaguen / Odense / Aarhus",
-    "region": "Dinamarca"
+    "region": "Dinamarca",
+    "lat": 55.68672,
+    "lng": 12.57007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-5",
@@ -187,7 +199,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Odense",
-    "region": "Dinamarca"
+    "region": "Dinamarca",
+    "lat": 55.39972,
+    "lng": 10.38521,
+    "geo_precision": "city"
   },
   {
     "id": "dist-6",
@@ -230,7 +245,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Aarhus",
-    "region": "Dinamarca"
+    "region": "Dinamarca",
+    "lat": 56.14963,
+    "lng": 10.2134,
+    "geo_precision": "city"
   },
   {
     "id": "dist-7",
@@ -273,7 +291,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Aarhus",
-    "region": "Dinamarca"
+    "region": "Dinamarca",
+    "lat": 56.14963,
+    "lng": 10.2134,
+    "geo_precision": "city"
   },
   {
     "id": "dist-8",
@@ -306,7 +327,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Aarhus V",
-    "region": "Dinamarca"
+    "region": "Dinamarca",
+    "lat": 56.14963,
+    "lng": 10.2134,
+    "geo_precision": "city"
   },
   {
     "id": "dist-9",
@@ -340,7 +364,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Copenhaguen",
-    "region": "Dinamarca"
+    "region": "Dinamarca",
+    "lat": 55.68672,
+    "lng": 12.57007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-10",
@@ -385,7 +412,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Califòrnia (CA) & NY",
-    "region": "Estats Units - Costa Oest / Est"
+    "region": "Estats Units - Costa Oest / Est",
+    "lat": 38.84622,
+    "lng": -77.30637,
+    "geo_precision": "city"
   },
   {
     "id": "dist-11",
@@ -420,7 +450,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York (NY) - Nacional 45 estats",
-    "region": "Estats Units - Nacional"
+    "region": "Estats Units - Nacional",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-12",
@@ -454,7 +487,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York (NY)",
-    "region": "Estats Units - Costa Est"
+    "region": "Estats Units - Costa Est",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-13",
@@ -488,7 +524,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Carolina del Nord (NC) - Nacional",
-    "region": "Estats Units - Nacional"
+    "region": "Estats Units - Nacional",
+    "lat": 35.22721,
+    "lng": -80.84308,
+    "geo_precision": "city"
   },
   {
     "id": "dist-14",
@@ -521,7 +560,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Florida (FL) - Nacional",
-    "region": "Estats Units - Nacional"
+    "region": "Estats Units - Nacional",
+    "lat": 25.77416,
+    "lng": -80.1936,
+    "geo_precision": "city"
   },
   {
     "id": "dist-15",
@@ -554,7 +596,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova Jersey (NJ) & NY",
-    "region": "Estats Units - Costa Est"
+    "region": "Estats Units - Costa Est",
+    "lat": 40.07574,
+    "lng": -74.40416,
+    "geo_precision": "city"
   },
   {
     "id": "dist-16",
@@ -587,7 +632,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York (NY) & NJ",
-    "region": "Estats Units - Costa Est"
+    "region": "Estats Units - Costa Est",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-17",
@@ -620,7 +668,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York (NY) & PA",
-    "region": "Estats Units - Costa Est"
+    "region": "Estats Units - Costa Est",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-18",
@@ -654,7 +705,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Califòrnia (CA)",
-    "region": "Estats Units - Costa Oest"
+    "region": "Estats Units - Costa Oest",
+    "lat": 37.93178,
+    "lng": -121.69603,
+    "geo_precision": "city"
   },
   {
     "id": "dist-19",
@@ -687,7 +741,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York (NY)",
-    "region": "Estats Units - Costa Est"
+    "region": "Estats Units - Costa Est",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-20",
@@ -721,7 +778,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Califòrnia (CA) & NY",
-    "region": "Estats Units - Nacional"
+    "region": "Estats Units - Nacional",
+    "lat": 36.70146,
+    "lng": -118.756,
+    "geo_precision": "city"
   },
   {
     "id": "dist-21",
@@ -755,7 +815,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Carolina del Nord (NC) - Nacional",
-    "region": "Estats Units - Nacional"
+    "region": "Estats Units - Nacional",
+    "lat": 35.67296,
+    "lng": -79.03929,
+    "geo_precision": "region"
   },
   {
     "id": "dist-22",
@@ -789,7 +852,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York (NY) - Nacional",
-    "region": "Estats Units - Nacional"
+    "region": "Estats Units - Nacional",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-23",
@@ -823,7 +889,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Surrey / Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.27153,
+    "lng": -0.34145,
+    "geo_precision": "city"
   },
   {
     "id": "dist-24",
@@ -857,7 +926,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres (Nacional UK)",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-25",
@@ -891,7 +963,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-26",
@@ -924,7 +999,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres (Nacional UK)",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-27",
@@ -957,7 +1035,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-28",
@@ -990,7 +1071,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Luton / Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.89107,
+    "lng": -0.42303,
+    "geo_precision": "city"
   },
   {
     "id": "dist-29",
@@ -1023,7 +1107,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Aberystwyth / Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 52.41431,
+    "lng": -4.08168,
+    "geo_precision": "city"
   },
   {
     "id": "dist-30",
@@ -1057,7 +1144,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Utrecht",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.08419,
+    "lng": 5.0988,
+    "geo_precision": "city"
   },
   {
     "id": "dist-31",
@@ -1091,7 +1181,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Amsterdam",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.37308,
+    "lng": 4.89245,
+    "geo_precision": "city"
   },
   {
     "id": "dist-32",
@@ -1124,7 +1217,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Amsterdam",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.37308,
+    "lng": 4.89245,
+    "geo_precision": "city"
   },
   {
     "id": "dist-33",
@@ -1157,7 +1253,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Utrecht",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.08419,
+    "lng": 5.0988,
+    "geo_precision": "city"
   },
   {
     "id": "dist-34",
@@ -1200,7 +1299,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Maastricht",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 50.85124,
+    "lng": 5.69098,
+    "geo_precision": "city"
   },
   {
     "id": "dist-35",
@@ -1234,7 +1336,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Flandes",
-    "region": "Bèlgica"
+    "region": "Bèlgica",
+    "lat": 51.03778,
+    "lng": 4.24056,
+    "geo_precision": "city"
   },
   {
     "id": "dist-36",
@@ -1277,7 +1382,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Kortenberg",
-    "region": "Bèlgica"
+    "region": "Bèlgica",
+    "lat": 50.8953,
+    "lng": 4.56563,
+    "geo_precision": "city"
   },
   {
     "id": "dist-37",
@@ -1310,7 +1418,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Brussel·les i Flandes",
-    "region": "Bèlgica"
+    "region": "Bèlgica",
+    "lat": 50.84674,
+    "lng": 4.35249,
+    "geo_precision": "city"
   },
   {
     "id": "dist-38",
@@ -1353,7 +1464,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alleur",
-    "region": "Bèlgica"
+    "region": "Bèlgica",
+    "lat": 50.68126,
+    "lng": 5.50739,
+    "geo_precision": "city"
   },
   {
     "id": "dist-39",
@@ -1396,7 +1510,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Flandes Oriental",
-    "region": "Bèlgica"
+    "region": "Bèlgica",
+    "lat": 50.77158,
+    "lng": 3.88273,
+    "geo_precision": "city"
   },
   {
     "id": "dist-40",
@@ -1430,7 +1547,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Estocolm (Nacional)",
-    "region": "Suècia"
+    "region": "Suècia",
+    "lat": 59.32512,
+    "lng": 18.07109,
+    "geo_precision": "city"
   },
   {
     "id": "dist-41",
@@ -1473,7 +1593,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Estocolm",
-    "region": "Suècia"
+    "region": "Suècia",
+    "lat": 59.32512,
+    "lng": 18.07109,
+    "geo_precision": "city"
   },
   {
     "id": "dist-42",
@@ -1506,7 +1629,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Oslo",
-    "region": "Noruega"
+    "region": "Noruega",
+    "lat": 59.91333,
+    "lng": 10.73897,
+    "geo_precision": "city"
   },
   {
     "id": "dist-43",
@@ -1539,7 +1665,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Uitikon Waldegg (Zuric)",
-    "region": "Suïssa"
+    "region": "Suïssa",
+    "lat": 47.36602,
+    "lng": 8.46583,
+    "geo_precision": "city"
   },
   {
     "id": "dist-44",
@@ -1582,7 +1711,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Penthalaz & Liestal",
-    "region": "Suïssa"
+    "region": "Suïssa",
+    "lat": 46.61133,
+    "lng": 6.52525,
+    "geo_precision": "city"
   },
   {
     "id": "dist-45",
@@ -1615,7 +1747,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Basilea",
-    "region": "Suïssa"
+    "region": "Suïssa",
+    "lat": 47.55811,
+    "lng": 7.58783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-46",
@@ -1649,7 +1784,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Toronto, Ontario",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 43.65348,
+    "lng": -79.38393,
+    "geo_precision": "city"
   },
   {
     "id": "dist-47",
@@ -1683,7 +1821,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Etobicoke, Ontario",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 43.64356,
+    "lng": -79.56563,
+    "geo_precision": "city"
   },
   {
     "id": "dist-48",
@@ -1717,7 +1858,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Quebec",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 52.47609,
+    "lng": -71.82587,
+    "geo_precision": "city"
   },
   {
     "id": "dist-49",
@@ -1750,7 +1894,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nagoya / Tòquio",
-    "region": "Japó"
+    "region": "Japó",
+    "lat": 35.1851,
+    "lng": 136.89984,
+    "geo_precision": "city"
   },
   {
     "id": "dist-50",
@@ -1783,7 +1930,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tòquio (Meguro/Jiyūgaoka)",
-    "region": "Japó"
+    "region": "Japó",
+    "lat": 35.67686,
+    "lng": 139.76389,
+    "geo_precision": "city"
   },
   {
     "id": "dist-51",
@@ -1826,7 +1976,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Shinjuku-Ku, Tòquio",
-    "region": "Japó"
+    "region": "Japó",
+    "lat": 35.69376,
+    "lng": 139.70363,
+    "geo_precision": "city"
   },
   {
     "id": "dist-52",
@@ -1860,7 +2013,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Dublín",
-    "region": "Irlanda"
+    "region": "Irlanda",
+    "lat": 53.34938,
+    "lng": -6.26056,
+    "geo_precision": "city"
   },
   {
     "id": "dist-53",
@@ -1893,7 +2049,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Mullingar",
-    "region": "Irlanda"
+    "region": "Irlanda",
+    "lat": 53.52582,
+    "lng": -7.3413,
+    "geo_precision": "city"
   },
   {
     "id": "dist-54",
@@ -1927,7 +2086,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Poing / Baviera",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 48.16675,
+    "lng": 11.80371,
+    "geo_precision": "city"
   },
   {
     "id": "dist-55",
@@ -1960,7 +2122,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Rin del Nord-Westfàlia",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.43702,
+    "lng": 7.33512,
+    "geo_precision": "city"
   },
   {
     "id": "dist-56",
@@ -1993,7 +2158,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Saarwellingen",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 49.35271,
+    "lng": 6.8063,
+    "geo_precision": "city"
   },
   {
     "id": "dist-57",
@@ -2036,7 +2204,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hamburg",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 53.55017,
+    "lng": 10.00132,
+    "geo_precision": "city"
   },
   {
     "id": "dist-58",
@@ -2069,7 +2240,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Rin del Nord-Westfàlia",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.2254,
+    "lng": 6.77631,
+    "geo_precision": "city"
   },
   {
     "id": "dist-59",
@@ -2101,7 +2275,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Albacete",
-    "region": "Castella - La Manxa"
+    "region": "Castella - La Manxa",
+    "lat": 38.99509,
+    "lng": -1.85592,
+    "geo_precision": "city"
   },
   {
     "id": "dist-60",
@@ -2145,7 +2322,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Albacete",
-    "region": "Castella - La Manxa"
+    "region": "Castella - La Manxa",
+    "lat": 38.99509,
+    "lng": -1.85592,
+    "geo_precision": "city"
   },
   {
     "id": "dist-61",
@@ -2187,7 +2367,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alacant",
-    "region": "Comunitat Valenciana"
+    "region": "Comunitat Valenciana",
+    "lat": 38.34364,
+    "lng": -0.48817,
+    "geo_precision": "city"
   },
   {
     "id": "dist-62",
@@ -2231,7 +2414,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alacant",
-    "region": "Comunitat Valenciana"
+    "region": "Comunitat Valenciana",
+    "lat": 38.34364,
+    "lng": -0.48817,
+    "geo_precision": "city"
   },
   {
     "id": "dist-63",
@@ -2263,7 +2449,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alacant",
-    "region": "Comunitat Valenciana"
+    "region": "Comunitat Valenciana",
+    "lat": 38.34364,
+    "lng": -0.48817,
+    "geo_precision": "city"
   },
   {
     "id": "dist-64",
@@ -2305,7 +2494,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alacant",
-    "region": "Comunitat Valenciana"
+    "region": "Comunitat Valenciana",
+    "lat": 38.34364,
+    "lng": -0.48817,
+    "geo_precision": "city"
   },
   {
     "id": "dist-65",
@@ -2337,7 +2529,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alacant",
-    "region": "Comunitat Valenciana"
+    "region": "Comunitat Valenciana",
+    "lat": 38.34364,
+    "lng": -0.48817,
+    "geo_precision": "city"
   },
   {
     "id": "dist-66",
@@ -2369,7 +2564,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alacant",
-    "region": "Comunitat Valenciana"
+    "region": "Comunitat Valenciana",
+    "lat": 38.34364,
+    "lng": -0.48817,
+    "geo_precision": "city"
   },
   {
     "id": "dist-67",
@@ -2401,7 +2599,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alacant",
-    "region": "Comunitat Valenciana"
+    "region": "Comunitat Valenciana",
+    "lat": 38.34364,
+    "lng": -0.48817,
+    "geo_precision": "city"
   },
   {
     "id": "dist-68",
@@ -2435,7 +2636,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Almeria",
-    "region": "Andalusia"
+    "region": "Andalusia",
+    "lat": 36.86857,
+    "lng": -2.31203,
+    "geo_precision": "city"
   },
   {
     "id": "dist-69",
@@ -2467,7 +2671,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Almeria",
-    "region": "Andalusia"
+    "region": "Andalusia",
+    "lat": 36.86857,
+    "lng": -2.31203,
+    "geo_precision": "city"
   },
   {
     "id": "dist-70",
@@ -2499,7 +2706,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Almeria",
-    "region": "Andalusia"
+    "region": "Andalusia",
+    "lat": 36.86857,
+    "lng": -2.31203,
+    "geo_precision": "city"
   },
   {
     "id": "dist-71",
@@ -2541,7 +2751,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Almeria",
-    "region": "Andalusia"
+    "region": "Andalusia",
+    "lat": 36.86857,
+    "lng": -2.31203,
+    "geo_precision": "city"
   },
   {
     "id": "dist-72",
@@ -2585,7 +2798,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Astúries",
-    "region": "Astúries"
+    "region": "Astúries",
+    "lat": 43.54494,
+    "lng": -5.66275,
+    "geo_precision": "city"
   },
   {
     "id": "dist-73",
@@ -2617,7 +2833,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Astúries",
-    "region": "Astúries"
+    "region": "Astúries",
+    "lat": 43.31339,
+    "lng": -5.94192,
+    "geo_precision": "city"
   },
   {
     "id": "dist-74",
@@ -2649,7 +2868,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Astúries",
-    "region": "Astúries"
+    "region": "Astúries",
+    "lat": 43.31339,
+    "lng": -5.94192,
+    "geo_precision": "city"
   },
   {
     "id": "dist-75",
@@ -2681,7 +2903,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Astúries",
-    "region": "Astúries"
+    "region": "Astúries",
+    "lat": 43.31339,
+    "lng": -5.94192,
+    "geo_precision": "city"
   },
   {
     "id": "dist-76",
@@ -2713,7 +2938,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Astúries",
-    "region": "Astúries"
+    "region": "Astúries",
+    "lat": 43.31339,
+    "lng": -5.94192,
+    "geo_precision": "city"
   },
   {
     "id": "dist-77",
@@ -2745,7 +2973,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Astúries",
-    "region": "Astúries"
+    "region": "Astúries",
+    "lat": 43.31339,
+    "lng": -5.94192,
+    "geo_precision": "city"
   },
   {
     "id": "dist-78",
@@ -2777,7 +3008,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Astúries",
-    "region": "Astúries"
+    "region": "Astúries",
+    "lat": 43.31339,
+    "lng": -5.94192,
+    "geo_precision": "city"
   },
   {
     "id": "dist-79",
@@ -2809,7 +3043,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.263,
+    "lng": -2.935,
+    "geo_precision": "city"
   },
   {
     "id": "dist-80",
@@ -2841,7 +3078,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.263,
+    "lng": -2.935,
+    "geo_precision": "city"
   },
   {
     "id": "dist-81",
@@ -2873,7 +3113,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.263,
+    "lng": -2.935,
+    "geo_precision": "city"
   },
   {
     "id": "dist-82",
@@ -2905,7 +3148,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.263,
+    "lng": -2.935,
+    "geo_precision": "city"
   },
   {
     "id": "dist-83",
@@ -2937,7 +3183,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.263,
+    "lng": -2.935,
+    "geo_precision": "city"
   },
   {
     "id": "dist-84",
@@ -2969,7 +3218,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.263,
+    "lng": -2.935,
+    "geo_precision": "city"
   },
   {
     "id": "dist-85",
@@ -3001,7 +3253,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.263,
+    "lng": -2.935,
+    "geo_precision": "city"
   },
   {
     "id": "dist-86",
@@ -3034,7 +3289,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.263,
+    "lng": -2.935,
+    "geo_precision": "city"
   },
   {
     "id": "dist-87",
@@ -3066,7 +3324,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.263,
+    "lng": -2.935,
+    "geo_precision": "city"
   },
   {
     "id": "dist-88",
@@ -3098,7 +3359,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.23848,
+    "lng": -2.85163,
+    "geo_precision": "city"
   },
   {
     "id": "dist-89",
@@ -3130,7 +3394,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.23848,
+    "lng": -2.85163,
+    "geo_precision": "city"
   },
   {
     "id": "dist-90",
@@ -3162,7 +3429,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bizkaia (Bilbao)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.23848,
+    "lng": -2.85163,
+    "geo_precision": "city"
   },
   {
     "id": "dist-91",
@@ -3205,7 +3475,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Burgos",
-    "region": "Castella i Lleó"
+    "region": "Castella i Lleó",
+    "lat": 42.34485,
+    "lng": -3.68125,
+    "geo_precision": "city"
   },
   {
     "id": "dist-92",
@@ -3237,7 +3510,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Burgos",
-    "region": "Castella i Lleó"
+    "region": "Castella i Lleó",
+    "lat": 42.34485,
+    "lng": -3.68125,
+    "geo_precision": "city"
   },
   {
     "id": "dist-93",
@@ -3279,7 +3555,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Burgos",
-    "region": "Castella i Lleó"
+    "region": "Castella i Lleó",
+    "lat": 42.34485,
+    "lng": -3.68125,
+    "geo_precision": "city"
   },
   {
     "id": "dist-94",
@@ -3321,7 +3600,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Burgos",
-    "region": "Castella i Lleó"
+    "region": "Castella i Lleó",
+    "lat": 42.34485,
+    "lng": -3.68125,
+    "geo_precision": "city"
   },
   {
     "id": "dist-95",
@@ -3353,7 +3635,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Burgos",
-    "region": "Castella i Lleó"
+    "region": "Castella i Lleó",
+    "lat": 42.34485,
+    "lng": -3.68125,
+    "geo_precision": "city"
   },
   {
     "id": "dist-96",
@@ -3398,7 +3683,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-97",
@@ -3446,7 +3734,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Barcelona Ciutat",
     "region": "Catalunya",
     "is_casajou": true,
-    "casajou_role": "Distribuïdor Nacional & Botiga d'Alta Gamma"
+    "casajou_role": "Distribuïdor Nacional & Botiga d'Alta Gamma",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-98",
@@ -3489,7 +3780,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.75327,
+    "lng": 1.87494,
+    "geo_precision": "city"
   },
   {
     "id": "dist-99",
@@ -3531,7 +3825,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-100",
@@ -3565,7 +3862,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-101",
@@ -3597,7 +3897,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-102",
@@ -3629,7 +3932,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-103",
@@ -3671,7 +3977,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-104",
@@ -3713,7 +4022,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-105",
@@ -3755,7 +4067,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-106",
@@ -3787,7 +4102,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-107",
@@ -3819,7 +4137,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-108",
@@ -3851,7 +4172,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-109",
@@ -3883,7 +4207,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.57902,
+    "lng": 1.61735,
+    "geo_precision": "city"
   },
   {
     "id": "dist-110",
@@ -3915,7 +4242,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-111",
@@ -3947,7 +4277,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-112",
@@ -3979,7 +4312,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-113",
@@ -4011,7 +4347,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-114",
@@ -4043,7 +4382,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-115",
@@ -4077,7 +4419,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-116",
@@ -4111,7 +4456,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-117",
@@ -4143,7 +4491,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-118",
@@ -4175,7 +4526,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-119",
@@ -4207,7 +4561,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-120",
@@ -4243,7 +4600,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Barcelona Ciutat",
     "region": "Catalunya",
     "is_casajou": true,
-    "casajou_role": "Distribuïdor Oficial a Catalunya"
+    "casajou_role": "Distribuïdor Oficial a Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-121",
@@ -4275,7 +4635,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-122",
@@ -4307,7 +4670,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-123",
@@ -4341,7 +4707,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-124",
@@ -4373,7 +4742,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-125",
@@ -4405,7 +4777,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-126",
@@ -4437,7 +4812,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-127",
@@ -4469,7 +4847,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-128",
@@ -4501,7 +4882,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona Ciutat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-129",
@@ -4533,7 +4917,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Vallès / Baix Llobregat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.2861,
+    "lng": 1.98242,
+    "geo_precision": "city"
   },
   {
     "id": "dist-130",
@@ -4572,7 +4959,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Penedès",
     "region": "Catalunya",
     "is_casajou": true,
-    "casajou_role": "Enoteca Històrica & Prescriptor Penedès"
+    "casajou_role": "Enoteca Històrica & Prescriptor Penedès",
+    "lat": 41.42447,
+    "lng": 1.78639,
+    "geo_precision": "city"
   },
   {
     "id": "dist-131",
@@ -4604,7 +4994,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Penedès",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.34638,
+    "lng": 1.69952,
+    "geo_precision": "city"
   },
   {
     "id": "dist-132",
@@ -4636,7 +5029,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Penedès",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.34638,
+    "lng": 1.69952,
+    "geo_precision": "city"
   },
   {
     "id": "dist-133",
@@ -4678,7 +5074,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tarragona / Reus",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.11111,
+    "lng": 1.14583,
+    "geo_precision": "city"
   },
   {
     "id": "dist-134",
@@ -4720,7 +5119,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tarragona / Reus",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.15556,
+    "lng": 1.10761,
+    "geo_precision": "city"
   },
   {
     "id": "dist-135",
@@ -4752,7 +5154,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tarragona / Reus",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.15556,
+    "lng": 1.10761,
+    "geo_precision": "city"
   },
   {
     "id": "dist-136",
@@ -4784,7 +5189,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tarragona / Reus",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.11724,
+    "lng": 1.25461,
+    "geo_precision": "city"
   },
   {
     "id": "dist-137",
@@ -4816,7 +5224,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tarragona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.11724,
+    "lng": 1.25461,
+    "geo_precision": "city"
   },
   {
     "id": "dist-138",
@@ -4859,7 +5270,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Girona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.9793,
+    "lng": 2.81994,
+    "geo_precision": "city"
   },
   {
     "id": "dist-139",
@@ -4901,7 +5315,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Girona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.74519,
+    "lng": 2.6331,
+    "geo_precision": "city"
   },
   {
     "id": "dist-140",
@@ -4943,7 +5360,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Girona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.9793,
+    "lng": 2.81994,
+    "geo_precision": "city"
   },
   {
     "id": "dist-141",
@@ -4977,7 +5397,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Girona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.91836,
+    "lng": 3.16199,
+    "geo_precision": "city"
   },
   {
     "id": "dist-142",
@@ -5009,7 +5432,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Girona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.9793,
+    "lng": 2.81994,
+    "geo_precision": "city"
   },
   {
     "id": "dist-143",
@@ -5041,7 +5467,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Girona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.9793,
+    "lng": 2.81994,
+    "geo_precision": "city"
   },
   {
     "id": "dist-144",
@@ -5073,7 +5502,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Girona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.9793,
+    "lng": 2.81994,
+    "geo_precision": "city"
   },
   {
     "id": "dist-145",
@@ -5105,7 +5537,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Girona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.9793,
+    "lng": 2.81994,
+    "geo_precision": "city"
   },
   {
     "id": "dist-146",
@@ -5137,7 +5572,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Girona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 42.4318,
+    "lng": 1.92787,
+    "geo_precision": "city"
   },
   {
     "id": "dist-147",
@@ -5179,7 +5617,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Lleida",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.61476,
+    "lng": 0.62678,
+    "geo_precision": "city"
   },
   {
     "id": "dist-148",
@@ -5221,7 +5662,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Lleida",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.61476,
+    "lng": 0.62678,
+    "geo_precision": "city"
   },
   {
     "id": "dist-149",
@@ -5263,7 +5707,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Lleida",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.61476,
+    "lng": 0.62678,
+    "geo_precision": "city"
   },
   {
     "id": "dist-150",
@@ -5295,7 +5742,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Lleida",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.61476,
+    "lng": 0.62678,
+    "geo_precision": "city"
   },
   {
     "id": "dist-151",
@@ -5337,7 +5787,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Osona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.9302,
+    "lng": 2.25459,
+    "geo_precision": "city"
   },
   {
     "id": "dist-152",
@@ -5369,7 +5822,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Vallès / Baix Llobregat",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.54627,
+    "lng": 2.10861,
+    "geo_precision": "region"
   },
   {
     "id": "dist-153",
@@ -5413,7 +5869,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Madrid",
-    "region": "Madrid"
+    "region": "Madrid",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "id": "dist-154",
@@ -5456,7 +5915,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Madrid",
-    "region": "Madrid"
+    "region": "Madrid",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "id": "dist-155",
@@ -5488,7 +5950,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Madrid",
-    "region": "Madrid"
+    "region": "Madrid",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "id": "dist-156",
@@ -5530,7 +5995,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Madrid",
-    "region": "Madrid"
+    "region": "Madrid",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "id": "dist-157",
@@ -5572,7 +6040,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Madrid",
-    "region": "Madrid"
+    "region": "Madrid",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "id": "dist-158",
@@ -5605,7 +6076,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Barcelona",
-    "region": "Catalunya"
+    "region": "Catalunya",
+    "lat": 41.56296,
+    "lng": 2.01005,
+    "geo_precision": "city"
   },
   {
     "id": "dist-159",
@@ -5637,7 +6111,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Madrid",
-    "region": "Madrid"
+    "region": "Madrid",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "id": "dist-160",
@@ -5669,7 +6146,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Madrid",
-    "region": "Madrid"
+    "region": "Madrid",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "id": "dist-161",
@@ -5713,7 +6193,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Mallorca (Balears)",
-    "region": "Illes Balears"
+    "region": "Illes Balears",
+    "lat": 39.56958,
+    "lng": 2.65007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-162",
@@ -5756,7 +6239,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Mallorca (Balears)",
-    "region": "Illes Balears"
+    "region": "Illes Balears",
+    "lat": 39.56958,
+    "lng": 2.65007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-163",
@@ -5790,7 +6276,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Mallorca (Balears)",
-    "region": "Illes Balears"
+    "region": "Illes Balears",
+    "lat": 39.56958,
+    "lng": 2.65007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-164",
@@ -5822,7 +6311,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Mallorca (Balears)",
-    "region": "Illes Balears"
+    "region": "Illes Balears",
+    "lat": 39.56958,
+    "lng": 2.65007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-165",
@@ -5854,7 +6346,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Mallorca (Balears)",
-    "region": "Illes Balears"
+    "region": "Illes Balears",
+    "lat": 39.56958,
+    "lng": 2.65007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-166",
@@ -5886,7 +6381,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Mallorca (Balears)",
-    "region": "Illes Balears"
+    "region": "Illes Balears",
+    "lat": 39.56958,
+    "lng": 2.65007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-167",
@@ -5928,7 +6426,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Eivissa (Balears)",
-    "region": "Illes Balears"
+    "region": "Illes Balears",
+    "lat": 38.97439,
+    "lng": 1.41975,
+    "geo_precision": "city"
   },
   {
     "id": "dist-168",
@@ -5970,7 +6471,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Eivissa (Balears)",
-    "region": "Illes Balears"
+    "region": "Illes Balears",
+    "lat": 38.97439,
+    "lng": 1.41975,
+    "geo_precision": "city"
   },
   {
     "id": "dist-169",
@@ -6012,7 +6516,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Eivissa (Balears)",
-    "region": "Illes Balears"
+    "region": "Illes Balears",
+    "lat": 38.97439,
+    "lng": 1.41975,
+    "geo_precision": "city"
   },
   {
     "id": "dist-170",
@@ -6054,7 +6561,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Menorca (Balears)",
-    "region": "Illes Balears"
+    "region": "Illes Balears",
+    "lat": 39.94926,
+    "lng": 4.04996,
+    "geo_precision": "city"
   },
   {
     "id": "dist-171",
@@ -6096,7 +6606,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Menorca (Balears)",
-    "region": "Illes Balears"
+    "region": "Illes Balears",
+    "lat": 39.94926,
+    "lng": 4.04996,
+    "geo_precision": "city"
   },
   {
     "id": "dist-172",
@@ -6140,7 +6653,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Las Palmas (Canàries)",
-    "region": "Canàries"
+    "region": "Canàries",
+    "lat": 28.12887,
+    "lng": -15.4349,
+    "geo_precision": "city"
   },
   {
     "id": "dist-173",
@@ -6182,7 +6698,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Las Palmas (Canàries)",
-    "region": "Canàries"
+    "region": "Canàries",
+    "lat": 28.12887,
+    "lng": -15.4349,
+    "geo_precision": "city"
   },
   {
     "id": "dist-174",
@@ -6224,7 +6743,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tenerife (Canàries)",
-    "region": "Canàries"
+    "region": "Canàries",
+    "lat": 28.29358,
+    "lng": -16.62145,
+    "geo_precision": "city"
   },
   {
     "id": "dist-175",
@@ -6256,7 +6778,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Las Palmas (Canàries)",
-    "region": "Canàries"
+    "region": "Canàries",
+    "lat": 28.29358,
+    "lng": -16.62145,
+    "geo_precision": "city"
   },
   {
     "id": "dist-176",
@@ -6300,7 +6825,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "A Corunya",
-    "region": "Galícia"
+    "region": "Galícia",
+    "lat": 43.36362,
+    "lng": -8.41542,
+    "geo_precision": "city"
   },
   {
     "id": "dist-177",
@@ -6332,7 +6860,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "A Corunya",
-    "region": "Galícia"
+    "region": "Galícia",
+    "lat": 43.36362,
+    "lng": -8.41542,
+    "geo_precision": "city"
   },
   {
     "id": "dist-178",
@@ -6365,7 +6896,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Santiago de Compostela",
-    "region": "Galícia"
+    "region": "Galícia",
+    "lat": 42.90646,
+    "lng": -8.5193,
+    "geo_precision": "city"
   },
   {
     "id": "dist-179",
@@ -6407,7 +6941,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Pontevedra",
-    "region": "Galícia"
+    "region": "Galícia",
+    "lat": 42.42806,
+    "lng": -8.60414,
+    "geo_precision": "city"
   },
   {
     "id": "dist-180",
@@ -6449,7 +6986,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "València",
-    "region": "Comunitat Valenciana"
+    "region": "Comunitat Valenciana",
+    "lat": 39.46971,
+    "lng": -0.37634,
+    "geo_precision": "city"
   },
   {
     "id": "dist-181",
@@ -6491,7 +7031,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "València",
-    "region": "Comunitat Valenciana"
+    "region": "Comunitat Valenciana",
+    "lat": 39.46971,
+    "lng": -0.37634,
+    "geo_precision": "city"
   },
   {
     "id": "dist-182",
@@ -6525,7 +7068,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "València",
-    "region": "Comunitat Valenciana"
+    "region": "Comunitat Valenciana",
+    "lat": 39.46971,
+    "lng": -0.37634,
+    "geo_precision": "city"
   },
   {
     "id": "dist-183",
@@ -6567,7 +7113,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Castelló",
-    "region": "Comunitat Valenciana"
+    "region": "Comunitat Valenciana",
+    "lat": 39.98603,
+    "lng": -0.03774,
+    "geo_precision": "city"
   },
   {
     "id": "dist-184",
@@ -6610,7 +7159,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Sevilla",
-    "region": "Andalusia"
+    "region": "Andalusia",
+    "lat": 37.38863,
+    "lng": -5.99534,
+    "geo_precision": "city"
   },
   {
     "id": "dist-185",
@@ -6652,7 +7204,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Sevilla",
-    "region": "Andalusia"
+    "region": "Andalusia",
+    "lat": 37.38863,
+    "lng": -5.99534,
+    "geo_precision": "city"
   },
   {
     "id": "dist-186",
@@ -6695,7 +7250,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Màlaga / Costa del Sol",
-    "region": "Andalusia"
+    "region": "Andalusia",
+    "lat": 36.76479,
+    "lng": -4.4422,
+    "geo_precision": "city"
   },
   {
     "id": "dist-187",
@@ -6737,7 +7295,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Còrdova",
-    "region": "Andalusia"
+    "region": "Andalusia",
+    "lat": 37.88458,
+    "lng": -4.77601,
+    "geo_precision": "city"
   },
   {
     "id": "dist-188",
@@ -6779,7 +7340,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Màlaga / Costa del Sol",
-    "region": "Andalusia"
+    "region": "Andalusia",
+    "lat": 37.1735,
+    "lng": -3.59953,
+    "geo_precision": "city"
   },
   {
     "id": "dist-189",
@@ -6821,7 +7385,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Granada",
-    "region": "Andalusia"
+    "region": "Andalusia",
+    "lat": 37.1735,
+    "lng": -3.59953,
+    "geo_precision": "city"
   },
   {
     "id": "dist-190",
@@ -6864,7 +7431,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Valladolid",
-    "region": "Castella i Lleó"
+    "region": "Castella i Lleó",
+    "lat": 41.62,
+    "lng": -4.72599,
+    "geo_precision": "city"
   },
   {
     "id": "dist-191",
@@ -6906,7 +7476,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Salamanca",
-    "region": "Castella i Lleó"
+    "region": "Castella i Lleó",
+    "lat": 40.96516,
+    "lng": -5.66402,
+    "geo_precision": "city"
   },
   {
     "id": "dist-192",
@@ -6948,7 +7521,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Segòvia",
-    "region": "Castella i Lleó"
+    "region": "Castella i Lleó",
+    "lat": 40.94812,
+    "lng": -4.11721,
+    "geo_precision": "city"
   },
   {
     "id": "dist-193",
@@ -6992,7 +7568,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Madrid",
-    "region": "Madrid"
+    "region": "Madrid",
+    "lat": 40.94812,
+    "lng": -4.11721,
+    "geo_precision": "city"
   },
   {
     "id": "dist-194",
@@ -7034,7 +7613,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Sòria",
-    "region": "Castella i Lleó"
+    "region": "Castella i Lleó",
+    "lat": 41.60125,
+    "lng": -2.72194,
+    "geo_precision": "city"
   },
   {
     "id": "dist-195",
@@ -7076,7 +7658,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Lleó",
-    "region": "Castella i Lleó"
+    "region": "Castella i Lleó",
+    "lat": 42.63415,
+    "lng": -5.97142,
+    "geo_precision": "city"
   },
   {
     "id": "dist-196",
@@ -7118,7 +7703,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Saragossa",
-    "region": "Aragó"
+    "region": "Aragó",
+    "lat": 41.69158,
+    "lng": -0.91013,
+    "geo_precision": "city"
   },
   {
     "id": "dist-197",
@@ -7150,7 +7738,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Saragossa",
-    "region": "Aragó"
+    "region": "Aragó",
+    "lat": 41.69158,
+    "lng": -0.91013,
+    "geo_precision": "city"
   },
   {
     "id": "dist-198",
@@ -7182,7 +7773,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Saragossa",
-    "region": "Aragó"
+    "region": "Aragó",
+    "lat": 41.69158,
+    "lng": -0.91013,
+    "geo_precision": "city"
   },
   {
     "id": "dist-199",
@@ -7224,7 +7818,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "La Rioja",
-    "region": "La Rioja"
+    "region": "La Rioja",
+    "lat": 42.28146,
+    "lng": -2.4828,
+    "geo_precision": "city"
   },
   {
     "id": "dist-200",
@@ -7267,7 +7864,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Guipúscoa (Donostia)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.14453,
+    "lng": -2.2038,
+    "geo_precision": "city"
   },
   {
     "id": "dist-201",
@@ -7300,7 +7900,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Guipúscoa (Donostia)",
-    "region": "País Basc"
+    "region": "País Basc",
+    "lat": 43.32242,
+    "lng": -1.98389,
+    "geo_precision": "city"
   },
   {
     "id": "dist-202",
@@ -7343,7 +7946,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Cantàbria / Santander",
-    "region": "Cantàbria"
+    "region": "Cantàbria",
+    "lat": 43.46189,
+    "lng": -3.81003,
+    "geo_precision": "city"
   },
   {
     "id": "dist-203",
@@ -7385,7 +7991,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Ceuta",
-    "region": "Ceuta"
+    "region": "Ceuta",
+    "lat": 35.88836,
+    "lng": -5.30414,
+    "geo_precision": "city"
   },
   {
     "id": "dist-204",
@@ -7418,7 +8027,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "E-commerce / Online",
-    "region": "Nacional"
+    "region": "Nacional",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-205",
@@ -7450,7 +8062,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Madrid",
-    "region": "Madrid"
+    "region": "Madrid",
+    "lat": 40.41678,
+    "lng": -3.70379,
+    "geo_precision": "city"
   },
   {
     "id": "dist-206",
@@ -7483,7 +8098,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "E-commerce / Online",
-    "region": "Nacional"
+    "region": "Nacional",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-207",
@@ -7516,7 +8134,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Andorra la Vella",
-    "region": "Andorra"
+    "region": "Andorra",
+    "lat": 42.49792,
+    "lng": 1.50323,
+    "geo_precision": "city"
   },
   {
     "id": "dist-208",
@@ -7548,7 +8169,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Andorra",
-    "region": "Andorra"
+    "region": "Andorra",
+    "lat": 42.54072,
+    "lng": 1.5732,
+    "geo_precision": "city"
   },
   {
     "id": "dist-209",
@@ -7591,7 +8215,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hendaia (País Basc Francès)",
-    "region": "França"
+    "region": "França",
+    "lat": 43.36415,
+    "lng": -1.76165,
+    "geo_precision": "city"
   },
   {
     "id": "dist-210",
@@ -7634,7 +8261,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Rosselló (Catalunya Nord)",
-    "region": "França"
+    "region": "França",
+    "lat": 42.69853,
+    "lng": 2.89531,
+    "geo_precision": "city"
   },
   {
     "id": "dist-211",
@@ -7667,7 +8297,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hèlsinki",
-    "region": "Finlàndia"
+    "region": "Finlàndia",
+    "lat": 60.16662,
+    "lng": 24.94354,
+    "geo_precision": "city"
   },
   {
     "id": "dist-212",
@@ -7700,7 +8333,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Lima",
-    "region": "Perú"
+    "region": "Perú",
+    "lat": -12.04598,
+    "lng": -77.03059,
+    "geo_precision": "city"
   },
   {
     "id": "dist-213",
@@ -7733,7 +8369,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Quebec",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 52.47609,
+    "lng": -71.82587,
+    "geo_precision": "city"
   },
   {
     "id": "dist-214",
@@ -7776,7 +8415,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Quebec / Mont-real",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 52.47609,
+    "lng": -71.82587,
+    "geo_precision": "city"
   },
   {
     "id": "dist-215",
@@ -7810,7 +8452,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Monmouth, Gal·les / Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.80989,
+    "lng": -2.71604,
+    "geo_precision": "city"
   },
   {
     "id": "dist-216",
@@ -7843,7 +8488,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Monmouth, Gal·les",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.80989,
+    "lng": -2.71604,
+    "geo_precision": "city"
   },
   {
     "id": "dist-217",
@@ -7886,7 +8534,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hong Kong (Àsia)",
-    "region": "Hong Kong"
+    "region": "Hong Kong",
+    "lat": 22.3193,
+    "lng": 114.1694,
+    "geo_precision": "city"
   },
   {
     "id": "dist-218",
@@ -7919,7 +8570,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Zuric / Ginebra",
-    "region": "Suïssa"
+    "region": "Suïssa",
+    "lat": 47.37445,
+    "lng": 8.54104,
+    "geo_precision": "city"
   },
   {
     "id": "dist-219",
@@ -7962,7 +8616,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bonstetten (Zuric)",
-    "region": "Suïssa"
+    "region": "Suïssa",
+    "lat": 47.31547,
+    "lng": 8.46706,
+    "geo_precision": "city"
   },
   {
     "id": "dist-220",
@@ -8005,7 +8662,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Suïssa",
-    "region": "Suïssa"
+    "region": "Suïssa",
+    "lat": 46.79856,
+    "lng": 8.23197,
+    "geo_precision": "city"
   },
   {
     "id": "dist-221",
@@ -8038,7 +8698,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Adliswil (Zuric)",
-    "region": "Suïssa"
+    "region": "Suïssa",
+    "lat": 47.31176,
+    "lng": 8.52491,
+    "geo_precision": "city"
   },
   {
     "id": "dist-222",
@@ -8071,7 +8734,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Aquisgrà (Aachen)",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 50.77635,
+    "lng": 6.08386,
+    "geo_precision": "city"
   },
   {
     "id": "dist-223",
@@ -8104,7 +8770,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Michigan (MI)",
-    "region": "Estats Units - Midwest"
+    "region": "Estats Units - Midwest",
+    "lat": 40.57785,
+    "lng": -124.26211,
+    "geo_precision": "city"
   },
   {
     "id": "dist-224",
@@ -8137,7 +8806,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Carolina del Sud (SC)",
-    "region": "Estats Units - Sud-Est"
+    "region": "Estats Units - Sud-Est",
+    "lat": 32.78844,
+    "lng": -79.93993,
+    "geo_precision": "city"
   },
   {
     "id": "dist-225",
@@ -8180,7 +8852,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Berlín",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 52.51739,
+    "lng": 13.39513,
+    "geo_precision": "city"
   },
   {
     "id": "dist-226",
@@ -8223,7 +8898,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "París",
-    "region": "França"
+    "region": "França",
+    "lat": 48.85889,
+    "lng": 2.32004,
+    "geo_precision": "city"
   },
   {
     "id": "dist-227",
@@ -8267,7 +8945,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Xangai",
-    "region": "Xina"
+    "region": "Xina",
+    "lat": 31.23127,
+    "lng": 121.47002,
+    "geo_precision": "city"
   },
   {
     "id": "dist-228",
@@ -8310,7 +8991,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Guaynabo 00969",
-    "region": "Puerto Rico"
+    "region": "Puerto Rico",
+    "lat": 18.4274,
+    "lng": -66.1057,
+    "geo_precision": "city"
   },
   {
     "id": "dist-229",
@@ -8342,7 +9026,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Urrugne (País Basc Francès)",
-    "region": "França"
+    "region": "França",
+    "lat": 43.36247,
+    "lng": -1.7003,
+    "geo_precision": "city"
   },
   {
     "id": "dist-230",
@@ -8375,7 +9062,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Estocolm",
-    "region": "Suècia"
+    "region": "Suècia",
+    "lat": 59.32512,
+    "lng": 18.07109,
+    "geo_precision": "city"
   },
   {
     "id": "dist-231",
@@ -8408,7 +9098,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Oslo",
-    "region": "Noruega"
+    "region": "Noruega",
+    "lat": 59.91333,
+    "lng": 10.73897,
+    "geo_precision": "city"
   },
   {
     "id": "dist-232",
@@ -8441,7 +9134,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Manila",
-    "region": "Filipines"
+    "region": "Filipines",
+    "lat": 14.59045,
+    "lng": 120.98036,
+    "geo_precision": "city"
   },
   {
     "id": "dist-233",
@@ -8473,7 +9169,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-234",
@@ -8505,7 +9204,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-235",
@@ -8537,7 +9239,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-236",
@@ -8569,7 +9274,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-237",
@@ -8601,7 +9309,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hamburg",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 53.55017,
+    "lng": 10.00132,
+    "geo_precision": "city"
   },
   {
     "id": "dist-238",
@@ -8633,7 +9344,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-239",
@@ -8665,7 +9379,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-240",
@@ -8697,7 +9414,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-241",
@@ -8729,7 +9449,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-242",
@@ -8761,7 +9484,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-243",
@@ -8793,7 +9519,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-244",
@@ -8825,7 +9554,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-245",
@@ -8857,7 +9589,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-246",
@@ -8889,7 +9624,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-247",
@@ -8921,7 +9659,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hamburg",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 53.55017,
+    "lng": 10.00132,
+    "geo_precision": "city"
   },
   {
     "id": "dist-248",
@@ -8953,7 +9694,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-249",
@@ -8985,7 +9729,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Alemanya",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 51.16382,
+    "lng": 10.44783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-250",
@@ -9017,7 +9764,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Múnic",
-    "region": "Alemanya"
+    "region": "Alemanya",
+    "lat": 48.13711,
+    "lng": 11.57538,
+    "geo_precision": "city"
   },
   {
     "id": "dist-251",
@@ -9049,7 +9799,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Països Baixos",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.2435,
+    "lng": 5.63432,
+    "geo_precision": "city"
   },
   {
     "id": "dist-252",
@@ -9081,7 +9834,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Breda",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 51.58878,
+    "lng": 4.77602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-253",
@@ -9113,7 +9869,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nimega",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 51.84749,
+    "lng": 5.86378,
+    "geo_precision": "city"
   },
   {
     "id": "dist-254",
@@ -9145,7 +9904,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Waddinxveen",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.04434,
+    "lng": 4.6416,
+    "geo_precision": "city"
   },
   {
     "id": "dist-255",
@@ -9177,7 +9939,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Països Baixos",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.2435,
+    "lng": 5.63432,
+    "geo_precision": "city"
   },
   {
     "id": "dist-256",
@@ -9209,7 +9974,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Països Baixos",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.2435,
+    "lng": 5.63432,
+    "geo_precision": "city"
   },
   {
     "id": "dist-257",
@@ -9241,7 +10009,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tilburg",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 51.58562,
+    "lng": 5.06606,
+    "geo_precision": "city"
   },
   {
     "id": "dist-258",
@@ -9273,7 +10044,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Països Baixos",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.2435,
+    "lng": 5.63432,
+    "geo_precision": "city"
   },
   {
     "id": "dist-259",
@@ -9305,7 +10079,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Veghel",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 51.61345,
+    "lng": 5.54469,
+    "geo_precision": "city"
   },
   {
     "id": "dist-260",
@@ -9337,7 +10114,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Països Baixos",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.2435,
+    "lng": 5.63432,
+    "geo_precision": "city"
   },
   {
     "id": "dist-261",
@@ -9369,7 +10149,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Països Baixos",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.2435,
+    "lng": 5.63432,
+    "geo_precision": "city"
   },
   {
     "id": "dist-262",
@@ -9401,7 +10184,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Països Baixos",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.2435,
+    "lng": 5.63432,
+    "geo_precision": "city"
   },
   {
     "id": "dist-263",
@@ -9433,7 +10219,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Països Baixos",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.2435,
+    "lng": 5.63432,
+    "geo_precision": "city"
   },
   {
     "id": "dist-264",
@@ -9465,7 +10254,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Països Baixos",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.2435,
+    "lng": 5.63432,
+    "geo_precision": "city"
   },
   {
     "id": "dist-265",
@@ -9497,7 +10289,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Haarlem",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.38853,
+    "lng": 4.6388,
+    "geo_precision": "city"
   },
   {
     "id": "dist-266",
@@ -9529,7 +10324,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Països Baixos",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.2435,
+    "lng": 5.63432,
+    "geo_precision": "city"
   },
   {
     "id": "dist-267",
@@ -9561,7 +10359,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Beemster",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.56255,
+    "lng": 4.91988,
+    "geo_precision": "city"
   },
   {
     "id": "dist-268",
@@ -9593,7 +10394,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Països Baixos",
-    "region": "Països Baixos"
+    "region": "Països Baixos",
+    "lat": 52.2435,
+    "lng": 5.63432,
+    "geo_precision": "city"
   },
   {
     "id": "dist-269",
@@ -9625,7 +10429,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-270",
@@ -9657,7 +10464,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Cheshire / Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 53.2141,
+    "lng": -2.47177,
+    "geo_precision": "city"
   },
   {
     "id": "dist-271",
@@ -9689,7 +10499,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-272",
@@ -9721,7 +10534,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-273",
@@ -9754,7 +10570,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres / Escòcia",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-274",
@@ -9786,7 +10605,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-275",
@@ -9818,7 +10640,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-276",
@@ -9850,7 +10675,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-277",
@@ -9882,7 +10710,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Londres",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "id": "dist-278",
@@ -9914,7 +10745,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Bristol",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 51.44301,
+    "lng": -2.58166,
+    "geo_precision": "city"
   },
   {
     "id": "dist-279",
@@ -9946,7 +10780,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Regne Unit",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 54.70235,
+    "lng": -3.27658,
+    "geo_precision": "city"
   },
   {
     "id": "dist-280",
@@ -9978,7 +10815,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Edimburg",
-    "region": "Regne Unit"
+    "region": "Regne Unit",
+    "lat": 55.95335,
+    "lng": -3.18837,
+    "geo_precision": "city"
   },
   {
     "id": "dist-281",
@@ -10010,7 +10850,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Califòrnia (CA)",
-    "region": "Estats Units - Costa Oest"
+    "region": "Estats Units - Costa Oest",
+    "lat": 36.70146,
+    "lng": -118.756,
+    "geo_precision": "city"
   },
   {
     "id": "dist-282",
@@ -10043,7 +10886,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nacional EUA (Boston, DC, Atlanta...)",
-    "region": "Estats Units - Nacional"
+    "region": "Estats Units - Nacional",
+    "lat": 42.35883,
+    "lng": -71.05783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-283",
@@ -10075,7 +10921,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Connecticut (CT)",
-    "region": "Estats Units - New England"
+    "region": "Estats Units - New England",
+    "lat": 41.65002,
+    "lng": -72.73422,
+    "geo_precision": "city"
   },
   {
     "id": "dist-284",
@@ -10107,7 +10956,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York (NY)",
-    "region": "Estats Units - Costa Est"
+    "region": "Estats Units - Costa Est",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-285",
@@ -10139,7 +10991,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Texas (TX) & CA",
-    "region": "Estats Units - Sud / Oest"
+    "region": "Estats Units - Sud / Oest",
+    "lat": 31.26389,
+    "lng": -98.54561,
+    "geo_precision": "city"
   },
   {
     "id": "dist-286",
@@ -10171,7 +11026,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York",
-    "region": "Estats Units"
+    "region": "Estats Units",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-287",
@@ -10203,7 +11061,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York",
-    "region": "Estats Units"
+    "region": "Estats Units",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-288",
@@ -10235,7 +11096,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova Orleans, Louisiana",
-    "region": "Estats Units"
+    "region": "Estats Units",
+    "lat": 29.95747,
+    "lng": -90.06295,
+    "geo_precision": "city"
   },
   {
     "id": "dist-289",
@@ -10267,7 +11131,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Colorado (CO)",
-    "region": "Estats Units - Muntanyes Rocalloses"
+    "region": "Estats Units - Muntanyes Rocalloses",
+    "lat": 38.72518,
+    "lng": -105.60772,
+    "geo_precision": "city"
   },
   {
     "id": "dist-290",
@@ -10299,7 +11166,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Virgínia & Washington DC",
-    "region": "Estats Units - Costa Est"
+    "region": "Estats Units - Costa Est",
+    "lat": 37.12322,
+    "lng": -78.49277,
+    "geo_precision": "city"
   },
   {
     "id": "dist-291",
@@ -10332,7 +11202,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Washington DC (Nacional)",
-    "region": "Estats Units - Nacional"
+    "region": "Estats Units - Nacional",
+    "lat": 38.8951,
+    "lng": -77.03638,
+    "geo_precision": "city"
   },
   {
     "id": "dist-292",
@@ -10365,7 +11238,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Califòrnia (CA)",
-    "region": "Estats Units - Costa Oest"
+    "region": "Estats Units - Costa Oest",
+    "lat": 37.78794,
+    "lng": -122.40752,
+    "geo_precision": "city"
   },
   {
     "id": "dist-293",
@@ -10397,7 +11273,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Carolina del Nord (NC)",
-    "region": "Estats Units - Sud-Est"
+    "region": "Estats Units - Sud-Est",
+    "lat": 35.59536,
+    "lng": -82.55084,
+    "geo_precision": "city"
   },
   {
     "id": "dist-294",
@@ -10429,7 +11308,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Michigan (MI)",
-    "region": "Estats Units - Midwest"
+    "region": "Estats Units - Midwest",
+    "lat": 42.33155,
+    "lng": -83.04664,
+    "geo_precision": "city"
   },
   {
     "id": "dist-295",
@@ -10461,7 +11343,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Utah (UT)",
-    "region": "Estats Units - Oest"
+    "region": "Estats Units - Oest",
+    "lat": 39.42252,
+    "lng": -111.71436,
+    "geo_precision": "city"
   },
   {
     "id": "dist-296",
@@ -10493,7 +11378,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York (NY)",
-    "region": "Estats Units - Costa Est"
+    "region": "Estats Units - Costa Est",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-297",
@@ -10525,7 +11413,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Califòrnia (CA)",
-    "region": "Estats Units - Costa Oest"
+    "region": "Estats Units - Costa Oest",
+    "lat": 37.78794,
+    "lng": -122.40752,
+    "geo_precision": "city"
   },
   {
     "id": "dist-298",
@@ -10558,7 +11449,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York (NY)",
-    "region": "Estats Units - Costa Est"
+    "region": "Estats Units - Costa Est",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-299",
@@ -10590,7 +11484,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Texas (TX) & CA",
-    "region": "Estats Units - Sud / Oest"
+    "region": "Estats Units - Sud / Oest",
+    "lat": 31.26389,
+    "lng": -98.54561,
+    "geo_precision": "city"
   },
   {
     "id": "dist-300",
@@ -10622,7 +11519,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Nova York (NY)",
-    "region": "Estats Units - Costa Est"
+    "region": "Estats Units - Costa Est",
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-301",
@@ -10654,7 +11554,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Texas (TX) - Nacional",
-    "region": "Estats Units - Nacional"
+    "region": "Estats Units - Nacional",
+    "lat": 30.26493,
+    "lng": -97.74741,
+    "geo_precision": "city"
   },
   {
     "id": "dist-302",
@@ -10686,7 +11589,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Virgínia & Washington DC",
-    "region": "Estats Units - Costa Est"
+    "region": "Estats Units - Costa Est",
+    "lat": 37.12322,
+    "lng": -78.49277,
+    "geo_precision": "city"
   },
   {
     "id": "dist-303",
@@ -10718,7 +11624,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Califòrnia (CA) - Nacional",
-    "region": "Estats Units - Nacional"
+    "region": "Estats Units - Nacional",
+    "lat": 37.78794,
+    "lng": -122.40752,
+    "geo_precision": "city"
   },
   {
     "id": "dist-304",
@@ -10750,7 +11659,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Mont-real (Quebec)",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 45.50318,
+    "lng": -73.56981,
+    "geo_precision": "city"
   },
   {
     "id": "dist-305",
@@ -10782,7 +11694,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Quebec",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 52.47609,
+    "lng": -71.82587,
+    "geo_precision": "city"
   },
   {
     "id": "dist-306",
@@ -10814,7 +11729,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Ontario",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 50.00068,
+    "lng": -86.00098,
+    "geo_precision": "city"
   },
   {
     "id": "dist-307",
@@ -10846,7 +11764,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Halifax, Nova Escòcia",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 44.64862,
+    "lng": -63.58595,
+    "geo_precision": "city"
   },
   {
     "id": "dist-308",
@@ -10878,7 +11799,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Mont-real",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 45.50318,
+    "lng": -73.56981,
+    "geo_precision": "city"
   },
   {
     "id": "dist-309",
@@ -10910,7 +11834,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Vancouver, British Columbia",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 49.26087,
+    "lng": -123.11395,
+    "geo_precision": "city"
   },
   {
     "id": "dist-310",
@@ -10942,7 +11869,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Calgary / Alberta & BC",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 51.04561,
+    "lng": -114.05754,
+    "geo_precision": "city"
   },
   {
     "id": "dist-311",
@@ -10974,7 +11904,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Halifax",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 44.64862,
+    "lng": -63.58595,
+    "geo_precision": "city"
   },
   {
     "id": "dist-312",
@@ -11006,7 +11939,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Winnipeg / Manitoba",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 49.89554,
+    "lng": -97.13846,
+    "geo_precision": "city"
   },
   {
     "id": "dist-313",
@@ -11038,7 +11974,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Toronto, Ontario",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 43.65348,
+    "lng": -79.38393,
+    "geo_precision": "city"
   },
   {
     "id": "dist-314",
@@ -11070,7 +12009,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Toronto, Ontario",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 43.65348,
+    "lng": -79.38393,
+    "geo_precision": "city"
   },
   {
     "id": "dist-315",
@@ -11102,7 +12044,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Calgary, Alberta",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 51.04561,
+    "lng": -114.05754,
+    "geo_precision": "city"
   },
   {
     "id": "dist-316",
@@ -11134,7 +12079,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Toronto, Ontario",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 43.65348,
+    "lng": -79.38393,
+    "geo_precision": "city"
   },
   {
     "id": "dist-317",
@@ -11166,7 +12114,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Toronto, Ontario",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 43.65348,
+    "lng": -79.38393,
+    "geo_precision": "city"
   },
   {
     "id": "dist-318",
@@ -11198,7 +12149,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Quebec",
-    "region": "Canadà"
+    "region": "Canadà",
+    "lat": 52.47609,
+    "lng": -71.82587,
+    "geo_precision": "city"
   },
   {
     "id": "dist-319",
@@ -11230,7 +12184,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Ciutat de Mèxic",
-    "region": "Mèxic"
+    "region": "Mèxic",
+    "lat": 19.43263,
+    "lng": -99.13318,
+    "geo_precision": "city"
   },
   {
     "id": "dist-320",
@@ -11262,7 +12219,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Ciutat de Mèxic",
-    "region": "Mèxic"
+    "region": "Mèxic",
+    "lat": 19.43263,
+    "lng": -99.13318,
+    "geo_precision": "city"
   },
   {
     "id": "dist-321",
@@ -11294,7 +12254,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Ciutat de Mèxic (Nacional)",
-    "region": "Mèxic"
+    "region": "Mèxic",
+    "lat": 19.43263,
+    "lng": -99.13318,
+    "geo_precision": "city"
   },
   {
     "id": "dist-322",
@@ -11326,7 +12289,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Puebla / CDMX",
-    "region": "Mèxic"
+    "region": "Mèxic",
+    "lat": 18.83333,
+    "lng": -98.0,
+    "geo_precision": "city"
   },
   {
     "id": "dist-323",
@@ -11358,7 +12324,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Mèxic",
-    "region": "Mèxic"
+    "region": "Mèxic",
+    "lat": 23.65851,
+    "lng": -102.00771,
+    "geo_precision": "city"
   },
   {
     "id": "dist-324",
@@ -11390,7 +12359,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Estocolm / Hèlsinki",
-    "region": "Suècia"
+    "region": "Suècia",
+    "lat": 59.32512,
+    "lng": 18.07109,
+    "geo_precision": "city"
   },
   {
     "id": "dist-325",
@@ -11422,7 +12394,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Estocolm",
-    "region": "Suècia"
+    "region": "Suècia",
+    "lat": 59.32512,
+    "lng": 18.07109,
+    "geo_precision": "city"
   },
   {
     "id": "dist-326",
@@ -11454,7 +12429,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Estocolm (Nòrdics)",
-    "region": "Suècia"
+    "region": "Suècia",
+    "lat": 59.32512,
+    "lng": 18.07109,
+    "geo_precision": "city"
   },
   {
     "id": "dist-327",
@@ -11486,7 +12464,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Estocolm",
-    "region": "Suècia"
+    "region": "Suècia",
+    "lat": 59.32512,
+    "lng": 18.07109,
+    "geo_precision": "city"
   },
   {
     "id": "dist-328",
@@ -11518,7 +12499,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Oslo",
-    "region": "Noruega"
+    "region": "Noruega",
+    "lat": 59.91333,
+    "lng": 10.73897,
+    "geo_precision": "city"
   },
   {
     "id": "dist-329",
@@ -11550,7 +12534,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Oslo",
-    "region": "Noruega"
+    "region": "Noruega",
+    "lat": 59.91333,
+    "lng": 10.73897,
+    "geo_precision": "city"
   },
   {
     "id": "dist-330",
@@ -11582,7 +12569,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Oslo",
-    "region": "Noruega"
+    "region": "Noruega",
+    "lat": 59.91333,
+    "lng": 10.73897,
+    "geo_precision": "city"
   },
   {
     "id": "dist-331",
@@ -11614,7 +12604,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hèlsinki",
-    "region": "Finlàndia"
+    "region": "Finlàndia",
+    "lat": 60.16662,
+    "lng": 24.94354,
+    "geo_precision": "city"
   },
   {
     "id": "dist-332",
@@ -11646,7 +12639,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hèlsinki",
-    "region": "Finlàndia"
+    "region": "Finlàndia",
+    "lat": 60.16662,
+    "lng": 24.94354,
+    "geo_precision": "city"
   },
   {
     "id": "dist-333",
@@ -11678,7 +12674,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Estocolm",
-    "region": "Suècia"
+    "region": "Suècia",
+    "lat": 59.32512,
+    "lng": 18.07109,
+    "geo_precision": "city"
   },
   {
     "id": "dist-334",
@@ -11710,7 +12709,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tòquio",
-    "region": "Japó"
+    "region": "Japó",
+    "lat": 35.67686,
+    "lng": 139.76389,
+    "geo_precision": "city"
   },
   {
     "id": "dist-335",
@@ -11742,7 +12744,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Kyoto / Tòquio",
-    "region": "Japó"
+    "region": "Japó",
+    "lat": 35.01158,
+    "lng": 135.76814,
+    "geo_precision": "city"
   },
   {
     "id": "dist-336",
@@ -11774,7 +12779,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tòquio",
-    "region": "Japó"
+    "region": "Japó",
+    "lat": 35.67686,
+    "lng": 139.76389,
+    "geo_precision": "city"
   },
   {
     "id": "dist-337",
@@ -11806,7 +12814,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tòquio",
-    "region": "Japó"
+    "region": "Japó",
+    "lat": 35.67686,
+    "lng": 139.76389,
+    "geo_precision": "city"
   },
   {
     "id": "dist-338",
@@ -11838,7 +12849,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tòquio",
-    "region": "Japó"
+    "region": "Japó",
+    "lat": 35.67686,
+    "lng": 139.76389,
+    "geo_precision": "city"
   },
   {
     "id": "dist-339",
@@ -11870,7 +12884,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Tòquio",
-    "region": "Japó"
+    "region": "Japó",
+    "lat": 35.67686,
+    "lng": 139.76389,
+    "geo_precision": "city"
   },
   {
     "id": "dist-340",
@@ -11902,7 +12919,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hong Kong",
-    "region": "Hong Kong"
+    "region": "Hong Kong",
+    "lat": 22.3193,
+    "lng": 114.1694,
+    "geo_precision": "city"
   },
   {
     "id": "dist-341",
@@ -11934,7 +12954,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hong Kong",
-    "region": "Hong Kong"
+    "region": "Hong Kong",
+    "lat": 22.3193,
+    "lng": 114.1694,
+    "geo_precision": "city"
   },
   {
     "id": "dist-342",
@@ -11966,7 +12989,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hong Kong",
-    "region": "Hong Kong"
+    "region": "Hong Kong",
+    "lat": 22.3193,
+    "lng": 114.1694,
+    "geo_precision": "city"
   },
   {
     "id": "dist-343",
@@ -11998,7 +13024,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Hong Kong",
-    "region": "Hong Kong"
+    "region": "Hong Kong",
+    "lat": 22.3193,
+    "lng": 114.1694,
+    "geo_precision": "city"
   },
   {
     "id": "dist-344",
@@ -12030,7 +13059,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Seül",
-    "region": "Corea del Sud"
+    "region": "Corea del Sud",
+    "lat": 37.56668,
+    "lng": 126.97829,
+    "geo_precision": "city"
   },
   {
     "id": "dist-345",
@@ -12062,7 +13094,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Seül",
-    "region": "Corea del Sud"
+    "region": "Corea del Sud",
+    "lat": 37.56668,
+    "lng": 126.97829,
+    "geo_precision": "city"
   },
   {
     "id": "dist-346",
@@ -12094,7 +13129,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Seül",
-    "region": "Corea del Sud"
+    "region": "Corea del Sud",
+    "lat": 37.56668,
+    "lng": 126.97829,
+    "geo_precision": "city"
   },
   {
     "id": "dist-347",
@@ -12126,7 +13164,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Sydney",
-    "region": "Austràlia"
+    "region": "Austràlia",
+    "lat": -33.86984,
+    "lng": 151.20828,
+    "geo_precision": "city"
   },
   {
     "id": "dist-348",
@@ -12158,7 +13199,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Melbourne / Sydney",
-    "region": "Austràlia"
+    "region": "Austràlia",
+    "lat": -37.81425,
+    "lng": 144.96317,
+    "geo_precision": "city"
   },
   {
     "id": "dist-349",
@@ -12190,7 +13234,10 @@ window.INITIAL_DISTRIBUTORS = [
     "interactions": [],
     "documents": [],
     "province": "Sydney",
-    "region": "Austràlia"
+    "region": "Austràlia",
+    "lat": -33.86984,
+    "lng": 151.20828,
+    "geo_precision": "city"
   },
   {
     "id": "dist-350",
@@ -12232,7 +13279,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 34.05369,
+    "lng": -118.24277,
+    "geo_precision": "city"
   },
   {
     "id": "dist-351",
@@ -12275,7 +13325,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 37.78794,
+    "lng": -122.40752,
+    "geo_precision": "city"
   },
   {
     "id": "dist-352",
@@ -12317,7 +13370,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 34.06965,
+    "lng": -118.39631,
+    "geo_precision": "city"
   },
   {
     "id": "dist-353",
@@ -12360,7 +13416,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 37.78794,
+    "lng": -122.40752,
+    "geo_precision": "city"
   },
   {
     "id": "dist-354",
@@ -12402,7 +13461,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 37.33617,
+    "lng": -121.89059,
+    "geo_precision": "city"
   },
   {
     "id": "dist-355",
@@ -12444,7 +13506,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 37.80446,
+    "lng": -122.27136,
+    "geo_precision": "city"
   },
   {
     "id": "dist-356",
@@ -12486,7 +13551,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 34.05369,
+    "lng": -118.24277,
+    "geo_precision": "city"
   },
   {
     "id": "dist-357",
@@ -12528,7 +13596,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 34.05369,
+    "lng": -118.24277,
+    "geo_precision": "city"
   },
   {
     "id": "dist-358",
@@ -12570,7 +13641,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 33.94808,
+    "lng": -118.06915,
+    "geo_precision": "city"
   },
   {
     "id": "dist-359",
@@ -12612,7 +13686,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 38.04937,
+    "lng": -122.15858,
+    "geo_precision": "city"
   },
   {
     "id": "dist-360",
@@ -12657,7 +13734,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-361",
@@ -12701,7 +13781,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-362",
@@ -12744,7 +13827,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-363",
@@ -12786,7 +13872,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-364",
@@ -12829,7 +13918,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 40.6526,
+    "lng": -73.94972,
+    "geo_precision": "city"
   },
   {
     "id": "dist-365",
@@ -12871,7 +13963,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   },
   {
     "id": "dist-366",
@@ -12913,7 +14008,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 25.77416,
+    "lng": -80.1936,
+    "geo_precision": "city"
   },
   {
     "id": "dist-367",
@@ -12955,7 +14053,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 27.94499,
+    "lng": -82.45831,
+    "geo_precision": "city"
   },
   {
     "id": "dist-368",
@@ -12997,7 +14098,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 25.77416,
+    "lng": -80.1936,
+    "geo_precision": "city"
   },
   {
     "id": "dist-369",
@@ -13040,7 +14144,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 25.77416,
+    "lng": -80.1936,
+    "geo_precision": "city"
   },
   {
     "id": "dist-370",
@@ -13083,7 +14190,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 30.26493,
+    "lng": -97.74741,
+    "geo_precision": "city"
   },
   {
     "id": "dist-371",
@@ -13125,7 +14235,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 30.26493,
+    "lng": -97.74741,
+    "geo_precision": "city"
   },
   {
     "id": "dist-372",
@@ -13167,7 +14280,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 32.77627,
+    "lng": -96.79686,
+    "geo_precision": "city"
   },
   {
     "id": "dist-373",
@@ -13210,7 +14326,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 41.87556,
+    "lng": -87.62442,
+    "geo_precision": "city"
   },
   {
     "id": "dist-374",
@@ -13252,7 +14371,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 41.87556,
+    "lng": -87.62442,
+    "geo_precision": "city"
   },
   {
     "id": "dist-375",
@@ -13294,7 +14416,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 41.87556,
+    "lng": -87.62442,
+    "geo_precision": "city"
   },
   {
     "id": "dist-376",
@@ -13336,7 +14461,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 41.87556,
+    "lng": -87.62442,
+    "geo_precision": "city"
   },
   {
     "id": "dist-377",
@@ -13379,7 +14507,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 39.73924,
+    "lng": -104.98486,
+    "geo_precision": "city"
   },
   {
     "id": "dist-378",
@@ -13421,7 +14552,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 39.73924,
+    "lng": -104.98486,
+    "geo_precision": "city"
   },
   {
     "id": "dist-379",
@@ -13463,7 +14597,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 40.01499,
+    "lng": -105.27054,
+    "geo_precision": "city"
   },
   {
     "id": "dist-380",
@@ -13505,7 +14642,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 42.27732,
+    "lng": -71.41659,
+    "geo_precision": "city"
   },
   {
     "id": "dist-381",
@@ -13547,7 +14687,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 42.36563,
+    "lng": -71.104,
+    "geo_precision": "city"
   },
   {
     "id": "dist-382",
@@ -13589,7 +14732,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 42.35883,
+    "lng": -71.05783,
+    "geo_precision": "city"
   },
   {
     "id": "dist-383",
@@ -13631,7 +14777,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 41.30821,
+    "lng": -72.92505,
+    "geo_precision": "city"
   },
   {
     "id": "dist-384",
@@ -13673,7 +14822,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 47.60383,
+    "lng": -122.33006,
+    "geo_precision": "city"
   },
   {
     "id": "dist-385",
@@ -13715,7 +14867,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 47.60383,
+    "lng": -122.33006,
+    "geo_precision": "city"
   },
   {
     "id": "dist-386",
@@ -13757,7 +14912,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 47.60383,
+    "lng": -122.33006,
+    "geo_precision": "city"
   },
   {
     "id": "dist-387",
@@ -13799,7 +14957,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 47.60383,
+    "lng": -122.33006,
+    "geo_precision": "city"
   },
   {
     "id": "dist-388",
@@ -13841,7 +15002,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 45.52025,
+    "lng": -122.67419,
+    "geo_precision": "city"
   },
   {
     "id": "dist-389",
@@ -13883,7 +15047,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 45.52025,
+    "lng": -122.67419,
+    "geo_precision": "city"
   },
   {
     "id": "dist-390",
@@ -13925,7 +15092,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 35.7804,
+    "lng": -78.6391,
+    "geo_precision": "city"
   },
   {
     "id": "dist-391",
@@ -13967,7 +15137,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 35.22721,
+    "lng": -80.84308,
+    "geo_precision": "city"
   },
   {
     "id": "dist-392",
@@ -14009,7 +15182,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 35.99665,
+    "lng": -78.90181,
+    "geo_precision": "city"
   },
   {
     "id": "dist-393",
@@ -14051,7 +15227,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 38.8951,
+    "lng": -77.03638,
+    "geo_precision": "city"
   },
   {
     "id": "dist-394",
@@ -14094,7 +15273,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 38.8951,
+    "lng": -77.03638,
+    "geo_precision": "city"
   },
   {
     "id": "dist-395",
@@ -14136,7 +15318,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 33.75447,
+    "lng": -84.38982,
+    "geo_precision": "city"
   },
   {
     "id": "dist-396",
@@ -14178,7 +15363,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 33.75447,
+    "lng": -84.38982,
+    "geo_precision": "city"
   },
   {
     "id": "dist-397",
@@ -14220,7 +15408,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 33.75447,
+    "lng": -84.38982,
+    "geo_precision": "city"
   },
   {
     "id": "dist-398",
@@ -14262,7 +15453,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 44.9773,
+    "lng": -93.26547,
+    "geo_precision": "city"
   },
   {
     "id": "dist-399",
@@ -14304,7 +15498,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 39.10128,
+    "lng": -84.51274,
+    "geo_precision": "city"
   },
   {
     "id": "dist-400",
@@ -14346,7 +15543,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 38.62541,
+    "lng": -90.19001,
+    "geo_precision": "city"
   },
   {
     "id": "dist-401",
@@ -14388,7 +15588,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 43.03865,
+    "lng": -87.90908,
+    "geo_precision": "city"
   },
   {
     "id": "dist-402",
@@ -14430,7 +15633,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 43.03865,
+    "lng": -87.90908,
+    "geo_precision": "city"
   },
   {
     "id": "dist-403",
@@ -14472,7 +15678,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 41.58687,
+    "lng": -93.62495,
+    "geo_precision": "city"
   },
   {
     "id": "dist-404",
@@ -14514,7 +15723,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 44.47616,
+    "lng": -73.21291,
+    "geo_precision": "city"
   },
   {
     "id": "dist-405",
@@ -14556,7 +15768,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 45.52025,
+    "lng": -122.67419,
+    "geo_precision": "city"
   },
   {
     "id": "dist-406",
@@ -14598,7 +15813,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 29.95747,
+    "lng": -90.06295,
+    "geo_precision": "city"
   },
   {
     "id": "dist-407",
@@ -14640,7 +15858,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 29.95747,
+    "lng": -90.06295,
+    "geo_precision": "city"
   },
   {
     "id": "dist-408",
@@ -14682,7 +15903,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 35.47299,
+    "lng": -97.51705,
+    "geo_precision": "city"
   },
   {
     "id": "dist-409",
@@ -14724,7 +15948,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 45.67943,
+    "lng": -111.04405,
+    "geo_precision": "city"
   },
   {
     "id": "dist-410",
@@ -14766,7 +15993,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 39.73833,
+    "lng": -75.55275,
+    "geo_precision": "city"
   },
   {
     "name": "Cavinsa (Comercial Vinos SA)",
@@ -14810,7 +16040,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-411"
+    "id": "dist-411",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "name": "Viñero by Pifema (Pifema Wines)",
@@ -14854,7 +16087,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-412"
+    "id": "dist-412",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "name": "Doble Magnum Vinos",
@@ -14898,7 +16134,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-413"
+    "id": "dist-413",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "name": "Vins Noè",
@@ -14942,7 +16181,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-414"
+    "id": "dist-414",
+    "lat": 41.34638,
+    "lng": 1.69952,
+    "geo_precision": "city"
   },
   {
     "name": "DEO Distribuciones",
@@ -14986,7 +16228,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-415"
+    "id": "dist-415",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Júlia Bernet (Distribució Directa & Cupos HORECA)",
@@ -15031,7 +16276,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-416"
+    "id": "dist-416",
+    "lat": 41.39516,
+    "lng": 1.81125,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Can Descregut (Distribució Directa & Xarxa Ecològica)",
@@ -15075,7 +16323,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-417"
+    "id": "dist-417",
+    "lat": 41.38756,
+    "lng": 1.6633,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Demost (Distribució Directa & Cupos)",
@@ -15120,7 +16371,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-418"
+    "id": "dist-418",
+    "lat": 41.4325,
+    "lng": 1.86145,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Torné & Bel (Distribució Directa & HORECA)",
@@ -15164,7 +16418,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-419"
+    "id": "dist-419",
+    "lat": 41.4371,
+    "lng": 1.81309,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Mas Vilella (Família Jané / Distribució Directa)",
@@ -15209,7 +16466,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-420"
+    "id": "dist-420",
+    "lat": 41.27784,
+    "lng": 1.49056,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Fèlix Massana Ràfols (Distribució Directa & HORECA)",
@@ -15254,7 +16514,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-421"
+    "id": "dist-421",
+    "lat": 41.3833,
+    "lng": 1.7961,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Cisteller (Distribució Directa & Botiga)",
@@ -15299,7 +16562,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-422"
+    "id": "dist-422",
+    "lat": 41.39516,
+    "lng": 1.81125,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Viader (Distribució Directa & HORECA)",
@@ -15343,7 +16609,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-423"
+    "id": "dist-423",
+    "lat": 41.42447,
+    "lng": 1.78639,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Mas de la Basserola (Distribució Directa)",
@@ -15387,7 +16656,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-424"
+    "id": "dist-424",
+    "lat": 41.36446,
+    "lng": 1.75307,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Mir (Distribució Directa & HORECA)",
@@ -15431,7 +16703,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-425"
+    "id": "dist-425",
+    "lat": 41.39516,
+    "lng": 1.81125,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Huguet de Can Feixes (Distribució Comercial Directa)",
@@ -15476,7 +16751,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-426"
+    "id": "dist-426",
+    "lat": 41.47735,
+    "lng": 1.70411,
+    "geo_precision": "city"
   },
   {
     "name": "Celler Cavas Nadal (Direcció Comercial Directa)",
@@ -15521,7 +16799,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-427"
+    "id": "dist-427",
+    "lat": 41.44326,
+    "lng": 1.72668,
+    "geo_precision": "city"
   },
   {
     "id": "dist-428",
@@ -15554,7 +16835,10 @@ window.INITIAL_DISTRIBUTORS = [
     "notes": "Distribuïdor oficial assignat per Juvé & Camps a la província de Álava.",
     "contacts": [],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 42.84407,
+    "lng": -2.68208,
+    "geo_precision": "city"
   },
   {
     "id": "dist-429",
@@ -15587,7 +16871,10 @@ window.INITIAL_DISTRIBUTORS = [
     "notes": "Distribuïdor oficial assignat per Juvé & Camps a la província de Alicante.",
     "contacts": [],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 38.34364,
+    "lng": -0.48817,
+    "geo_precision": "city"
   },
   {
     "id": "dist-430",
@@ -15620,7 +16907,10 @@ window.INITIAL_DISTRIBUTORS = [
     "notes": "Distribuïdor oficial assignat per Juvé & Camps a la província de Alicante.",
     "contacts": [],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 38.34364,
+    "lng": -0.48817,
+    "geo_precision": "city"
   },
   {
     "id": "dist-431",
@@ -15663,7 +16953,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 36.86857,
+    "lng": -2.31203,
+    "geo_precision": "city"
   },
   {
     "id": "dist-432",
@@ -15696,7 +16989,10 @@ window.INITIAL_DISTRIBUTORS = [
     "notes": "Distribuïdor oficial assignat per Juvé & Camps a la província de Badajoz.",
     "contacts": [],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 38.87819,
+    "lng": -6.97011,
+    "geo_precision": "city"
   },
   {
     "id": "dist-433",
@@ -15739,7 +17035,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 42.34485,
+    "lng": -3.68125,
+    "geo_precision": "city"
   },
   {
     "id": "dist-434",
@@ -15782,7 +17081,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 39.47452,
+    "lng": -6.37168,
+    "geo_precision": "city"
   },
   {
     "id": "dist-435",
@@ -15815,7 +17117,10 @@ window.INITIAL_DISTRIBUTORS = [
     "notes": "Distribuïdor oficial assignat per Juvé & Camps a la província de Cádiz.",
     "contacts": [],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 36.52974,
+    "lng": -6.2929,
+    "geo_precision": "city"
   },
   {
     "id": "dist-436",
@@ -15858,7 +17163,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 43.15957,
+    "lng": -4.08784,
+    "geo_precision": "city"
   },
   {
     "id": "dist-437",
@@ -15901,7 +17209,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 37.88458,
+    "lng": -4.77601,
+    "geo_precision": "city"
   },
   {
     "id": "dist-438",
@@ -15944,7 +17255,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 40.0661,
+    "lng": -2.13135,
+    "geo_precision": "city"
   },
   {
     "id": "dist-439",
@@ -15987,7 +17301,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 41.9793,
+    "lng": 2.81994,
+    "geo_precision": "city"
   },
   {
     "id": "dist-440",
@@ -16030,7 +17347,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 43.14453,
+    "lng": -2.2038,
+    "geo_precision": "city"
   },
   {
     "id": "dist-441",
@@ -16073,7 +17393,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 38.97439,
+    "lng": 1.41975,
+    "geo_precision": "city"
   },
   {
     "id": "dist-442",
@@ -16116,7 +17439,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 37.77289,
+    "lng": -3.78833,
+    "geo_precision": "city"
   },
   {
     "id": "dist-443",
@@ -16159,7 +17485,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 43.34546,
+    "lng": -8.41385,
+    "geo_precision": "city"
   },
   {
     "id": "dist-444",
@@ -16202,7 +17531,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 42.28146,
+    "lng": -2.4828,
+    "geo_precision": "city"
   },
   {
     "id": "dist-445",
@@ -16235,7 +17567,10 @@ window.INITIAL_DISTRIBUTORS = [
     "notes": "Distribuïdor oficial assignat per Juvé & Camps a la província de Las Palmas.",
     "contacts": [],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 28.12887,
+    "lng": -15.4349,
+    "geo_precision": "city"
   },
   {
     "id": "dist-446",
@@ -16278,7 +17613,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 42.63415,
+    "lng": -5.97142,
+    "geo_precision": "city"
   },
   {
     "id": "dist-447",
@@ -16321,7 +17659,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 41.61476,
+    "lng": 0.62678,
+    "geo_precision": "city"
   },
   {
     "id": "dist-448",
@@ -16364,7 +17705,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 39.56958,
+    "lng": 2.65007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-449",
@@ -16397,7 +17741,10 @@ window.INITIAL_DISTRIBUTORS = [
     "notes": "Distribuïdor oficial assignat per Juvé & Camps a la província de Murcia.",
     "contacts": [],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 37.93475,
+    "lng": -1.1131,
+    "geo_precision": "city"
   },
   {
     "id": "dist-450",
@@ -16440,7 +17787,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 42.61255,
+    "lng": -1.83079,
+    "geo_precision": "city"
   },
   {
     "id": "dist-451",
@@ -16483,7 +17833,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 42.19396,
+    "lng": -7.53712,
+    "geo_precision": "city"
   },
   {
     "id": "dist-452",
@@ -16526,7 +17879,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 42.42806,
+    "lng": -8.60414,
+    "geo_precision": "city"
   },
   {
     "id": "dist-453",
@@ -16569,7 +17925,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 40.96516,
+    "lng": -5.66402,
+    "geo_precision": "city"
   },
   {
     "id": "dist-454",
@@ -16612,7 +17971,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 41.60125,
+    "lng": -2.72194,
+    "geo_precision": "city"
   },
   {
     "id": "dist-455",
@@ -16655,7 +18017,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 40.60053,
+    "lng": -0.92293,
+    "geo_precision": "city"
   },
   {
     "id": "dist-456",
@@ -16698,7 +18063,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 41.62,
+    "lng": -4.72599,
+    "geo_precision": "city"
   },
   {
     "id": "dist-457",
@@ -16741,7 +18109,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 43.23848,
+    "lng": -2.85163,
+    "geo_precision": "city"
   },
   {
     "id": "dist-458",
@@ -16784,7 +18155,10 @@ window.INITIAL_DISTRIBUTORS = [
       }
     ],
     "interactions": [],
-    "documents": []
+    "documents": [],
+    "lat": 41.69158,
+    "lng": -0.91013,
+    "geo_precision": "city"
   },
   {
     "name": "Ungrafted Selections",
@@ -16828,7 +18202,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-459"
+    "id": "dist-459",
+    "lat": 41.87556,
+    "lng": -87.62442,
+    "geo_precision": "city"
   },
   {
     "name": "Taste of Catalonia",
@@ -16872,7 +18249,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-460"
+    "id": "dist-460",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "name": "V Import (V Import AB)",
@@ -16916,7 +18296,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-461"
+    "id": "dist-461",
+    "lat": 59.32512,
+    "lng": 18.07109,
+    "geo_precision": "city"
   },
   {
     "name": "De Wijntherapeut",
@@ -16960,7 +18343,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-462"
+    "id": "dist-462",
+    "lat": 52.08419,
+    "lng": 5.0988,
+    "geo_precision": "city"
   },
   {
     "name": "The Spanish Acquisition",
@@ -17005,7 +18391,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-463"
+    "id": "dist-463",
+    "lat": 51.50745,
+    "lng": -0.12777,
+    "geo_precision": "city"
   },
   {
     "name": "Llaurador Wines LLC",
@@ -17049,7 +18438,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-464"
+    "id": "dist-464",
+    "lat": 38.84622,
+    "lng": -77.30637,
+    "geo_precision": "city"
   },
   {
     "name": "Disaliment Lleida",
@@ -17094,7 +18486,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-465"
+    "id": "dist-465",
+    "lat": 41.61476,
+    "lng": 0.62678,
+    "geo_precision": "city"
   },
   {
     "name": "Terra de Vins (Mallorca)",
@@ -17139,7 +18534,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-466"
+    "id": "dist-466",
+    "lat": 39.56965,
+    "lng": 3.21065,
+    "geo_precision": "city"
   },
   {
     "name": "Vinosfera (Àlaba / País Basc)",
@@ -17183,7 +18581,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-467"
+    "id": "dist-467",
+    "lat": 42.85058,
+    "lng": -2.66145,
+    "geo_precision": "city"
   },
   {
     "name": "Celler AT Roca (Seu Central & Direcció Comercial)",
@@ -17228,7 +18629,10 @@ window.INITIAL_DISTRIBUTORS = [
     ],
     "interactions": [],
     "documents": [],
-    "id": "dist-468"
+    "id": "dist-468",
+    "lat": 41.38045,
+    "lng": 1.76604,
+    "geo_precision": "city"
   },
   {
     "id": "dist-469",
@@ -17273,7 +18677,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Carolina del Nord / Sud",
     "region": "Estats Units",
     "is_casajou": true,
-    "casajou_role": "Importador Oficial als EUA (Carolines)"
+    "casajou_role": "Importador Oficial als EUA (Carolines)",
+    "lat": 35.7804,
+    "lng": -78.6391,
+    "geo_precision": "city"
   },
   {
     "id": "dist-470",
@@ -17318,7 +18725,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Andalusia & Galícia",
     "region": "Andalusia",
     "is_casajou": true,
-    "casajou_role": "Distribuïdor Andalusia & Galícia"
+    "casajou_role": "Distribuïdor Andalusia & Galícia",
+    "lat": 37.38863,
+    "lng": -5.99534,
+    "geo_precision": "city"
   },
   {
     "id": "dist-471",
@@ -17363,7 +18773,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Viena",
     "region": "Àustria",
     "is_casajou": true,
-    "casajou_role": "Importador Àustria (Viena)"
+    "casajou_role": "Importador Àustria (Viena)",
+    "lat": 48.20835,
+    "lng": 16.3725,
+    "geo_precision": "city"
   },
   {
     "id": "dist-472",
@@ -17408,7 +18821,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Barcelona / Penedès",
     "region": "Catalunya",
     "is_casajou": true,
-    "casajou_role": "Plataforma Vignerons & Prescripció"
+    "casajou_role": "Plataforma Vignerons & Prescripció",
+    "lat": 41.34638,
+    "lng": 1.69952,
+    "geo_precision": "city"
   },
   {
     "id": "dist-473",
@@ -17453,7 +18869,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Copenhaguen",
     "region": "Dinamarca",
     "is_casajou": true,
-    "casajou_role": "Importador Dinamarca & Països Nòrdics"
+    "casajou_role": "Importador Dinamarca & Països Nòrdics",
+    "lat": 55.68672,
+    "lng": 12.57007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-474",
@@ -17498,7 +18917,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Madrid",
     "region": "Madrid",
     "is_casajou": true,
-    "casajou_role": "Punt de Venda & Prescripció Madrid"
+    "casajou_role": "Punt de Venda & Prescripció Madrid",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "id": "dist-475",
@@ -17543,7 +18965,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Àustria",
     "region": "Àustria",
     "is_casajou": true,
-    "casajou_role": "Importador & Prescriptor Àustria"
+    "casajou_role": "Importador & Prescriptor Àustria",
+    "lat": 48.20835,
+    "lng": 16.3725,
+    "geo_precision": "city"
   },
   {
     "id": "dist-476",
@@ -17588,7 +19013,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Llombardia / Milà",
     "region": "Itàlia",
     "is_casajou": true,
-    "casajou_role": "Selecció & Distribució Itàlia"
+    "casajou_role": "Selecció & Distribució Itàlia",
+    "lat": 45.46419,
+    "lng": 9.18963,
+    "geo_precision": "city"
   },
   {
     "id": "dist-477",
@@ -17633,7 +19061,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Califòrnia",
     "region": "Estats Units",
     "is_casajou": true,
-    "casajou_role": "Importador EUA (Costa Oest / Califòrnia)"
+    "casajou_role": "Importador EUA (Costa Oest / Califòrnia)",
+    "lat": 37.78794,
+    "lng": -122.40752,
+    "geo_precision": "city"
   },
   {
     "id": "dist-478",
@@ -17678,7 +19109,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Alacant",
     "region": "Comunitat Valenciana",
     "is_casajou": true,
-    "casajou_role": "Sommelier Prescriptor (2 Michelin Stars)"
+    "casajou_role": "Sommelier Prescriptor (2 Michelin Stars)",
+    "lat": 38.74416,
+    "lng": -0.44007,
+    "geo_precision": "city"
   },
   {
     "id": "dist-479",
@@ -17723,7 +19157,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "València",
     "region": "València",
     "is_casajou": true,
-    "casajou_role": "Enoteca & Wine Bar"
+    "casajou_role": "Enoteca & Wine Bar",
+    "lat": 39.68196,
+    "lng": -0.76544,
+    "geo_precision": "city"
   },
   {
     "id": "dist-480",
@@ -17768,7 +19205,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Barcelona",
     "region": "Catalunya",
     "is_casajou": true,
-    "casajou_role": "Head Sommelier (1 Michelin Star Barcelona)"
+    "casajou_role": "Head Sommelier (1 Michelin Star Barcelona)",
+    "lat": 41.38258,
+    "lng": 2.17707,
+    "geo_precision": "city"
   },
   {
     "id": "dist-481",
@@ -17813,7 +19253,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Hessen / Frankfurt",
     "region": "Alemanya",
     "is_casajou": true,
-    "casajou_role": "Head Sommelier Alemanya (Frankfurt)"
+    "casajou_role": "Head Sommelier Alemanya (Frankfurt)",
+    "lat": 50.11064,
+    "lng": 8.68209,
+    "geo_precision": "city"
   },
   {
     "id": "dist-482",
@@ -17858,7 +19301,10 @@ window.INITIAL_DISTRIBUTORS = [
     "province": "Madrid",
     "region": "Madrid",
     "is_casajou": true,
-    "casajou_role": "Consultora d'Exportació Internacional"
+    "casajou_role": "Consultora d'Exportació Internacional",
+    "lat": 40.41678,
+    "lng": -3.70351,
+    "geo_precision": "city"
   },
   {
     "id": "dist-stelle-wine-co",
@@ -17913,6 +19359,9 @@ window.INITIAL_DISTRIBUTORS = [
     "documents": [],
     "province": "Nova York",
     "region": "Costa Est (NY/NJ/CT/FL)",
-    "is_casajou": false
+    "is_casajou": false,
+    "lat": 40.71273,
+    "lng": -74.00602,
+    "geo_precision": "city"
   }
 ];

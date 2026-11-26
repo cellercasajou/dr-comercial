@@ -41,6 +41,13 @@
     }
   </script>
 
+  <!-- Leaflet (mapa interactiu, gratuït, sense API key) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="map.css?v=45">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -300,6 +307,16 @@
                 </div>
                 <i data-lucide="list" class="w-4 h-4 text-stone-700"></i>
               </button>
+
+              <!-- Opció 4: Mapa -->
+              <button onclick="setViewMode('map')" id="view-opt-map" 
+                      class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium hover:bg-stone-50 border-2 border-transparent text-stone-700 transition-all text-left">
+                <div class="flex items-center gap-2.5">
+                  <span id="check-map" class="w-4 text-sm font-bold text-blue-600 hidden">✓</span>
+                  <span>Mapa</span>
+                </div>
+                <i data-lucide="map" class="w-4 h-4 text-stone-700"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -558,7 +575,7 @@
           <div>
             <div class="flex items-center gap-2">
               <h3 class="text-base sm:text-lg font-black text-white leading-tight">Afegir Nou Distribuïdor / Importador</h3>
-              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v44 • Dades Verificades i Neteja d'Enllaços</span>
+              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v45 • Mapa Interactiu de Distribuïdors</span>
             </div>
             <p class="text-[11px] text-amber-300/80 font-medium">Amb escàner IA d'Instagram (Interactions API) i detector de duplicats</p>
           </div>
@@ -1264,7 +1281,8 @@ const firebaseConfig = {
   </nav>
 
   <!-- Scripts -->
-  <script src="data.js?v=44"></script>
-  <script src="app.js?v=44"></script>
+  <script src="data.js?v=45"></script>
+  <script src="map.js?v=45"></script>
+  <script src="app.js?v=45"></script>
 </body>
 </html>

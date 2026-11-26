@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v44';
+const STORAGE_KEY = 'crm_sparkling_distributors_v45';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 const FIREBASE_CONFIG_KEY = 'crm_firebase_config_v1';
 const DEFAULT_FIREBASE_CONFIG = {
@@ -100,7 +100,7 @@ function initApp() {
   initGeographicFilters();
   try {
     const savedView = localStorage.getItem('crm_view_mode');
-    if (savedView && ['grid', 'grid-large', 'table'].includes(savedView)) {
+    if (savedView && ['grid', 'grid-large', 'table', 'map'].includes(savedView)) {
       state.viewMode = savedView;
     }
   } catch (e) {}
@@ -362,6 +362,7 @@ function loadDistributors() {
     // 2. Comprovem claus locals anteriors per rescatar qualsevol distribuïdor afegit (el 484)
     const keysToCheck = [
       STORAGE_KEY,
+      'crm_sparkling_distributors_v44',
       'crm_sparkling_distributors_v43',
       'crm_sparkling_distributors_v42',
       'crm_sparkling_distributors_v41',
@@ -1087,6 +1088,10 @@ function renderDistributorsList() {
   }
   updateActiveChips();
 
+  if ((state.viewMode !== 'map' || filtered.length === 0) && typeof destroyMap === 'function') {
+    destroyMap();
+  }
+
   if (filtered.length === 0) {
     container.innerHTML = `
       <div class="col-span-full bg-white rounded-3xl p-12 text-center border border-dashed border-stone-300">
@@ -1104,7 +1109,9 @@ function renderDistributorsList() {
     return;
   }
 
-  if (state.viewMode === 'table') {
+  if (state.viewMode === 'map') {
+    renderMapView(filtered, container);
+  } else if (state.viewMode === 'table') {
     renderTableView(filtered, container);
   } else if (state.viewMode === 'grid-large') {
     renderLargeGridView(filtered, container);
@@ -1144,6 +1151,16 @@ function formatDistributorLocation(d) {
   }
 }
 
+const DATA_REV = 45;
+
+function hasValidCoords(d) {
+  if (!d || d.lat === null || d.lat === undefined || d.lng === null || d.lng === undefined) return false;
+  const lat = Number(d.lat), lng = Number(d.lng);
+  return Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
+}
+
+// Migracions d'un sol ús per distribuïdor (camp data_rev). Les edicions de l'usuari
+// posteriors a cada migració ja no es tornen a sobreescriure.
 function sanitizeDistributorsData(list) {
   if (!list || !Array.isArray(list)) return [];
   const initialMap = new Map();
@@ -1153,59 +1170,44 @@ function sanitizeDistributorsData(list) {
     });
   }
 
-  let updatedCount = 0;
   const updatedList = [];
 
   list.forEach(d => {
     if (!d || !d.id) return;
     const init = initialMap.get(d.id);
+    if (!init) return;
     let changed = false;
+    const rev = Number(d.data_rev) || 0;
 
-    if (init) {
-      // 1. Sincronitzar llocs web verificant que no contingui enllaços fallits anteriors
-      if (init.website === '' && d.website && d.website !== '') {
-        d.website = '';
-        changed = true;
-      } else if (init.website && init.website !== d.website && (!d.website || d.website.includes('altervinos') || d.website.includes('gliggl') || d.website.includes('skurnik.com'))) {
-        d.website = init.website;
-        changed = true;
-      }
-
-      // 2. Sincronitzar Instagrams ficticis caiguts
-      if (init.instagram === '' && d.instagram && d.instagram !== '') {
-        d.instagram = '';
-        changed = true;
-      } else if (init.instagram && init.instagram !== d.instagram) {
-        d.instagram = init.instagram;
-        changed = true;
-      }
-
-      // 3. Corregir ubicacions que estaven errònies
-      if (init.city !== d.city) {
-        d.city = init.city;
-        changed = true;
-      }
-      if (init.province !== d.province) {
-        d.province = init.province;
-        changed = true;
-      }
-      if (init.region !== d.region) {
-        d.region = init.region;
-        changed = true;
-      }
+    // Rev. 44: neteja d'enllaços caiguts i ubicacions errònies (només una vegada)
+    if (rev < 44) {
+      ['website', 'instagram', 'city', 'province', 'region'].forEach(field => {
+        if ((init[field] || '') !== (d[field] || '')) {
+          d[field] = init[field] || '';
+          changed = true;
+        }
+      });
     }
 
-    if (changed) {
-      updatedCount++;
-      updatedList.push(d);
+    // Rev. 45: coordenades del mapa (només si encara no en té)
+    if (!hasValidCoords(d) && hasValidCoords(init)) {
+      d.lat = init.lat;
+      d.lng = init.lng;
+      d.geo_precision = init.geo_precision || 'city';
+      changed = true;
     }
+
+    if (rev < DATA_REV) {
+      d.data_rev = DATA_REV;
+      changed = true;
+    }
+
+    if (changed) updatedList.push(d);
   });
 
-  if (updatedCount > 0) {
-    console.log(`Sanitized ${updatedCount} distributors with verified links and locations.`);
-    if (state.firebaseDb && updatedList.length > 0) {
-      uploadDistributorsToFirebase(updatedList);
-    }
+  if (updatedList.length > 0) {
+    console.log(`Migrats ${updatedList.length} distribuïdors (enllaços, ubicacions i coordenades).`);
+    if (state.firebaseDb) uploadDistributorsToFirebase(updatedList);
   }
 
   return list;
@@ -2700,6 +2702,7 @@ function saveNewDistributorForm(e) {
   saveDistributorsLocally();
   syncSingleDistributorToFirebase(newDist);
   syncSingleDistributorToSupabase(newDist);
+  if (typeof ensureDistributorCoords === 'function') ensureDistributorCoords(newDist);
   closeAddDistributorModal();
   render();
   openDetailModal(newDist.id);
@@ -3602,7 +3605,7 @@ function updateViewMenuUI() {
   const labelEl = document.getElementById('view-menu-label');
   const iconEl = document.getElementById('view-menu-icon');
 
-  const modes = ['grid', 'grid-large', 'table'];
+  const modes = ['grid', 'grid-large', 'table', 'map'];
   modes.forEach(m => {
     const btn = document.getElementById('view-opt-' + m);
     const check = document.getElementById('check-' + m);
@@ -3621,12 +3624,14 @@ function updateViewMenuUI() {
     if (mode === 'grid') labelEl.textContent = 'Quadrícula';
     else if (mode === 'grid-large') labelEl.textContent = 'Quadrícula gran';
     else if (mode === 'table') labelEl.textContent = 'Llista';
+    else if (mode === 'map') labelEl.textContent = 'Mapa';
   }
 
   if (iconEl) {
     if (mode === 'grid') iconEl.innerHTML = '<i data-lucide="layout-grid" class="w-4 h-4 text-stone-700"></i>';
     else if (mode === 'grid-large') iconEl.innerHTML = '<i data-lucide="grid-2x2" class="w-4 h-4 text-stone-700"></i>';
     else if (mode === 'table') iconEl.innerHTML = '<i data-lucide="list" class="w-4 h-4 text-stone-700"></i>';
+    else if (mode === 'map') iconEl.innerHTML = '<i data-lucide="map" class="w-4 h-4 text-stone-700"></i>';
     if (window.lucide) lucide.createIcons();
   }
 }
@@ -4214,6 +4219,7 @@ function saveEditDistributor(e) {
   const dist = state.distributors.find(d => d.id === id);
   if (!dist) return;
 
+  const prevLocation = (dist.country || '') + '|' + (dist.city || '');
   dist.name = document.getElementById('edit-name').value.trim();
   dist.legal_name = document.getElementById('edit-legal-name').value.trim();
   dist.country = document.getElementById('edit-country').value.trim();
@@ -4227,8 +4233,16 @@ function saveEditDistributor(e) {
   dist.related_wineries = document.getElementById('edit-wineries').value.trim();
   dist.notes = document.getElementById('edit-notes').value.trim();
 
+  // Si ha canviat el país o la ciutat, les coordenades antigues ja no serveixen
+  if (prevLocation !== (dist.country || '') + '|' + (dist.city || '')) {
+    dist.lat = null;
+    dist.lng = null;
+    dist.geo_precision = '';
+  }
+
   saveDistributorsLocally();
   syncSingleDistributorToFirebase(dist);
+  if (typeof ensureDistributorCoords === 'function') ensureDistributorCoords(dist);
 
   if (state.selectedDistributor && state.selectedDistributor.id === id) {
     state.selectedDistributor = dist;
