@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v38';
+const STORAGE_KEY = 'crm_sparkling_distributors_v39';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 const FIREBASE_CONFIG_KEY = 'crm_firebase_config_v1';
 const DEFAULT_FIREBASE_CONFIG = {
@@ -183,41 +183,48 @@ function startFirebaseRealtimeSync() {
 
   state.firebaseUnsubscribe = state.firebaseDb.collection('distributors')
     .onSnapshot((snapshot) => {
-      if (snapshot.empty) {
-        seedDistributorsToFirebase();
-        return;
-      }
-
-      const remoteList = [];
+      const remoteMap = new Map();
       snapshot.forEach(doc => {
-        remoteList.push(doc.data());
+        const data = doc.data();
+        if (data && data.id) {
+          remoteMap.set(data.id, data);
+        }
       });
 
-      if (remoteList.length > 0) {
-        state.distributors = remoteList;
-        saveDistributorsLocally();
-        render();
-        updateSyncIndicator();
+      // Detectar qualsevol distribuïdor que falti a Firestore (com els 84 pendents)
+      const missingToUpload = [];
+      const basePool = (state.distributors && state.distributors.length > 0)
+        ? state.distributors
+        : (window.INITIAL_DISTRIBUTORS || []);
+
+      basePool.forEach(d => {
+        if (!remoteMap.has(d.id)) {
+          remoteMap.set(d.id, d);
+          missingToUpload.push(d);
+        }
+      });
+
+      state.distributors = Array.from(remoteMap.values());
+      saveDistributorsLocally();
+      render();
+      updateSyncIndicator();
+
+      // Pujar automàticament els distribuïdors restants a Google Firebase
+      if (missingToUpload.length > 0) {
+        uploadDistributorsToFirebase(missingToUpload);
       }
     }, (err) => {
-      console.warn('Error en temps real de Firebase:', err);
-      if (err.code === 'permission-denied') {
-        showToast("Cal permetre lectura/escriptura a Firebase Console > Firestore Database > Rules", "warning");
-      } else if (err.code === 'not-found') {
-        showToast("Cal crear la base de dades a Firebase Console > Firestore Database > Crear base de dades", "warning");
-      } else {
-        showToast('Avís Firebase: ' + (err.message || 'Error de connexió'), 'warning');
-      }
+      console.warn('Avís de sincronització Firebase en temps real:', err);
     });
 }
 
-async function seedDistributorsToFirebase() {
-  if (!state.firebaseDb || !state.distributors.length) return;
+async function uploadDistributorsToFirebase(list) {
+  if (!state.firebaseDb || !list || !list.length) return;
   try {
-    const batchSize = 400;
-    for (let i = 0; i < state.distributors.length; i += batchSize) {
+    const batchSize = 350;
+    for (let i = 0; i < list.length; i += batchSize) {
       const batch = state.firebaseDb.batch();
-      const slice = state.distributors.slice(i, i + batchSize);
+      const slice = list.slice(i, i + batchSize);
       for (const d of slice) {
         const docRef = state.firebaseDb.collection('distributors').doc(d.id);
         const copy = JSON.parse(JSON.stringify(d));
@@ -229,14 +236,14 @@ async function seedDistributorsToFirebase() {
             return doc;
           });
         }
-        batch.set(docRef, copy);
+        batch.set(docRef, copy, { merge: true });
       }
       await batch.commit();
     }
-    console.log("Tots els distribuïdors sincronitzats amb Firebase!");
+    console.log(`Sincronitzats ${list.length} distribuïdors restants amb Google Firebase!`);
     updateSyncIndicator();
   } catch (err) {
-    console.error("Error inicialitzant dades a Firebase:", err);
+    console.error("Error pujant distribuïdors a Firebase:", err);
   }
 }
 
@@ -346,19 +353,39 @@ function loadSupabaseConfig() {
 
 function loadDistributors() {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        state.distributors = parsed;
-      } else if (window.INITIAL_DISTRIBUTORS) {
-        state.distributors = JSON.parse(JSON.stringify(window.INITIAL_DISTRIBUTORS));
-        saveDistributorsLocally();
-      }
-    } else if (window.INITIAL_DISTRIBUTORS) {
-      state.distributors = JSON.parse(JSON.stringify(window.INITIAL_DISTRIBUTORS));
-      saveDistributorsLocally();
+    const map = new Map();
+    // 1. Incorporem tots els distribuïdors del fitxer base oficial (483)
+    (window.INITIAL_DISTRIBUTORS || []).forEach(d => {
+      if (d && d.id) map.set(d.id, d);
+    });
+
+    // 2. Comprovem claus locals anteriors per rescatar qualsevol distribuïdor afegit (el 484)
+    const keysToCheck = [
+      STORAGE_KEY,
+      'crm_sparkling_distributors_v38',
+      'crm_sparkling_distributors_v37',
+      'crm_sparkling_distributors_v36',
+      'crm_sparkling_distributors_v35',
+      'crm_sparkling_distributors_v34'
+    ];
+    for (const key of keysToCheck) {
+      try {
+        const raw = localStorage.getItem(key);
+        if (raw) {
+          const arr = JSON.parse(raw);
+          if (Array.isArray(arr)) {
+            arr.forEach(d => {
+              if (d && d.id && !map.has(d.id)) {
+                map.set(d.id, d);
+              }
+            });
+          }
+        }
+      } catch (e) {}
     }
+
+    state.distributors = Array.from(map.values());
+    saveDistributorsLocally();
   } catch (e) {
     console.error('Error carregant distribuïdors:', e);
     state.distributors = window.INITIAL_DISTRIBUTORS || [];
