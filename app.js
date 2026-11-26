@@ -572,9 +572,13 @@ function getFilteredDistributors() {
 
     // Filtre d'especialitat
     if (state.filterSpecialty !== 'Totes') {
-      const tags = d.specialty_tags || [];
-      const hasSpecialty = tags.some(t => t.toLowerCase().includes(state.filterSpecialty.toLowerCase()));
-      if (!hasSpecialty) return false;
+      if (state.filterSpecialty === 'Amb Instagram') {
+        if (!d.instagram || !String(d.instagram).trim()) return false;
+      } else {
+        const tags = d.specialty_tags || [];
+        const hasSpecialty = tags.some(t => t.toLowerCase().includes(state.filterSpecialty.toLowerCase()));
+        if (!hasSpecialty) return false;
+      }
     }
 
     // Filtre per Celler Corpinnat
@@ -1030,7 +1034,8 @@ function updateActiveChips() {
     advCount++;
   }
   if (state.filterSpecialty && state.filterSpecialty !== 'Totes' && state.filterSpecialty !== 'Corpinnat') {
-    chips.push({ label: 'Esp.: ' + state.filterSpecialty, action: 'state.filterSpecialty="Totes"; if(document.getElementById("filter-specialty")) document.getElementById("filter-specialty").value="Totes"; renderDistributorsList(); updateActiveChips();' });
+    const specLabel = state.filterSpecialty === 'Amb Instagram' ? '📸 Amb Instagram' : ('Esp.: ' + state.filterSpecialty);
+    chips.push({ label: specLabel, action: 'state.filterSpecialty="Totes"; if(document.getElementById("filter-specialty")) document.getElementById("filter-specialty").value="Totes"; renderDistributorsList(); updateActiveChips();' });
     advCount++;
   }
   if (state.quickOnlyActive) {
