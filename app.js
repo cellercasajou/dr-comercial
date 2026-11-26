@@ -3,7 +3,7 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v41';
+const STORAGE_KEY = 'crm_sparkling_distributors_v42';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 const FIREBASE_CONFIG_KEY = 'crm_firebase_config_v1';
 const DEFAULT_FIREBASE_CONFIG = {
@@ -4140,20 +4140,13 @@ function openEditDistributorModal(id) {
   document.getElementById('edit-legal-name').value = dist.legal_name || '';
   document.getElementById('edit-country').value = dist.country || '';
   document.getElementById('edit-city').value = dist.city || '';
-  document.getElementById('edit-address').value = dist.address || '';
   document.getElementById('edit-website').value = dist.website || '';
   document.getElementById('edit-instagram').value = dist.instagram || '';
-  document.getElementById('edit-tax-id').value = dist.tax_id || '';
   document.getElementById('edit-status').value = dist.status || 'Actiu';
   document.getElementById('edit-priority').value = dist.priority || 'Mitjana';
   document.getElementById('edit-type').value = dist.distribution_type || '';
   document.getElementById('edit-channels').value = dist.channels || '';
   document.getElementById('edit-wineries').value = dist.related_wineries || '';
-  document.getElementById('edit-incoterm').value = dist.incoterm || 'EXW';
-  document.getElementById('edit-payment').value = dist.payment_terms || '30 dies';
-  document.getElementById('edit-moq').value = dist.moq || '1 Palet';
-  document.getElementById('edit-focus').value = dist.sparkling_focus || '';
-  document.getElementById('edit-margin').value = dist.margin_commission || 'Estàndard';
   document.getElementById('edit-notes').value = dist.notes || '';
 
   const sub = document.getElementById('edit-modal-subtitle');
@@ -4179,20 +4172,13 @@ function saveEditDistributor(e) {
   dist.legal_name = document.getElementById('edit-legal-name').value.trim();
   dist.country = document.getElementById('edit-country').value.trim();
   dist.city = document.getElementById('edit-city').value.trim();
-  dist.address = document.getElementById('edit-address').value.trim();
   dist.website = document.getElementById('edit-website').value.trim();
   dist.instagram = document.getElementById('edit-instagram').value.trim();
-  dist.tax_id = document.getElementById('edit-tax-id').value.trim();
   dist.status = document.getElementById('edit-status').value;
   dist.priority = document.getElementById('edit-priority').value;
   dist.distribution_type = document.getElementById('edit-type').value.trim();
   dist.channels = document.getElementById('edit-channels').value.trim();
   dist.related_wineries = document.getElementById('edit-wineries').value.trim();
-  dist.incoterm = document.getElementById('edit-incoterm').value.trim();
-  dist.payment_terms = document.getElementById('edit-payment').value.trim();
-  dist.moq = document.getElementById('edit-moq').value.trim();
-  dist.sparkling_focus = document.getElementById('edit-focus').value.trim();
-  dist.margin_commission = document.getElementById('edit-margin').value.trim();
   dist.notes = document.getElementById('edit-notes').value.trim();
 
   saveDistributorsLocally();
