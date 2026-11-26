@@ -3,9 +3,18 @@
 // Amb dades consolidades de Corpinnat, Dinamarca, Espanya i BWW
 // ========================================================
 
-const STORAGE_KEY = 'crm_sparkling_distributors_v35';
+const STORAGE_KEY = 'crm_sparkling_distributors_v36';
 const SUPABASE_CONFIG_KEY = 'crm_supabase_config_v1';
 const FIREBASE_CONFIG_KEY = 'crm_firebase_config_v1';
+const DEFAULT_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyA3fyoWAb60NlytM5uBgzvoyCYZ4TtSe8E",
+  authDomain: "dr-comercial.firebaseapp.com",
+  projectId: "dr-comercial",
+  storageBucket: "dr-comercial.firebasestorage.app",
+  messagingSenderId: "260377417286",
+  appId: "1:260377417286:web:40e36e1de1e9b10dd15c47",
+  measurementId: "G-L23TGYEBN6"
+};
 
 const COUNTRY_FLAGS = {
   'Espanya': '🇪🇸',
@@ -114,12 +123,20 @@ function initApp() {
 function loadFirebaseConfig() {
   try {
     const raw = localStorage.getItem(FIREBASE_CONFIG_KEY);
+    let config = null;
     if (raw) {
-      const config = JSON.parse(raw);
-      if (config && config.projectId && window.firebase) {
-        state.firebaseConfig = config;
-        state.firebaseDb = initFirebaseApp(config);
-      }
+      try { config = JSON.parse(raw); } catch (e) {}
+    }
+    
+    // Per defecte, connectar directament amb el projecte Firebase oficial configurat
+    if (!config || !config.projectId) {
+      config = DEFAULT_FIREBASE_CONFIG;
+      localStorage.setItem(FIREBASE_CONFIG_KEY, JSON.stringify(config));
+    }
+
+    if (config && config.projectId && window.firebase) {
+      state.firebaseConfig = config;
+      state.firebaseDb = initFirebaseApp(config);
     }
   } catch (e) {
     console.error('Error carregant configuració de Firebase:', e);
@@ -165,7 +182,13 @@ function startFirebaseRealtimeSync() {
       }
     }, (err) => {
       console.warn('Error en temps real de Firebase:', err);
-      showToast('Avís Firebase: ' + (err.message || 'Error de connexió'), 'warning');
+      if (err.code === 'permission-denied') {
+        showToast("Cal permetre lectura/escriptura a Firebase Console > Firestore Database > Rules", "warning");
+      } else if (err.code === 'not-found') {
+        showToast("Cal crear la base de dades a Firebase Console > Firestore Database > Crear base de dades", "warning");
+      } else {
+        showToast('Avís Firebase: ' + (err.message || 'Error de connexió'), 'warning');
+      }
     });
 }
 
