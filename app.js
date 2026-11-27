@@ -1168,7 +1168,7 @@ function formatDistributorLocation(d) {
   }
 }
 
-const DATA_REV = 60;
+const DATA_REV = 66;
 const DELETED_INITIAL_IDS = ['dist-479', 'dist-478', 'dist-480', 'dist-481', 'dist-482', 'dist-282', 'dist-293', 'dist-274', 'dist-311', 'dist-348', 'dist-7', 'dist-278', 'dist-124', 'dist-287', 'dist-308'];
 const USER_DELETED_KEY = 'crm_deleted_distributors_v1';
 
@@ -1293,6 +1293,16 @@ function sanitizeDistributorsData(list) {
     if ((!d.website || !String(d.website).trim()) && init.website) {
       d.website = init.website;
       changed = true;
+    }
+
+    // Rev. 66: correccions d'ubicació/web (Altervinos Sitges, Raimsa Terrassa, DEO Galícia/Astúries, Can Dani web)
+    if (rev < 66 && ['dist-99', 'dist-104', 'dist-158', 'dist-414', 'dist-415'].includes(d.id)) {
+      ['website', 'instagram', 'city', 'province', 'region', 'lat', 'lng', 'geo_precision'].forEach(field => {
+        if (init[field] !== undefined && d[field] !== init[field]) {
+          d[field] = init[field];
+          changed = true;
+        }
+      });
     }
 
     if (rev < DATA_REV) {
