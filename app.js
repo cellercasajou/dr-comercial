@@ -1168,7 +1168,7 @@ function formatDistributorLocation(d) {
   }
 }
 
-const DATA_REV = 56;
+const DATA_REV = 57;
 const DELETED_INITIAL_IDS = ['dist-479', 'dist-478', 'dist-480', 'dist-481', 'dist-482', 'dist-282', 'dist-293', 'dist-274', 'dist-311', 'dist-348', 'dist-7', 'dist-278'];
 const USER_DELETED_KEY = 'crm_deleted_distributors_v1';
 
@@ -1283,6 +1283,12 @@ function sanitizeDistributorsData(list) {
           changed = true;
         }
       });
+    }
+
+    // Rev. 57: sincronitzar nous Instagrams verificats extrets de les webs oficials (sense sobreescriure si ja en té)
+    if (rev < 57 && (!d.instagram || !String(d.instagram).trim()) && init.instagram) {
+      d.instagram = init.instagram;
+      changed = true;
     }
 
     if (rev < DATA_REV) {
