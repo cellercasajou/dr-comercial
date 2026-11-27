@@ -1232,7 +1232,7 @@ function formatDistributorLocation(d) {
   }
 }
 
-const DATA_REV = 66;
+const DATA_REV = 68;
 const DELETED_INITIAL_IDS = ['dist-479', 'dist-478', 'dist-480', 'dist-481', 'dist-482', 'dist-282', 'dist-293', 'dist-274', 'dist-311', 'dist-348', 'dist-7', 'dist-278', 'dist-124', 'dist-287', 'dist-308'];
 const USER_DELETED_KEY = 'crm_deleted_distributors_v1';
 
@@ -1367,6 +1367,20 @@ function sanitizeDistributorsData(list) {
           changed = true;
         }
       });
+    }
+
+    // Rev. 68: actualitzar A la Volé, Distribuciones Arranz i Distribuciones Navarro (Madrid)
+    if (rev < 68 && ['dist-193', 'dist-157', 'dist-155'].includes(d.id)) {
+      ['website', 'instagram', 'address'].forEach(field => {
+        if (init[field] && d[field] !== init[field]) {
+          d[field] = init[field];
+          changed = true;
+        }
+      });
+      if ((!d.contacts || d.contacts.length === 0) && init.contacts && init.contacts.length > 0) {
+        d.contacts = init.contacts;
+        changed = true;
+      }
     }
 
     if (rev < DATA_REV) {
