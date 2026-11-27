@@ -1234,7 +1234,7 @@ function formatDistributorLocation(d) {
   }
 }
 
-const DATA_REV = 68;
+const DATA_REV = 74;
 const DELETED_INITIAL_IDS = ['dist-479', 'dist-478', 'dist-480', 'dist-481', 'dist-482', 'dist-282', 'dist-293', 'dist-274', 'dist-311', 'dist-348', 'dist-7', 'dist-278', 'dist-124', 'dist-287', 'dist-308'];
 const USER_DELETED_KEY = 'crm_deleted_distributors_v1';
 
@@ -1385,12 +1385,51 @@ function sanitizeDistributorsData(list) {
       }
     }
 
+    // Rev. 74: enriquir distribuïdors del dossier (cellers a cartera, contactes i ubicació The Spanish Acquisition)
+    if (rev < 74) {
+      if (["dist-463", "dist-46", "dist-58", "dist-231", "dist-91", "dist-170", "dist-184", "dist-444", "dist-83", "dist-183", "dist-75", "dist-25", "dist-300", "dist-459", "dist-35", "dist-13", "dist-360", "dist-413", "dist-364", "dist-96", "dist-18", "dist-26", "dist-276", "dist-12", "dist-10", "dist-11", "dist-23", "dist-398", "dist-297", "dist-52", "dist-363", "dist-290", "dist-56", "dist-361", "dist-267", "dist-24"].includes(d.id) && init.related_wineries && init.related_wineries !== d.related_wineries) {
+        d.related_wineries = init.related_wineries;
+        changed = true;
+      }
+      if (init.contacts && init.contacts.length > 0) {
+        if (!d.contacts || d.contacts.length === 0) {
+          d.contacts = JSON.parse(JSON.stringify(init.contacts));
+          changed = true;
+        } else {
+          const c0 = d.contacts[0];
+          const ic0 = init.contacts[0];
+          if (ic0.email && (!c0.email || !String(c0.email).trim())) { c0.email = ic0.email; changed = true; }
+          if (ic0.phone && (!c0.phone || !String(c0.phone).trim())) { c0.phone = ic0.phone; changed = true; }
+        }
+      }
+      if (d.id === 'dist-463') {
+        ['country', 'city', 'province', 'region', 'lat', 'lng', 'geo_precision'].forEach(field => {
+          if (init[field] !== undefined && d[field] !== init[field]) {
+            d[field] = init[field];
+            changed = true;
+          }
+        });
+      }
+    }
+
     if (rev < DATA_REV) {
       d.data_rev = DATA_REV;
       changed = true;
     }
 
     if (changed) updatedList.push(d);
+  });
+
+  // Afegir automàticament qualsevol nou distribuïdor de INITIAL_DISTRIBUTORS que encara no existeixi ni estigui esborrat
+  const existingIds = new Set(list.map(d => d && d.id).filter(Boolean));
+  initialMap.forEach((init, id) => {
+    if (!existingIds.has(id) && !deletedSet.has(id)) {
+      const clone = JSON.parse(JSON.stringify(init));
+      clone.data_rev = DATA_REV;
+      list.push(clone);
+      existingIds.add(id);
+      updatedList.push(clone);
+    }
   });
 
   if (updatedList.length > 0) {
