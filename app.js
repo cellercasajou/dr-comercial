@@ -1168,7 +1168,7 @@ function formatDistributorLocation(d) {
   }
 }
 
-const DATA_REV = 58;
+const DATA_REV = 59;
 const DELETED_INITIAL_IDS = ['dist-479', 'dist-478', 'dist-480', 'dist-481', 'dist-482', 'dist-282', 'dist-293', 'dist-274', 'dist-311', 'dist-348', 'dist-7', 'dist-278', 'dist-124', 'dist-287', 'dist-308'];
 const USER_DELETED_KEY = 'crm_deleted_distributors_v1';
 
@@ -1289,6 +1289,18 @@ function sanitizeDistributorsData(list) {
     if (rev < 57 && (!d.instagram || !String(d.instagram).trim()) && init.instagram) {
       d.instagram = init.instagram;
       changed = true;
+    }
+
+    // Rev. 59: sincronitzar nous Instagrams i webs verificades de Catalunya i Espanya
+    if (rev < 59) {
+      if ((!d.instagram || !String(d.instagram).trim()) && init.instagram) {
+        d.instagram = init.instagram;
+        changed = true;
+      }
+      if ((!d.website || !String(d.website).trim()) && init.website) {
+        d.website = init.website;
+        changed = true;
+      }
     }
 
     if (rev < DATA_REV) {
