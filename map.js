@@ -78,8 +78,9 @@ function buildMapPopup(d) {
           ${ig ? `<a class="dr-chip ig" href="${mapEsc(ig)}" target="_blank" rel="noopener">📸 ${mapEsc(igHandle)}</a>` : ''}
         </div>` : ''}
       <div class="dr-actions">
-        <a class="dr-btn primary" href="${mapEsc(googleMapsUrl(d))}" target="_blank" rel="noopener">🗺️ Obrir a Google Maps</a>
+        <a class="dr-btn primary" href="${mapEsc(googleMapsUrl(d))}" target="_blank" rel="noopener">🗺️ Google Maps</a>
         <button type="button" class="dr-btn ghost" onclick="openDetailModal('${mapEsc(d.id)}')">Fitxa</button>
+        <button type="button" class="dr-btn danger" onclick="deleteDistributor('${mapEsc(d.id)}')" title="Eliminar distribuïdor">🗑️</button>
       </div>
     </div>`;
 }

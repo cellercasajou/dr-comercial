@@ -44,7 +44,7 @@
   <!-- Leaflet (mapa interactiu, gratuït, sense API key) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
-  <link rel="stylesheet" href="map.css?v=54">
+  <link rel="stylesheet" href="map.css?v=55">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
@@ -582,7 +582,7 @@
           <div>
             <div class="flex items-center gap-2">
               <h3 class="text-base sm:text-lg font-black text-white leading-tight">Afegir Nou Distribuïdor / Importador</h3>
-              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v54 • Neteja i Actualització de Fitxes</span>
+              <span class="text-[10px] font-bold bg-amber-900/80 text-amber-300 border border-amber-600 px-2 py-0.5 rounded-full">v55 • Botó Eliminar en Totes les Vistes</span>
             </div>
             <p class="text-[11px] text-amber-300/80 font-medium">Amb escàner IA d'Instagram (Interactions API) i detector de duplicats</p>
           </div>
@@ -876,7 +876,12 @@
         </div>
 
         <!-- Botons d'acció -->
-        <div class="pt-3 border-t border-stone-200 flex items-center justify-end gap-3">
+        <div class="pt-3 border-t border-stone-200 flex items-center justify-between gap-3">
+          <button type="button" onclick="const id=document.getElementById('edit-id').value; if(id) deleteDistributor(id);" class="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold rounded-xl transition-colors flex items-center gap-1.5">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+            <span>Eliminar</span>
+          </button>
+          <div class="flex items-center gap-2.5">
           <button type="button" onclick="closeEditDistributorModal()" class="px-5 py-2.5 bg-stone-200 hover:bg-stone-300 text-stone-700 font-bold rounded-xl transition-colors">
             Cancel·lar
           </button>
@@ -884,6 +889,7 @@
             <i data-lucide="check" class="w-4 h-4"></i>
             <span>Guardar Canvis</span>
           </button>
+          </div>
         </div>
 
       </form>
@@ -1288,8 +1294,8 @@ const firebaseConfig = {
   </nav>
 
   <!-- Scripts -->
-  <script src="data.js?v=54"></script>
-  <script src="map.js?v=54"></script>
-  <script src="app.js?v=54"></script>
+  <script src="data.js?v=55"></script>
+  <script src="map.js?v=55"></script>
+  <script src="app.js?v=55"></script>
 </body>
 </html>

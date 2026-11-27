@@ -122,6 +122,8 @@
 .dr-btn.primary:hover { background: #451a03; }
 .dr-btn.ghost { background: #1c1917; color: #fff !important; }
 .dr-btn.ghost:hover { background: #000; }
+.dr-btn.danger { flex: 0 0 auto; padding: 9px 10px; background: #fff1f2; color: #be123c !important; border: 1px solid #fecdd3; }
+.dr-btn.danger:hover { background: #ffe4e6; }
 
 /* ---- Llista lateral ---- */
 .map-list-item {
