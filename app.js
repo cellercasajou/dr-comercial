@@ -586,6 +586,8 @@ function getFilteredDistributors() {
     if (state.filterSpecialty !== 'Totes') {
       if (state.filterSpecialty === 'Amb Instagram') {
         if (!d.instagram || !String(d.instagram).trim()) return false;
+      } else if (state.filterSpecialty === 'Sense Instagram') {
+        if (d.instagram && String(d.instagram).trim()) return false;
       } else {
         const tags = d.specialty_tags || [];
         const hasSpecialty = tags.some(t => t.toLowerCase().includes(state.filterSpecialty.toLowerCase()));
@@ -1110,7 +1112,7 @@ function updateActiveChips() {
     advCount++;
   }
   if (state.filterSpecialty && state.filterSpecialty !== 'Totes' && state.filterSpecialty !== 'Corpinnat') {
-    const specLabel = state.filterSpecialty === 'Amb Instagram' ? '📸 Amb Instagram' : ('Esp.: ' + state.filterSpecialty);
+    const specLabel = state.filterSpecialty === 'Amb Instagram' ? '📸 Amb Instagram' : (state.filterSpecialty === 'Sense Instagram' ? '🚫 Sense Instagram' : ('Esp.: ' + state.filterSpecialty));
     chips.push({ label: specLabel, action: 'state.filterSpecialty="Totes"; if(document.getElementById("filter-specialty")) document.getElementById("filter-specialty").value="Totes"; renderDistributorsList(); updateActiveChips();' });
     advCount++;
   }
