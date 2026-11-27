@@ -649,8 +649,72 @@ function getStats() {
   return { total, active, countries, withInstagram };
 }
 
+function updateDynamicTabCounts() {
+  const dists = state.distributors || [];
+  const isSpain = d => (d.country || '').includes('Espanya') || (d.country || '').includes('Spain');
+  const isUsa = d => (d.country || '').includes('Estats Units') || (d.country || '').includes('EUA') || (d.country || '').includes('USA');
+  const spain = dists.filter(isSpain);
+  const usa = dists.filter(isUsa);
+  const intl = dists.filter(d => !isSpain(d) && !isUsa(d));
+
+  const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+
+  // Pestanyes principals
+  setTxt('tab-all', `🌐 Tots (${dists.length})`);
+  setTxt('tab-spain', `🇪🇸 Espanya (${spain.length})`);
+  setTxt('tab-usa', `🇺🇸 Estats Units (${usa.length})`);
+  setTxt('tab-intl', `🌍 Internacional (${intl.length})`);
+
+  // Helper idèntic a getFilteredDistributors per província/regió
+  const countSpainReg = (target) => {
+    const t = target.toLowerCase();
+    return spain.filter(d => (d.region || '').toLowerCase().includes(t) || (d.province || '').toLowerCase().includes(t)).length;
+  };
+  const countZone = (list, target) => {
+    const t = target.toLowerCase();
+    return list.filter(d =>
+      (d.province || '').toLowerCase().includes(t) ||
+      (d.region || '').toLowerCase().includes(t) ||
+      (d.city || '').toLowerCase().includes(t) ||
+      (d.specialty_tags || []).join(' ').toLowerCase().includes(t)
+    ).length;
+  };
+
+  // Sub-píndoles Espanya
+  setTxt('subpill-spain-all', `Tota Espanya (${spain.length})`);
+  setTxt('subpill-spain-catalunya', `🍷 Catalunya (${countSpainReg('Catalunya')})`);
+  setTxt('subpill-spain-barcelona', `📍 Barcelona (${countZone(spain, 'Barcelona')})`);
+  setTxt('subpill-spain-penedes', `🍇 Penedès (${countZone(spain, 'Penedès')})`);
+  setTxt('subpill-spain-madrid', `🏛️ Madrid (${countZone(spain, 'Madrid')})`);
+  setTxt('subpill-spain-balears', `🏖️ Balears (${countZone(spain, 'Balears')})`);
+  setTxt('subpill-spain-paisbasc', `⛰️ País Basc (${countSpainReg('País Basc')})`);
+  setTxt('subpill-spain-andalusia', `☀️ Andalusia (${countSpainReg('Andalusia')})`);
+
+  // Sub-píndoles EUA
+  setTxt('subpill-usa-all', `Tots els EUA (${usa.length})`);
+  setTxt('subpill-usa-ny', `🗽 Nova York / NY (${countZone(usa, 'Nova York')})`);
+  setTxt('subpill-usa-ca', `🌴 Califòrnia / CA (${countZone(usa, 'Califòrnia')})`);
+  setTxt('subpill-usa-fl', `☀️ Florida / FL (${countZone(usa, 'Florida')})`);
+  setTxt('subpill-usa-il', `🏙️ Chicago / IL (${countZone(usa, 'Illinois')})`);
+  setTxt('subpill-usa-tx', `🤠 Texas / TX (${countZone(usa, 'Texas')})`);
+  setTxt('subpill-usa-wa', `🌲 Seattle / WA (${countZone(usa, 'Washington')})`);
+
+  // Sub-píndoles Internacional
+  const countCountry = (c) => intl.filter(d => (d.country || '').toLowerCase().includes(c.toLowerCase())).length;
+  setTxt('subpill-intl-all', `Tots els Mercats (${intl.length})`);
+  setTxt('subpill-intl-de', `🇩🇪 Alemanya (${countCountry('Alemanya')})`);
+  setTxt('subpill-intl-nl', `🇳🇱 Països Baixos (${countCountry('Països Baixos')})`);
+  setTxt('subpill-intl-uk', `🇬🇧 Regne Unit (${countCountry('Regne Unit')})`);
+  setTxt('subpill-intl-ca', `🇨🇦 Canadà (${countCountry('Canadà')})`);
+  setTxt('subpill-intl-dk', `🇩🇰 Dinamarca (${countCountry('Dinamarca')})`);
+  setTxt('subpill-intl-jp', `🇯🇵 Japó (${countCountry('Japó')})`);
+  setTxt('subpill-intl-se', `🇸🇪 Suècia (${countCountry('Suècia')})`);
+  setTxt('subpill-intl-ch', `🇨🇭 Suïssa (${countCountry('Suïssa')})`);
+}
+
 function render() {
   renderStats();
+  updateDynamicTabCounts();
   renderFilters();
   renderDistributorsList();
   if (state.selectedDistributor) {
