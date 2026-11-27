@@ -1168,7 +1168,7 @@ function formatDistributorLocation(d) {
   }
 }
 
-const DATA_REV = 54;
+const DATA_REV = 56;
 const DELETED_INITIAL_IDS = ['dist-479', 'dist-478', 'dist-480', 'dist-481', 'dist-482', 'dist-282', 'dist-293', 'dist-274', 'dist-311', 'dist-348', 'dist-7', 'dist-278'];
 const USER_DELETED_KEY = 'crm_deleted_distributors_v1';
 
@@ -1268,6 +1268,16 @@ function sanitizeDistributorsData(list) {
     // Rev. 54: actualitzar La Galerie Wine Shop (ex-HUGE) i web de Pata Negra House Group
     if (rev < 54 && (d.id === 'dist-337' || d.id === 'dist-342')) {
       ['name', 'legal_name', 'city', 'website', 'distribution_type', 'notes'].forEach(field => {
+        if (init[field] !== undefined && d[field] !== init[field]) {
+          d[field] = init[field];
+          changed = true;
+        }
+      });
+    }
+
+    // Rev. 56: ubicació d'Els Vignerons Wines a València ciutat
+    if (rev < 56 && d.id === 'dist-472') {
+      ['city', 'province', 'region', 'lat', 'lng', 'geo_precision'].forEach(field => {
         if (init[field] !== undefined && d[field] !== init[field]) {
           d[field] = init[field];
           changed = true;
