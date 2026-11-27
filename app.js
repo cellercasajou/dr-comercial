@@ -1402,30 +1402,9 @@ function renderGridView(distributors, container) {
           </div>
         </div>
 
-        <!-- Botons d'acció directa (Touch-optimized per a iPhone) -->
+        <!-- Botons d'acció directa: Instagram, Web, Borrar i Editar -->
         <div class="pt-2 flex items-center justify-between gap-1 text-xs" onclick="event.stopPropagation()">
           <div class="flex items-center gap-1.5 sm:gap-2">
-            ${phoneNum ? `
-              <a href="https://wa.me/${phoneNum.replace(/[^0-9]/g, '')}" target="_blank" 
-                 title="Obrir xat de WhatsApp" 
-                 class="w-9.5 h-9.5 sm:w-8 sm:h-8 bg-emerald-100 hover:bg-emerald-200 active:bg-emerald-300 text-emerald-800 rounded-xl flex items-center justify-center transition-colors shadow-2xs active:scale-95">
-                <i data-lucide="message-circle" class="w-4.5 h-4.5 sm:w-4 sm:h-4"></i>
-              </a>
-              <a href="tel:${phoneNum}" 
-                 title="Trucar per telèfon" 
-                 class="w-9.5 h-9.5 sm:w-8 sm:h-8 bg-sky-100 hover:bg-sky-200 active:bg-sky-300 text-sky-800 rounded-xl flex items-center justify-center transition-colors shadow-2xs active:scale-95">
-                <i data-lucide="phone" class="w-4.5 h-4.5 sm:w-4 sm:h-4"></i>
-              </a>
-            ` : ''}
-
-            ${emailAddr ? `
-              <a href="mailto:${emailAddr}" 
-                 title="Enviar correu" 
-                 class="w-9.5 h-9.5 sm:w-8 sm:h-8 bg-stone-100 hover:bg-stone-200 active:bg-stone-300 text-stone-800 rounded-xl flex items-center justify-center transition-colors shadow-2xs active:scale-95">
-                <i data-lucide="mail" class="w-4.5 h-4.5 sm:w-4 sm:h-4"></i>
-              </a>
-            ` : ''}
-
             ${d.instagram ? `
               <a href="${d.instagram}" target="_blank" 
                  title="Veure perfil d'Instagram" 
@@ -1443,17 +1422,13 @@ function renderGridView(distributors, container) {
             ` : ''}
           </div>
 
-          <div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
+          <div class="flex items-center gap-1.5">
             <button type="button" onclick="deleteDistributor('${d.id}')" class="w-8.5 h-8.5 sm:w-7.5 sm:h-7.5 p-1.5 bg-rose-50 hover:bg-rose-100 active:bg-rose-200 text-rose-700 rounded-xl transition-all flex items-center justify-center border border-rose-200/80 active:scale-95" title="Eliminar distribuïdor">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             </button>
             <button type="button" onclick="openEditDistributorModal('${d.id}')" class="px-2.5 py-2 sm:px-2.5 sm:py-1.5 bg-stone-100 hover:bg-stone-200 active:bg-stone-300 text-stone-700 font-bold rounded-xl transition-all flex items-center gap-1 text-xs sm:text-[11px] active:scale-95" title="Editar distribuïdor">
               <i data-lucide="edit-3" class="w-3.5 h-3.5 text-stone-500"></i>
               <span>Editar</span>
-            </button>
-            <button type="button" onclick="openDetailModal('${d.id}')" class="px-3.5 py-2 sm:px-3 sm:py-1.5 bg-stone-900 hover:bg-amber-900 active:bg-amber-900 text-white rounded-xl font-bold transition-all flex items-center gap-1 text-xs sm:text-[11px] active:scale-95">
-              <span>Fitxa</span>
-              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
             </button>
           </div>
         </div>
@@ -1520,10 +1495,6 @@ function renderTableView(distributors, container) {
                   <button type="button" onclick="openEditDistributorModal('${d.id}')" class="px-2.5 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold rounded-lg text-xs transition-all flex items-center gap-1" title="Editar distribuïdor">
                     <i data-lucide="edit-3" class="w-3 h-3 text-stone-500"></i>
                     <span>Editar</span>
-                  </button>
-                  <button type="button" onclick="openDetailModal('${d.id}')" class="px-3 py-1 bg-stone-900 hover:bg-black text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1">
-                    <span>Fitxa</span>
-                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
                   </button>
                 </div>
               </td>
@@ -3802,7 +3773,7 @@ function renderLargeGridView(distributors, container) {
     const cleanIg = (d.instagram || '').replace('https://www.instagram.com/', '').replace(/\/$/, '').replace('@', '');
 
     return `
-      <div class="bg-white rounded-3xl border border-stone-200/90 shadow-xs hover:shadow-md transition-all duration-200 p-5 sm:p-6 flex flex-col justify-between group">
+      <div onclick="openDetailModal('${d.id}')" class="bg-white rounded-3xl border border-stone-200/90 shadow-xs hover:shadow-md hover:border-amber-900/30 transition-all duration-200 p-5 sm:p-6 flex flex-col justify-between group cursor-pointer">
         <div>
           <!-- Header: Logo/Bandera, Nom, Tipus i Estat -->
           <div class="flex items-start justify-between gap-3 mb-4">
@@ -3852,8 +3823,8 @@ function renderLargeGridView(distributors, container) {
 
         </div>
 
-        <!-- Footer: Contacte Ràpid i Accions -->
-        <div class="pt-4 border-t border-stone-100 flex items-center justify-between gap-3 flex-wrap">
+        <!-- Footer: Instagram, Web, Borrar i Editar -->
+        <div class="pt-4 border-t border-stone-100 flex items-center justify-between gap-3 flex-wrap" onclick="event.stopPropagation()">
           <div class="flex items-center gap-2 flex-wrap">
             ${cleanIg ? `
               <a href="https://www.instagram.com/${cleanIg}/" target="_blank" class="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs flex items-center gap-1.5 border border-rose-200 transition-colors">
@@ -3866,29 +3837,15 @@ function renderLargeGridView(distributors, container) {
                 <i data-lucide="globe" class="w-3.5 h-3.5"></i>
               </a>
             ` : ''}
-            ${phoneNum ? `
-              <a href="tel:${phoneNum}" class="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 transition-colors" title="Trucar">
-                <i data-lucide="phone" class="w-3.5 h-3.5"></i>
-              </a>
-            ` : ''}
-            ${emailAddr ? `
-              <a href="mailto:${emailAddr}" class="p-2 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 transition-colors" title="Enviar correu">
-                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
-              </a>
-            ` : ''}
           </div>
 
-          <div class="flex items-center gap-2 ml-auto" onclick="event.stopPropagation()">
+          <div class="flex items-center gap-2 ml-auto">
             <button type="button" onclick="deleteDistributor('${d.id}')" class="p-2 text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 rounded-xl transition-colors flex items-center justify-center" title="Eliminar distribuïdor">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             </button>
             <button type="button" onclick="openEditDistributorModal('${d.id}')" class="px-3 py-1.5 text-xs font-semibold text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200 rounded-xl transition-colors flex items-center gap-1" title="Editar distribuïdor">
               <i data-lucide="edit-3" class="w-3.5 h-3.5 text-stone-500"></i>
               <span>Editar</span>
-            </button>
-            <button type="button" onclick="openDetailModal('${d.id}')" class="px-3.5 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-amber-800 to-wine-900 hover:from-amber-700 hover:to-wine-800 rounded-xl shadow-2xs transition-all active:scale-95 flex items-center gap-1">
-              <span>Obrir Fitxa</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </button>
           </div>
         </div>
