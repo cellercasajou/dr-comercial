@@ -1168,8 +1168,8 @@ function formatDistributorLocation(d) {
   }
 }
 
-const DATA_REV = 57;
-const DELETED_INITIAL_IDS = ['dist-479', 'dist-478', 'dist-480', 'dist-481', 'dist-482', 'dist-282', 'dist-293', 'dist-274', 'dist-311', 'dist-348', 'dist-7', 'dist-278'];
+const DATA_REV = 58;
+const DELETED_INITIAL_IDS = ['dist-479', 'dist-478', 'dist-480', 'dist-481', 'dist-482', 'dist-282', 'dist-293', 'dist-274', 'dist-311', 'dist-348', 'dist-7', 'dist-278', 'dist-124', 'dist-287', 'dist-308'];
 const USER_DELETED_KEY = 'crm_deleted_distributors_v1';
 
 function getUserDeletedIds() {
